@@ -1,0 +1,64 @@
+* Converge the parameters for PME calculation
+*
+
+set molname 1-as-solvated
+
+stream ../common/toppar_water_ions_fixed.str
+read rtf card name ../common/aadh_topologies.rtf append flex
+read rtf card name ../common/top_all36_cgenff.rtf append flex
+read para card name ../common/par_all36_prot_mod.prm append flex
+read para card name ../common/aadh_parameters.prm append flex
+read para card name ../common/par_all36_cgenff.prm append flex
+
+read psf card name ../common/@molname.psf
+read coord card name ../common/@molname.cor
+
+SET XDIM 43 
+SET YDIM 43
+SET ZDIM 43 
+calc cutf 16
+
+CRYSTAL DEFI cubi @xdim @ydim @zdim 90.0 90.0 90.0
+CRYSTAL BUILD CUTOFF @CUTF NOPER 0
+IMAGE BYRES SELE all END
+
+
+open write unit 10 card name pme-convergence.txt
+
+write title unit 10
+*ENER Kappa Time
+*
+
+set ctr 1
+
+label loop
+
+   set ftx 48 
+   set fty 48  
+   set ftz 48 
+   calc kp (1+@ctr/10)/14
+   
+   NBONDED inbfrq -1 imgfrq -1 nbxmod 5 -                                              ! C36 DEFAULTS
+           atom cdiel fshift -                                                         ! use atom based electrostatics, C36 DEFAULTS
+           vatom vdistance vfswitch -                                                  ! C36 DEFAULTS
+           elec ewald pmew fftx @ftx ffty @fty fftz @ftz kappa @kp spline order 6 -    ! PME SUMMATION
+           cutnb 14.0 ctofnb 12.0 ctonnb 10.0 -                                        ! C36 DEFAULTS
+           cutim 14.0 -                                                                ! must be same as cutnb
+           eps 1.0 e14fac 1.0 wmin 1.5                                                 ! C36 DEFAULTS
+   timer now
+   set tic ?elatime
+   
+   energy
+
+   time now
+   set toc ?elatime
+   calc time (@toc - @tic)
+   format(10.4f)
+ 
+   write title unit 10
+   *@ctr ?ener @time 
+
+   incr ctr by 1
+   if @ctr .lt. 81 then goto loop
+
+stop

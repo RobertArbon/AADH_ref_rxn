@@ -1,0 +1,487 @@
+* Residues and patches for creating AADH reactant and products
+* Atom definitions is taken from top_all36_prot.rtf
+* Preamle is taken from top_ttw.inp 
+* >>>>>
+* RESI TTW - /Data/KR/top_ttw.inp
+* RESI TTW2 - /DATA/KR/top_ttw.inp - I don't think this is used so this won't be adjusted.
+* PRES TRPM - /DATA/NEW_MD/trpm.rtf
+* PRES TTWP - /DATA/KR/ttw_prod.rtf
+* PRES ASP1/2 - /DATA/KR/ttw_prod.rtf
+* PRES TTQ_TRP - /DATA/NEW_MD/ttw_top.inp
+* The original patches and residues were specified in the CHARM22 FF 
+* 23/07/2016 - the product patches will have to change (to get rid of DELE statement)
+*               and to preserve the atoms labelling changes. 
+* 
+
+MASS    31 H      1.00800 ! polar H
+MASS    32 HC     1.00800 ! N-ter H
+MASS    33 HA     1.00800 ! nonpolar H
+MASS    34 HP     1.00800 ! aromatic H
+MASS    35 HB1    1.00800 ! backbone H
+MASS    36 HB2    1.00800 ! aliphatic backbone H, to CT2
+MASS    37 HR1    1.00800 ! his he1, (+) his HG,HD2
+MASS    38 HR2    1.00800 ! (+) his HE1
+MASS    39 HR3    1.00800 ! neutral his HG, HD2
+MASS    40 HS     1.00800 ! thiol hydrogen
+MASS    41 HE1    1.00800 ! for alkene; RHC=CR
+MASS    42 HE2    1.00800 ! for alkene; H2C=CR
+MASS    43 HA1    1.00800 ! alkane, CH, new LJ params (see toppar_all22_prot_aliphatic_c27.str)
+MASS    44 HA2    1.00800 ! alkane, CH2, new LJ params (see toppar_all22_prot_aliphatic_c27.str)
+MASS    45 HA3    1.00800 ! alkane, CH3, new LJ params (see toppar_all22_prot_aliphatic_c27.str)
+MASS    46 C     12.01100 ! carbonyl C, peptide backbone
+MASS    47 CA    12.01100 ! aromatic C
+MASS    48 CT    12.01100 ! aliphatic sp3 C, new LJ params, no hydrogens
+MASS    49 CT1   12.01100 ! aliphatic sp3 C for CH
+MASS    50 CT2   12.01100 ! aliphatic sp3 C for CH2
+MASS    51 CT2A  12.01100 ! from CT2 (asp, glu, hsp chi1/chi2 fitting)
+MASS    52 CT3   12.01100 ! aliphatic sp3 C for CH3
+MASS    53 CPH1  12.01100 ! his CG and CD2 carbons
+MASS    54 CPH2  12.01100 ! his CE1 carbon
+MASS    55 CPT   12.01100 ! trp C between rings
+MASS    56 CY    12.01100 ! TRP C in pyrrole ring
+MASS    57 CP1   12.01100 ! tetrahedral C (proline CA)
+MASS    58 CP2   12.01100 ! tetrahedral C (proline CB/CG)
+MASS    59 CP3   12.01100 ! tetrahedral C (proline CD)
+MASS    60 CC    12.01100 ! carbonyl C, asn,asp,gln,glu,cter,ct2
+MASS    61 CD    12.01100 ! carbonyl C, pres aspp,glup,ct1
+MASS    62 CS    12.01100 ! thiolate carbon
+MASS    63 CE1   12.01100 ! for alkene; RHC=CR
+MASS    64 CE2   12.01100 ! for alkene; H2C=CR
+MASS    65 CAI   12.01100 ! aromatic C next to CPT in trp
+MASS    66 N     14.00700 ! proline N
+MASS    67 NR1   14.00700 ! neutral his protonated ring nitrogen
+MASS    68 NR2   14.00700 ! neutral his unprotonated ring nitrogen
+MASS    69 NR3   14.00700 ! charged his ring nitrogen
+MASS    70 NH1   14.00700 ! peptide nitrogen
+MASS    71 NH2   14.00700 ! amide nitrogen
+MASS    72 NH3   14.00700 ! ammonium nitrogen
+MASS    73 NC2   14.00700 ! guanidinium nitrogen
+MASS    74 NY    14.00700 ! TRP N in pyrrole ring
+MASS    75 NP    14.00700 ! Proline ring NH2+ (N-terminal)
+MASS    76 O     15.99900 ! carbonyl oxygen
+MASS    77 OB    15.99900 ! carbonyl oxygen in acetic acid
+MASS    78 OC    15.99900 ! carboxylate oxygen
+MASS    79 OH1   15.99900 ! hydroxyl oxygen
+MASS    80 OS    15.99940 ! ester oxygen
+MASS    81 S     32.06000 ! sulphur
+MASS    82 SM    32.06000 ! sulfur C-S-S-C type
+MASS    83 SS    32.06000 ! thiolate sulfur
+
+DECL -CA  
+DECL -C  
+DECL -O  
+DECL +N  
+DECL +HN  
+DECL +CA  
+DEFA FIRS NTER LAST CTER   
+AUTO ANGLES DIHE   
+
+RESI TTW          1.00   ! LOJ1 16/06/2003
+GROUP                    ! LMF 10/10/2003 for new crystal structure 
+ATOM N    NH1    -0.47      !
+ATOM HN   H       0.31      !
+ATOM CA   CT1     0.07      ! 
+ATOM HA   HB1     0.09      ! HB (22) -> HB1 (36) REA 23/07/2016
+GROUP
+ATOM CX1  CT2    -0.18      !
+ATOM HX1  HA2     0.09      ! HA (22) -> HA2 (36) REA 23/07/2016
+ATOM HX2  HA2     0.09      ! HA (22) -> HA2 (36) REA 23/07/2016
+GROUP
+ATOM CX2  CY     -0.03      !
+ATOM CD1  CA     -0.21      !
+ATOM HD1  HP      0.115     !
+ATOM NE1  NY     -0.435     !
+ATOM HE1  H       0.45      !
+ATOM CE2  CPT     0.13      !
+ATOM CD2  CPT    -0.02      !
+GROUP
+ATOM CE3  CA     -0.115     !   
+ATOM HE3  HP      0.115     !
+GROUP
+ATOM CZ3  CA     -0.115     !   
+ATOM HZ3  HP      0.115     !
+GROUP
+ATOM CZ2  CA      0.55      !
+ATOM OT   O      -0.45      !
+ATOM CH2  CA      0.60      !
+ATOM NT   NC2    -0.60      !
+ATOM HNT  HC      0.20      !
+ATOM CI2  CT2     0.52      !LMF 14/08/03 atom type corrected
+ATOM HI2  HA2     0.09      ! HA (22) -> HA2 (36) REA 23/07/2016
+ATOM HI3  HA2     0.09      ! HA (22) -> HA2 (36) REA 23/07/2016
+GROUP
+ATOM C1   CT2    -0.18      !
+ATOM H3   HA2     0.09      ! HA (22) -> HA2 (36) REA 23/07/2016
+ATOM H4   HA2     0.09      ! HA (22) -> HA2 (36) REA 23/07/2016
+GROUP
+ATOM CW1  CY     -0.03      !
+ATOM CW2  CA      0.035     !
+ATOM HW1  HP      0.115     !
+ATOM NW1  NY     -0.61      !
+ATOM HNW  H       0.38      !
+ATOM CW3  CPT     0.13      !
+ATOM CW8  CPT    -0.02      !
+GROUP
+ATOM CW4  CA     -0.115     !
+ATOM HW2  HP      0.115     !
+GROUP
+ATOM CW6  CA     -0.115     !
+ATOM HW4  HP      0.115     !
+GROUP
+ATOM CW5  CA     -0.115     !
+ATOM HW3  HP      0.115     !
+GROUP
+ATOM CW7  CA     -0.115     !
+ATOM HW5  HP      0.115     !
+GROUP
+ATOM C    C       0.51      !
+ATOM O    O      -0.51      !
+BOND CX1  CA   CX2  CX1   CD2 CX2   NE1 CD1
+BOND CW1 CW8      NW1 CW2
+BOND CZ2 CE2
+BOND CW3 CW4
+BOND N   HN   N   CA     C   CA   C   +N
+BOND CZ3 CH2  CD2 CE3  NE1  CE2  CA  HA   CX1  HX1
+BOND CW6 CW5  CW8 CW7  NW1  CW3  CW1  C1
+BOND CX1  HX2  CD1 HD1  NE1 HE1  CE3 HE3  CZ2 CH2
+BOND CW2 HW1  NW1 HNW  CW7 HW5  CW4  HW2 C1 H3  C1 H4
+BOND CZ3 HZ3  NT  HNT  NT  CI2  CI2 C1   CI2 HI2 CI2 HI3
+BOND CW6 HW4               
+BOND CW5 HW3
+DOUBLE  O   C   CD1 CX2   CE2 CD2  CZ3 CE3   
+DOUBLE  CW2 CW1 CW3 CW8  CW6 CW7  CW4 CW5
+IMPR N -C CA HN  C CA +N O    
+DOUBLE  CH2 NT  CZ2 OT 
+DONOR HN N
+DONOR HE1 NE1
+DONOR HNT NT 
+DONOR HNW NW1
+ACCEPTOR O C
+ACCEPTOR OT  CZ2
+IC -C   CA   *N   HN    1.3482 123.5100  180.0000 115.0200  0.9972
+IC -C   N    CA   C     1.3482 123.5100  180.0000 107.6900  1.5202
+IC N    CA   C    +N    1.4507 107.6900  180.0000 117.5700  1.3505
+IC +N   CA   *C   O     1.3505 117.5700  180.0000 121.0800  1.2304
+IC CA   C    +N   +CA   1.5202 117.5700  180.0000 124.8800  1.4526
+IC N    C    *CA  CX1    1.4507 107.6900  122.6800 111.2300  1.5560
+IC N    C    *CA  HA    1.4507 107.6900 -117.0200 106.9200  1.0835
+IC N    CA   CX1   CX2    1.4507 111.6800  180.0000 115.1400  1.5233
+IC CX2  CA   *CX1  HX1   1.5233 115.1400  119.1700 107.8400  1.1127
+IC CX2  CA   *CX1  HX2   1.5233 115.1400 -124.7300 109.8700  1.1118
+IC CA   CX1  CX2   CD2   1.5560 115.1400   90.0000 123.9500  1.4407
+IC CD2  CX1  *CX2  CD1   1.4407 123.9500 -172.8100 129.1800  1.3679
+IC CD1  CX2  CD2  CE2   1.3679 106.5700   -0.0800 106.6500  1.4126
+IC CX2  CD2  CE2  NE1   1.4407 106.6500    0.1400 107.8700  1.3746
+IC CE2  CX2  *CD2 CE3   1.4126 106.6500  179.2100 132.5400  1.4011
+IC CE2  CD2  CE3  CZ3   1.4126 120.8000   -0.2000 118.1600  1.4017
+IC CD2  CE3  CZ3  CH2   1.4011 118.1600    0.1000 120.9700  1.4019
+IC CE3  CZ3  CH2  CZ2   1.4017 120.9700    0.0100 120.8700  1.4030
+IC CZ3  CD2  *CE3 HE3   1.4017 118.1600 -179.6200 121.8400  1.0815
+IC CH2  CE3  *CZ3 HZ3   1.4019 120.9700 -179.8200 119.4500  1.0811
+IC CZ2  CZ3  *CH2 NT    1.4030 120.8700 -179.9200 119.5700  1.3174
+IC CE2  CH2  *CZ2 OT    1.3939 118.4200  179.8700 120.0800  1.2303
+IC CD1  CE2  *NE1 HE1   1.3752 108.8100  177.7800 124.6800  0.9767
+IC OT   CZ2  CH2  NT    1.4017 120.9700    0.0100 120.8700  1.4030
+IC CZ2  CH2  *NT  CI2   1.3401 123.0500  180.0000 113.1400  1.4575
+IC CZ2  CH2  NT   HNT   1.4017 120.9700    0.0100 120.8700  1.0811
+IC HNT  CH2  *NT  CI2   0.9899 119.9100  166.1600 116.8800  0.9914
+IC CH2  NT   CI2  C1    1.5390 111.0900  177.2500 112.1684  1.1109
+IC CH2  NT   *CI2 HI2   1.1109 109.6000  139.9716 107.4345  1.1119
+IC CH2  NT   *CI2 HI3   1.1109 109.6000   23.3915 109.2046  1.1114
+IC CW8  C1  *CW1  CW2   1.4407 123.9500 -172.8100 129.1800  1.3679
+IC CW2  CW1  CW8  CW3   1.3679 106.5700   -0.0800 106.6500  1.4126
+IC CW1  CW8  CW3  NW1   1.4407 106.6500    0.1400 107.8700  1.3746
+IC CW3  CW1  *CW8 CW7   1.4126 106.6500  179.2100 132.5400  1.4011
+IC CW3  CW8  CW7  CW6   1.4126 120.8000   -0.2000 118.1600  1.4017
+IC CW8  CW7  CW6  CW5   1.4011 118.1600    0.1000 120.9700  1.4019
+IC CW7  CW6  CW5  CW4   1.4017 120.9700    0.0100 120.8700  1.4030
+IC CW6  CW8  *CW7 HW5   1.4017 118.1600 -179.6200 121.8400  1.0815
+IC CW5  CW7  *CW6 HW4   1.4019 120.9700 -179.8200 119.4500  1.0811
+IC CW4  CW6  *CW5 HW3   1.4030 120.8700 -179.9200 119.5700  1.0811
+IC CW3  CW5  *CW4 HW2   1.3939 118.4200  179.8700 120.0800  1.0811
+IC CW2  CW3  *NW1 HNW   1.3752 108.8100  177.7800 124.6800  0.9767
+IC CW1  CI2  *C1  H3    1.4945  33.6901  121.8769 108.3498  1.0977
+IC CX2  CA   *CX1 H4    1.4945  33.6901 -122.2146 108.6457  1.0961
+
+RESI TTW2         1.00   ! LOJ1 16/06/2003
+GROUP
+ATOM CX1  CT3    -0.27     ! CT2 -> CT3                    
+ATOM HX1  HA3     0.09     ! HA -> HA3              
+ATOM HX2  HA3     0.09                    
+ATOM HX3  HA3     0.09                    
+GROUP                    
+ATOM CX2  CY     -0.03     ! CXZ -> CX2               
+ATOM CD1  CA     -0.21                    
+ATOM HD1  HP      0.115                    
+ATOM NE1  NY     -0.435                    
+ATOM HE1  H       0.45                    
+ATOM CE2  CPT     0.13                    
+ATOM CD2  CPT    -0.02                    
+GROUP                    
+ATOM CE3  CA     -0.115                    
+ATOM HE3  HP      0.115                    
+GROUP                    
+ATOM CZ3  CA     -0.115                    
+ATOM HZ3  HP      0.115                    
+GROUP                    
+ATOM CZ2  CA      0.55                    
+ATOM OT  O      -0.45                    
+ATOM CH2  CA      0.60                    
+ATOM NT  NC2    -0.60                    
+ATOM HNT  HC      0.20                    
+ATOM CI2  CT2     0.52    ! CT3 -> CT2                
+ATOM HI2  HA2     0.09    ! HA -> HA2               
+ATOM HI3  HA2     0.09    ! HA -> HA2               
+GROUP                    
+ATOM C1   CT2    -0.18                    
+ATOM H3   HA2     0.09   ! HA -> HA2                 
+ATOM H4   HA2     0.09   ! HA -> HA2      
+GROUP                    
+ATOM CW1  CY     -0.03                    
+ATOM CW2  CA      0.035                    
+ATOM HW1  HP      0.115                    
+ATOM NW1  NY     -0.61                    
+ATOM HNW  H       0.38                    
+ATOM CW3  CPT     0.13                    
+ATOM CW8  CPT    -0.02                    
+GROUP                    
+ATOM CW4  CA     -0.115                    
+ATOM HW2  HP      0.115                    
+GROUP                    
+ATOM CW6  CA     -0.115                    
+ATOM HW4  HP      0.115                    
+GROUP                    
+ATOM CW5  CA     -0.115                    
+ATOM HW3  HP      0.115                    
+GROUP                    
+ATOM CW7  CA     -0.115                    
+ATOM HW5  HP      0.115                    
+BOND CX2  CX1   CD2 CX2   NE1 CD1
+BOND CW1 CW8      NW1 CW2
+BOND CZ2 CE2
+BOND CW3 CW4
+BOND CZ3 CH2  CD2 CE3  NE1  CE2  CX1  HX1 CX1 HX3
+BOND CW6 CW5  CW8 CW7  NW1  CW3  CW1  C1
+BOND CX1  HX2  CD1 HD1  NE1 HE1  CE3 HE3  CZ2 CH2
+BOND CW2 HW1  NW1 HNW  CW7 HW5  CW4  HW2 C1 H3  C1 H4
+BOND CZ3 HZ3  NT HNT  NT CI2  CI2 C1   CI2 HI2 CI2 HI3
+BOND CW6 HW4
+BOND CW5 HW3
+DOUBLE  CD1 CX2   CE2 CD2  CZ3 CE3
+DOUBLE  CW2 CW1 CW3 CW8  CW6 CW7  CW4 CW5
+DOUBLE  CH2 NT CZ2 OT
+DONOR HE1 NE1
+DONOR HNT NT
+DONOR HNW NW1
+ACCEPTOR OT CZ2
+PATCH FIRST NONE LAST NONE
+
+PRES TRPM          0.00 !FOR TRYPTAMINE!  
+GROUP   
+ATOM N    NH1    -0.47 
+ATOM HN   H       0.31 
+ATOM CA   CT1     0.07 
+ATOM HA   HB1     0.09 
+GROUP                  
+ATOM CB   CT2    -0.18 
+ATOM HB1  HA2     0.09      !HA (22) --> HA2 (36)
+ATOM HB2  HA2     0.09      !HA (22) --> HA2 (36)
+GROUP                  
+ATOM CG   CY      0.1200  
+ATOM CD1  CA      0.00    
+ATOM NE1  NY     -0.61
+ATOM HE1  H       0.38
+ATOM CE2  CPT     0.13
+ATOM CD2  CPT    -0.02
+GROUP
+ATOM CE3  CAI    -0.115     !CA (22) --> CAI (36)
+ATOM HE3  HP      0.115
+GROUP
+ATOM CZ3  CA     -0.115
+ATOM HZ3  HP      0.115
+GROUP
+ATOM CZ2  CAI    -0.115      !CA (22) --> CAI (36)
+ATOM HZ2  HP      0.115
+GROUP
+ATOM CH2  CA     -0.115
+ATOM HH2  HP      0.115
+GROUP   
+ATOM C    C       0.51
+ATOM O    O      -0.51
+
+PRES TTQ_TRP      0.005 !  patch for TTM and unmodified TRP.
+GROUP                   ! use in a patch statement
+ATOM 1CE3  CA    -0.055
+ATOM 1CZ3  CA    -0.060
+GROUP
+ATOM 2CD1  CA     0.1500
+ATOM 2CG   CY    -0.0300
+DELETE ATOM 1HE3
+DELETE ATOM 2HD1
+BOND 1CE3 2CD1
+ANGLE 1CZ3 1CE3 2CD1 1CE3 2CD1 2CG
+DIHE 1HZ3 1CZ3 1CE3 2CD1 1CH2 1CZ3 1CE3 2CD1
+DIHE 2CD2 2CG 2CD1 1CE3 2CB 2CG 2CD1 1CE3
+DIHE 1CH2 1CZ3 1CE3 2CD1 1CE3 2CD1 2CG 2CD2
+DIHE 1CZ3 1CE3 2CD1 2CG
+IC 1CH2  1CZ3  1CE3  2CD1   0.0000  0.0000  -163.8000  0.0000  0.0000
+IC 1CZ3  1CE3  2CD1  2CG    0.0000  0.0000   -57.4000  0.0000  0.0000
+IC 1CE3  2CD1  2CG   2CD2   0.0000  0.0000  -166.1000  0.0000  0.0000
+
+
+PRES ASP2         0.00 ! patch for protonated aspartic acid, proton on od2
+GROUP
+ATOM 1CX1  CT2    -0.18
+ATOM 1HX1  HA2     0.09
+ATOM 1HX2  HA2     0.09
+GROUP
+ATOM 1CX2  CY     -0.03
+ATOM 1CD1  CA     -0.21
+ATOM 1HD1  HP      0.115
+ATOM 1NE1  NY     -0.435
+ATOM 1HE1  H       0.45
+ATOM 1CE2  CPT     0.13
+ATOM 1CD2  CPT    -0.02
+GROUP
+ATOM 1CE3  CA      0.000
+GROUP
+ATOM 1CZ3  CA     -0.115
+ATOM 1HZ3  HP      0.115
+GROUP
+ATOM 1CZ2  CA      0.115
+ATOM 1OT   OC     -0.49 ! atom type changed to OC from O
+ATOM 1CH2  CA      0.115
+ATOM 1NT   NC2     0.59
+ATOM 1HNT  HC      0.09
+ATOM 1CI2  CE1    -0.51  ! atom type changed to CE1 from CT2
+ATOM 1HI3  HE1     0.09  ! atom type changed to HE1 from HA
+GROUP
+ATOM 1C1   CT2    -0.18
+ATOM 1H3   HA2     0.09
+ATOM 1H4   HA2     0.09
+GROUP
+ATOM 1CW1  CY     -0.03
+ATOM 1CW2  CA      0.035
+ATOM 1HW1  HP      0.115
+ATOM 1NW1  NY     -0.61
+ATOM 1HNW  H       0.38
+ATOM 1CW3  CPT     0.13
+ATOM 1CW8  CPT    -0.02
+GROUP
+ATOM 1CW4  CA     -0.115
+ATOM 1HW2  HP      0.115
+GROUP
+ATOM 1CW6  CA     -0.115
+ATOM 1HW4  HP      0.115
+GROUP
+ATOM 1CW5  CA     -0.115
+ATOM 1HW3  HP      0.115
+GROUP
+ATOM 1CW7  CA     -0.115
+ATOM 1HW5  HP      0.115
+GROUP
+ATOM 1C    C       0.51
+ATOM 1O    O      -0.51 
+GROUP                           !ASP GROUP
+ATOM 2CB  CT2    -0.21 
+ATOM 2HB1 HA2     0.09 
+ATOM 2HB2 HA2     0.09 
+ATOM 2CG  CD      0.75 
+ATOM 2OD1 OB     -0.55 
+ATOM 2OD2 OH1    -0.61 
+ATOM 1HI2 H       0.44          ! CHANGE HI2 GROUPING AND TYPE
+DELE BOND 1CI2 1HI2             ! DELETING THE TTW INTERACTIONS
+DELE ANGL 1NT 1CI2 1HI2
+DELE ANGL 1HI2 1CI2 1HI3
+DELE ANGL 1HI2 1CI2 1C1
+DELE DIHE 1CH2 1NT 1CI2 1HI2 
+DELE DIHE 1HNT 1NT 1CI2 1HI2
+DELE DIHE 1HI2 1CI2 1C1 1H3
+DELE DIHE 1HI2 1CI2 1C1 1H4 
+DELE DIHE 1HI2 1CI2 1C1 1CW1
+DELE IC 1CH2  1NT   1*CI2 1HI2   
+BOND 2OD2 1HI2                  ! Adding the new ASP interactions
+ANGLE 1HI2 2OD2 2CG
+DIHE 1HI2 2OD2 2CG 2OD1  1HI2 2OD2 2CG 2CB
+DONOR 1HI2 2OD2
+IC 1HI2  2OD2  2CG   2OD1   0.0000  0.0000  0.0000  0.0000  0.0000
+
+PRES ASP1         0.00 ! patch for protonated aspartic acid, proton on od1
+GROUP
+ATOM 1CX1  CT2    -0.18
+ATOM 1HX1  HA2     0.09
+ATOM 1HX2  HA2     0.09
+GROUP
+ATOM 1CX2  CY     -0.03
+ATOM 1CD1  CA     -0.21
+ATOM 1HD1  HP      0.115
+ATOM 1NE1  NY     -0.435
+ATOM 1HE1  H       0.45
+ATOM 1CE2  CPT     0.13
+ATOM 1CD2  CPT    -0.02
+GROUP
+ATOM 1CE3  CA      0.000
+GROUP
+ATOM 1CZ3  CA     -0.115
+ATOM 1HZ3  HP      0.115
+GROUP
+ATOM 1CZ2  CA      0.115
+ATOM 1OT   OC     -0.49 ! atom type changed to OC from O
+ATOM 1CH2  CA      0.115
+ATOM 1NT   NC2     0.59
+ATOM 1HNT  HC      0.09
+ATOM 1CI2  CE1    -0.51  ! atom type changed to CE1 from CT2
+ATOM 1HI3  HE1     0.09  ! atom type changed to HE1 from HA
+GROUP
+ATOM 1C1   CT2    -0.18
+ATOM 1H3   HA2     0.09
+ATOM 1H4   HA2     0.09
+GROUP
+ATOM 1CW1  CY     -0.03
+ATOM 1CW2  CA      0.035
+ATOM 1HW1  HP      0.115
+ATOM 1NW1  NY     -0.61
+ATOM 1HNW  H       0.38
+ATOM 1CW3  CPT     0.13
+ATOM 1CW8  CPT    -0.02
+GROUP
+ATOM 1CW4  CA     -0.115
+ATOM 1HW2  HP      0.115
+GROUP
+ATOM 1CW6  CA     -0.115
+ATOM 1HW4  HP      0.115
+GROUP
+ATOM 1CW5  CA     -0.115
+ATOM 1HW3  HP      0.115
+GROUP
+ATOM 1CW7  CA     -0.115
+ATOM 1HW5  HP      0.115
+GROUP
+ATOM 1C    C       0.51
+ATOM 1O    O      -0.51 
+GROUP                  ! via acetic acid, use in a patch statement
+ATOM 2CB  CT2    -0.21 !
+ATOM 2HB1 HA2     0.09 ! HB1    OD1-HI2
+ATOM 2HB2 HA2     0.09 !  |    /
+ATOM 2CG  CD      0.75 ! -CB--CG
+ATOM 2OD1 OH1    -0.61 !  |     \\
+ATOM 2OD2 OB     -0.55 ! HB2     OD2
+ATOM 1HI2 H       0.44 !
+DELE BOND 1CI2 1HI2             ! DELETING THE TTW INTERACTIONS
+DELE ANGL 1NT 1CI2 1HI2
+DELE ANGL 1HI2 1CI2 1HI3
+DELE ANGL 1HI2 1CI2 1C1
+DELE DIHE 1CH2 1NT 1CI2 1HI2 
+DELE DIHE 1HNT 1NT 1CI2 1HI2
+DELE DIHE 1HI2 1CI2 1C1 1H3
+DELE DIHE 1HI2 1CI2 1C1 1H4 
+DELE DIHE 1HI2 1CI2 1C1 1CW1
+DELE IC 1CH2  1NT   1*CI2 1HI2   
+BOND 2OD1 1HI2                  ! ADDING THE ASP INTERACTIONS
+ANGLE 1HI2 2OD1 2CG
+DIHE 1HI2 2OD1 2CG 2OD2  1HI2 2OD1 2CG 2CB
+DONOR 1HI2 2OD1
+IC 1HI2  2OD1  2CG   2OD2   0.0000  0.0000  0.0000  0.0000  0.0000
+
+END
+

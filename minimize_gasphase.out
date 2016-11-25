@@ -1,0 +1,143 @@
+1
+                 Chemistry at HARvard Macromolecular Mechanics
+           (CHARMM) - Developmental Version 41a2   February 15, 2016            
+                             Git commit ID 2bac8cc                              
+       Copyright(c) 1984-2014  President and Fellows of Harvard College
+                              All Rights Reserved
+     Current operating system: Linux-2.6.32-220.23.1.el6.x86_64(x86_64)@nod     
+                 Created on 10/26/16 at 15:31:31 by user: ra15808     
+
+            Maximum number of ATOMS:    360720, and RESidues:      120240
+ RDTITL> * ADD HYDROGEN ATOMS TO ACTIVE SITE STRUCTURES
+ RDTITL> *
+  
+ CHARMM>     
+  
+ CHARMM>     
+  
+ CHARMM>    read rtf card name ./common/aadh_topologies.rtf
+ VOPEN> Attempting to open::./common/aadh_topologies.rtf::
+ MAINIO> Residue topology file being read from unit  90.
+ TITLE> * RESIDUES AND PATCHES FOR CREATING AADH REACTANT AND PRODUCTS
+ TITLE> * ATOM DEFINITIONS IS TAKEN FROM TOP_ALL36_PROT.RTF
+ TITLE> * PREAMLE IS TAKEN FROM TOP_TTW.INP
+ TITLE> * >>>>>
+ TITLE> * RESI TTW - /DATA/KR/TOP_TTW.INP
+ TITLE> * RESI TTW2 - /DATA/KR/TOP_TTW.INP - I DON'T THINK THIS IS USED SO THIS WON'T BE ADJUSTED.
+ TITLE> * PRES TRPM - /DATA/NEW_MD/TRPM.RTF
+ TITLE> * PRES TTWP - /DATA/KR/TTW_PROD.RTF
+ TITLE> * PRES ASP1/2 - /DATA/KR/TTW_PROD.RTF
+ TITLE> * PRES TTQ_TRP - /DATA/NEW_MD/TTW_TOP.INP
+ TITLE> * THE ORIGINAL PATCHES AND RESIDUES WERE SPECIFIED IN THE CHARM22 FF
+ TITLE> * 23/07/2016 - THE PRODUCT PATCHES WILL HAVE TO CHANGE (TO GET RID OF DELE STATEMENT)
+ TITLE> *               AND TO PRESERVE THE ATOMS LABELLING CHANGES.
+ TITLE> *
+ WARNING from DECODI -- Zero length string being converted to 0
+ RTFRDR> WARNING: Version number is NOT specified.
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>    read rtf card name ./common/top_all36_cgenff.rtf append flex
+ VOPEN> Attempting to open::./common/top_all36_cgenff.rtf::
+ MAINIO> Residue topology file being read from unit  90.
+ TITLE> *  --------------------------------------------------------------------------  *
+ TITLE> *          CGENFF: TOPOLOGY FOR THE CHARMM GENERAL FORCE FIELD V. 3.1          *
+ TITLE> *                    FOR SMALL MOLECULE DRUG DESIGN                            *
+ TITLE> *  --------------------------------------------------------------------------  *
+ TITLE> *
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>    read para card name ./common/par_all36_prot_mod.prm flex
+ VOPEN> Attempting to open::./common/par_all36_prot_mod.prm::
+
+          PARAMETER FILE BEING READ FROM UNIT 90
+ TITLE> *>>>> CHARMM36 ALL-HYDROGEN PARAMETER FILE FOR PROTEINS <<<<<<<<<<
+ TITLE> *>>>>> INCLUDES PHI, PSI CROSS TERM MAP (CMAP) CORRECTION <<<<<<<<
+ TITLE> *>>>>>>>>>>>>>>>>>>>>>>>>>> JAN. 2016 <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+ TITLE> * ALL COMMENTS TO THE CHARMM WEB SITE: WWW.CHARMM.ORG
+ TITLE> *             PARAMETER SET DISCUSSION FORUM
+ TITLE> *
+ PARMIO> NONBOND, HBOND lists and IMAGE atoms cleared.
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>    read para card name ./common/aadh_parameters.prm append flex
+ VOPEN> Attempting to open::./common/aadh_parameters.prm::
+
+          PARAMETER FILE BEING READ FROM UNIT 90
+ TITLE> * PARAMETERS SPECIFIC TO AADH.  TO BE USED IN CONJUNCTION WITH AADH_TOPOLOGIES.RTF
+ TITLE> * THESE WERE TAKEN FROM EACH SECTION IN /DATA/KR/PAR_TTW.INP
+ TITLE> *   AND ADDITIONALLY FROM /DATA/NEW_MD/PAR_TTW.INP
+ TITLE> * THERE'S NO ANGLE PARAMETERS FOR HA ONLY HA1/2/3 SO CHANGE THE HAS IN THE AADH_TOPOLOGIES
+ TITLE> * ADDED NBFIX
+ TITLE>  
+ PARMIO> NONBOND, HBOND lists and IMAGE atoms cleared.
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>    read para card name ./common/par_all36_cgenff.prm append flex
+ VOPEN> Attempting to open::./common/par_all36_cgenff.prm::
+
+          PARAMETER FILE BEING READ FROM UNIT 90
+ TITLE> *  --------------------------------------------------------------------------  *
+ TITLE> *         CGENFF: PARAMETERS FOR THE CHARMM GENERAL FORCE FIELD V. 3.1         *
+ TITLE> *                    FOR SMALL MOLECULE DRUG DESIGN                            *
+ TITLE> *  --------------------------------------------------------------------------  *
+ TITLE> *
+ PARMIO> NONBOND, HBOND lists and IMAGE atoms cleared.
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>     
+  
+ CHARMM>    set geom 1
+ Parameter: GEOM <- "1"
+  
+ CHARMM>     
+  
+ CHARMM>    read coord card name ./common/@geom-as.cor
+ Parameter: GEOM -> "1"
+ VOPEN> Attempting to open::./common/1-as.cor::
+          SPATIAL COORDINATES BEING READ FROM UNIT 90
+
+      ***** LEVEL  0 WARNING FROM <COORIO> *****
+      ***** Cannot append to full set
+      ******************************************
+      BOMLEV (  0) IS REACHED - TERMINATING. WRNLEV IS  5
+
+
+                                                  
+                            /---------\           
+                           /           \          
+                          /             \         
+                         /               \        
+                         !  XXXX   XXXX  !        
+                         !  XXXX   XXXX  !        
+                         !  XXX     XXX  !        
+                         !       X       !        
+                          --\   XXX   /--         
+                           ! !  XXX  ! !          
+                           ! !       ! !          
+                           ! I I I I I !          
+                           !  I I I I  !          
+                            \         /           
+                             --     --            
+                               \---/              
+                        XXX             XXX       
+                       XXXX             XXXX      
+                       XXXXX           XXXXX      
+                          XXX         XXX         
+                            XXX     XXX           
+                               XXXXX              
+                              XXX XXX             
+                            XXX     XXX           
+                          XXX         XXX         
+                       XXXXX           XXXXX      
+                       XXXX             XXXX      
+                        XXX             XXX       
+                                                  
+                                                  
+ Execution terminated due to the detection of a fatal error.
+
+                    ABNORMAL TERMINATION
+                    MOST SEVERE WARNING WAS AT LEVEL  0
+
+                    $$$$$ JOB ACCOUNTING INFORMATION $$$$$
+                     ELAPSED TIME:     1.17  SECONDS 
+                         CPU TIME:     0.88  SECONDS 

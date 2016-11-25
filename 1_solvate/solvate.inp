@@ -1,0 +1,121 @@
+* Solvate Protein
+* This script will make a CUBI with 10 angstroms from
+
+set molname 1-as
+
+stream ../common/toppar_water_ions.str
+read rtf card name ../common/aadh_topologies.rtf append flex
+read rtf card name ../common/top_all36_cgenff.rtf append flex
+read para card name ../common/par_all36_prot_mod.prm append flex
+read para card name ../common/aadh_parameters.prm append flex
+read para card name ../common/par_all36_cgenff.prm append flex
+
+read psf card name ../common/@molname.psf
+read coord card name ../common/@molname.cor
+
+
+
+
+! TIM: orient about origin so the alignment is correct with the
+! water crystal.
+! reorients coordinates so that longest axis is X-axis. 
+coordinate orient
+
+! Takes statistics on coordinates to figure out the minimum, maximum, and
+! average values of the X, Y, and Z coordinates. These are stored in
+! XMIN,XMAX,XAVE,YMIN,YMAX,YAVE,ZMIN,ZMAX,ZAVE.
+coordinate statistics select all end
+
+! Read in water sequence
+! reads in 46656 water mocules - arbitrary large number. 
+read sequence tips 46656
+
+! Generate new segment for the water
+! bwat ?
+! noanlge nodihedral: something to do with setting up many water molecules. 
+generate bwat noangle nodihedral
+
+! Read the water PDB coordinates and append them to the protein
+read coor card append name ../common/water.crd
+! noro: norotations in the orient command. 
+coordinate orient noro select segid bwat end
+
+! Delete waters which overlap with protein
+delete atom sort -
+select .byres. (segid bwat .AND. type oh2 .and. -
+((.not. (segid bwat .OR. hydrogen)) .around. 2.5)) end
+
+! xdim, ydim, and zdim are variables that store the dimensions of the protein along the x, y, and z axis respectivley
+
+! Because we want 10.0 distance from the edge,
+! the distance is multipled by two and then added to the diameter of the structure.
+calc xdim = int( abs ( ?XMAX - ?XMIN ) + 30.0  )
+calc ydim = int( abs ( ?YMAX - ?YMIN ) + 30.0  )
+calc zdim = int( abs ( ?ZMAX - ?ZMIN ) + 30.0  )
+
+! coor orient guarantees that the X axis is the longest axis and the Y
+! axis is the second longest
+
+set greatervalue = @xdim
+set secondvalue = @ydim
+
+set headstr = cubic with a crystal dimension of @greatervalue
+
+! OK, now we set a safe spherical diameter (based on the minimum sphere that will circumscribe a cube of this dimension), delete
+! all but the sphere of that radius, and then build the crystal structure.
+calc gvsq = @greatervalue * @greatervalue
+calc safesphere = sqrt( 3 * @gvsq )
+calc safesphere = @safesphere/2
+delete atom sort select .byres. ( .not. ( point 0. 0. 0. cut @safesphere ) .and. ( segid bwat ) ) end
+
+crystal define cubic @greatervalue @greatervalue @greatervalue 90.0 90.0 90.0
+crystal build noper 0
+image byres sele segid all end
+coor copy comp
+
+! set wrnlev down to reduce clutter...
+wrnlev 5
+
+! Update the image lists. If any atoms move during this process, it means that they are extraneous
+! to the crystal structure that we want to build and should be deleted. Therefore, coor diff is used to
+! detect moving atoms, which had selected for deletion.
+update inbfrq 0
+
+coor diff
+define sel1   -
+select .byres. (property x .ne. 0.0 .or. property y .ne. 0.0 .or. property z .ne. 0.0) end
+
+coor swap
+
+! we need to set bomlev down, otherwise we get an error about modifying the PSF when image
+! centering is active
+bomlev -1
+delete atom sele sel1 end
+bomlev 0
+
+! we want to do a quick-and-dirty minimization to remove bad contacts. Therefore, we should
+! set up shake and the non-bond parameters again.
+shake bonh param sele all end
+   NBONDED inbfrq -1 imgfrq -1 nbxmod 5 -                                              ! C36 DEFAULTS
+           atom cdiel fshift -                                                         ! use atom based electrostatics, C36 DEFAULTS
+           vatom vdistance vfswitch -                                                  ! C36 DEFAULTS
+           cutnb 14.0 ctofnb 12.0 ctonnb 10.0 -                                        ! C36 DEFAULTS
+           cutim 14.0 -                                                                ! must be same as cutnb
+           eps 1.0 e14fac 1.0 wmin 1.5                                                 ! C36 DEFAULTSnbond inbfrq -1 elec fswitch vdw vswitch cutnb 16. ctofnb 12. ctonnb 10.
+
+mini sd nstep 100 nprint 1 tolgrd 5.0
+
+ioform extended
+
+! since we've changed the structure by adding waters, we need to write out a new PSF
+write psf card name @molname-solvated.psf
+* solvation: @headstr
+*
+
+write coor card name @molname-solvated.cor
+* solvation: @headstr
+*
+
+
+stop
+

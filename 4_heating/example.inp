@@ -1,0 +1,60 @@
+* Final heating using serial code
+*
+
+!envi OPENMM_PLATFORM  "OpenCL"   ! /CUDA/Reference   Use OpenMM platform based on 
+!envi OPENMM_PRECISION "single"   ! /mixed/double    Do calculations in single 
+
+stream /panfs/panasas01/chem/ra15808/aadh/setup.inp
+
+prnlev 5
+
+set molname 2agy_final_min
+
+set buildcrystal ../common/build_crystal.str
+set imaging ../common/set_images.str
+set nonbondspec ../common/non_bond_spec.str
+
+stream @charmmtop/toppar_water_ions_fixed.str
+read rtf card name @charmmtop/top_all36_prot.rtf append flex
+read rtf card name /panfs/panasas01/chem/ra15808/aadh/data/ra/aadh_topologies.rtf append flex
+read para card name @charmmtop/par_all36_prot_mod.prm append flex
+read para card name @datadir/ra/aadh_parameters.prm append flex
+
+read psf card name ../common/@molname.psf
+read coord card name ../common/@molname.crd
+
+! constraints
+shake bonh param sele all end
+
+! setup crystal
+stream @buildcrystal
+stream @imaging
+stream @nonbondspec
+
+energy !omm 
+
+coor copy comp
+
+ioform extended
+
+open unit 41 write card name 2agy-310K.res !restart file that will be written
+open unit 31 write file name 2agy-310K.dcd !trajectory file name
+open unit 21 write card name 2agy-310K.ene !energies
+
+dyna leap start - 
+   timestep 0.001 nstep 180000 nprint 1000 -
+   isvfrq 10000 iunwri 41 iuncrd 31 kunit 21 nsavc 1000 -    
+   firstt 130.0 finalt 310.0 tbath 310.0 -
+   ihtfrq 2500 teminc 2.5 ieqfrq 0 -            
+   iasors 1 iasvel 1 iscvel 0 ichecw 0 -   
+   ntrfrq 100 -                           
+   iseed  11033 21033 31033 41033 echeck 100.0 
+
+
+coor rms
+
+write coor card name 2agy-310K.crd
+* 2agy, minimized, neutralized and heated
+*
+
+stop

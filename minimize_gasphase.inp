@@ -1,0 +1,29 @@
+* Add hydrogen atoms to active site structures
+*
+
+
+read rtf card name ./common/aadh_topologies.rtf
+read rtf card name ./common/top_all36_cgenff.rtf append flex
+read para card name ./common/par_all36_prot_mod.prm flex
+read para card name ./common/aadh_parameters.prm append flex
+read para card name ./common/par_all36_cgenff.prm append flex
+
+set geom 1
+
+read coord card name ./common/@geom-as.cor
+read psf card name ./common/@geom-as.psf
+
+energy
+
+mini sd nstep 100
+mini abnr nstep 3000
+
+energy
+
+write coord card name ./common/@geom-as-min.cor
+* Gas phase minimized
+*
+
+stop
+
+

@@ -1,0 +1,64 @@
+* Add hydrogen atoms to active site structures
+*
+
+
+read rtf card name ./common/aadh_topologies.rtf
+read rtf card name ./common/top_all36_cgenff.rtf append flex
+read para card name ./common/par_all36_prot_mod.prm flex
+read para card name ./common/aadh_parameters.prm append flex
+read para card name ./common/par_all36_cgenff.prm append flex
+
+
+
+set geom 1
+label loop
+    read sequ coor resi name ./common/1-as-noh.cor
+
+    gene asit first none last none angle dihe setup 
+
+    define mish sele (atom asit 1 HX3 .or. atom asit 2 HB3 .or. atom asit 1 HE3) end 
+
+    read coor card name ./common/@geom-as-noh.cor sele .not. mish end
+
+    hbuild sele all end
+
+    cons fix sele .not. mish end
+
+    mini sd nstep 100
+    
+	CONS FIX SELE NONE END
+
+	coordinate orient
+
+    set padding 15 
+	calc padding @padding*2
+
+	coordinate statistics select all end
+
+	calc xdim = int( abs ( ?XMAX - ?XMIN ) + @padding)
+	calc ydim = int( abs ( ?YMAX - ?YMIN ) + @padding)
+	calc zdim = int( abs ( ?ZMAX - ?ZMIN ) + @padding) 
+
+    write coord card name ./common/@geom-as.cor
+    * Active site with hydrogens re-built.  Acetate with CGenFF.
+    *  
+
+    write coord pdb name ./common/@geom-as.pdb
+    * Active site with hydrogens re-built.  Acetate with CGenFF.
+    *  
+
+    if @geom .eq. 1 then
+    
+        write psf card name ./common/@geom-as.psf
+        * Active site with hydrogens re-built.  Acetate with CGenFF.
+        *
+    
+    endif
+
+    incr geom by 1
+    
+    dele atom sele all end
+
+    if @geom .lt. 71 goto loop
+
+stop

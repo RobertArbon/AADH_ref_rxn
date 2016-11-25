@@ -1,0 +1,110 @@
+* Parameters specific to AADH.  To be used in conjunction with aadh_topologies.rtf
+* These were taken from each section in /Data/KR/par_ttw.inp
+*   and additionally from /Data/NEW_MD/par_ttw.inp
+* There's no angle parameters for HA only HA1/2/3 so change the HAs in the aadh_topologies
+* Added NBFIX 
+
+
+BONDS
+!
+!V(bond) = Kb(b - b0)**2
+!
+!Kb: kcal/mole/A**2
+!b0: A
+!
+!atom type Kb          b0
+!
+CA   NC2   620.000     1.3170 ! LOJ1
+NC2  CE1   400.0       1.38
+CA   O     620.000     1.2300 ! Kam
+
+ANGLES
+!
+!V(angle) = Ktheta(Theta - Theta0)**2
+!
+!V(Urey-Bradley) = Kub(S - S0)**2
+!
+!Ktheta: kcal/mole/rad**2
+!Theta0: degrees
+!Kub: kcal/mole/A**2 (Urey-Bradley)
+!S0: A
+!
+!atom types     Ktheta    Theta0   Kub     S0
+!
+CPT  CA   O     40.000    120.00   ! Kam
+O    CA   CA    40.000    120.00   ! Kam
+CA   CA   NC2   40.000    120.00   ! Kam
+CA   NC2  HC    40.000    120.00   ! Kam
+CA   NC2  CT3   40.000    120.00   ! Kam
+CA   CA   CY    40.000    128.52   ! Kam
+CA   NC2  CT2   40.000    120.00   ! Kam
+CT2  CT2  CY    40.000    111.00   ! LOJ1
+NC2  CT3  CT2   40.000    109.70   ! LOJ1
+CE1  CT2  CY    40.0      111.0    ! KER
+NC2  CE1  CT2   40.0      122.0    ! KER
+HC   NC2  CE1   30.0      118.5    ! KER
+CA   NC2  CE1   50.0      130.5    ! KER
+CPT  CA   OC    55.0      125.0    ! KER
+NC2  CE1  HE1   30.0      117.0    ! KER
+
+
+DIHEDRALS
+!
+!V(dihedral) = Kchi(1 + cos(n(chi) - delta))
+!
+!Kchi: kcal/mole
+!n: multiplicity
+!delta: degrees
+!
+!atom types             Kchi    n   delta
+!
+
+NY   CPT  CA   OC       3.000   2   180.0 ! KER
+CPT  CPT  CA   OC       3.000   2   180.0 ! KER
+CA   CA   NC2  CE1      3.000   2   180.0 ! KER
+OC   CA   CA   NC2      3.000   2     0.0 ! KER
+CA   NC2  CE1  HE1      3.000   2   180.0 ! KER
+CA   NC2  CE1  CT2      3.0000  2   180.0 ! KER
+NC2  CE1  CT2  HA2      3.0000  2   180.0 ! KER REA 27/07/2016 HA --> HA2
+NC2  CE1  CT2  CY       0.5000  2   105.0 ! KER
+HC   NC2  CE1  HE1      1.0000  2   180.0 ! KER
+HC   NC2  CE1  CT2      3.0000  2   180.0 ! KER
+CE1  CT2  CY   CA       0.0300  2     0.0 ! KER
+CE1  CT2  CY   CPT      0.5000  2    95.0 ! KER
+HE1  CE1  CT2  CY       1.2     2   180.00 ! KER
+CA   CA   CY   CPT      0.0300  2  -180.00 ! Kam 
+CA   CA   CY   CT2      0.0300  2     0.00 ! Kam
+CA   CA   CA   CY       0.0010  2     0.00 ! Kam
+CPT  CPT  CA   O        3.0000  2   180.00 ! Kam
+NY   CPT  CA   O        3.0000  2   180.00 ! Kam
+O    CA   CA   CA       3.0000  2   180.00 ! Kam
+O    CA   CA   HP       3.0000  2   180.00 ! Kam
+CA   CA   CA   NC2      3.0000  2   180.00 ! Kam
+CA   CA   NC2  HC       3.0000  2   180.00 ! Kam
+HP   CA   CA   NC2      3.0000  2   180.00 ! Kam
+CPT  CA   CA   NC2      3.0000  2   180.00 ! Kam
+O    CA   CA   NC2      3.0000  2     0.00 ! LOJ1
+CA   CA   NC2  CT2      3.0000  2   180.00 ! LOJ1
+NC2  CT2  CT2  CY       0.5000  2   105.00 ! LOJ1
+CPT  CY   CT2  CT2      0.5000  2    95.00 ! LOJ1
+CA   NC2  CT2  CT2      0.5000  2   160.00 ! LOJ1
+CT2  CT2  CY   CA       0.5000  2   -90.00 ! LOJ1
+NY   CPT  CA   OH1      3.0000  2   180.00 ! LOJ1
+CPT  CPT  CA   OH1      3.0000  2   180.00 ! LOJ1
+OH1  CA   CA   NC2      3.0000  2     0.00 ! LOJ1
+CA   CA   NC2  CT3      3.0000  2   180.00 ! LOJ1
+
+IMPROPER
+!
+!V(improper) = Kpsi(psi - psi0)**2
+!
+!Kpsi: kcal/mole/rad**2
+!psi0: degrees
+!note that the second column of numbers (0) is ignored
+!
+!atom types           Kpsi                   psi0
+!
+OH1  X    X    CD    100.0000         0      0.0000  !REA 27/07/2016 - OB -> OH1 (this is allowable due to symmetry of the acetic acid group on ASP)
+                
+END
+

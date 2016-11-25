@@ -1,0 +1,3496 @@
+1
+                 Chemistry at HARvard Macromolecular Mechanics
+           (CHARMM) - Developmental Version 41a2   February 15, 2016            
+                             Git commit ID 2bac8cc                              
+       Copyright(c) 1984-2014  President and Fellows of Harvard College
+                              All Rights Reserved
+     Current operating system: Linux-2.6.32-220.23.1.el6.x86_64(x86_64)@nod     
+                 Created on 10/25/16 at 11:10:07 by user: ra15808     
+
+            Maximum number of ATOMS:    360720, and RESidues:      120240
+ RDTITL> * MINIMIZE STRUCTURE
+ RDTITL> *
+  
+ CHARMM>     
+  
+ CHARMM>    prnlev 5
+  
+ CHARMM>    set molname 1-as-solvated-neut
+ Parameter: MOLNAME <- "1-AS-SOLVATED-NEUT"
+  
+ CHARMM>     
+  
+ CHARMM>    stream ../common/toppar_water_ions_fixed.str
+ VOPEN> Attempting to open::../common/toppar_water_ions_fixed.str::
+ OPNLGU> Unit 99 opened for READONLY access to ../common/toppar_water_ions_fixed.str
+
+                    INPUT STREAM SWITCHING TO UNIT    99
+ RDTITL> * TOPLOGY AND PARAMETER INFORMATION FOR WATER AND IONS.
+ RDTITL> *
+ Parameter: IN1 <- "" <empty>
+  
+ CHARMM>     
+  
+ CHARMM>    !Testcase
+ CHARMM>    !test_water_ions.inp
+ CHARMM>     
+  
+ CHARMM>    ! IMPORTANT NOTE: this file contains NBFixes between carboxylates and sodium,
+ CHARMM>    ! which will only apply if the main files containing carboxylate atom types
+ CHARMM>    ! have been read in first!
+ CHARMM>     
+  
+ CHARMM>    !references
+ CHARMM>    !
+ CHARMM>    !TIP3P water model
+ CHARMM>    !
+ CHARMM>    !W.L. Jorgensen; J.Chandrasekhar; J.D. Madura; R.W. Impey;
+ CHARMM>    !M.L. Klein; "Comparison of simple potential functions for
+ CHARMM>    !simulating liquid water", J. Chem. Phys. 79 926-935 (1983).
+ CHARMM>    !
+ CHARMM>    !IONS
+ CHARMM>    !
+ CHARMM>    !Ions from Roux and coworkers
+ CHARMM>    !
+ CHARMM>    !Beglov, D. and Roux, B., Finite Representation of an Infinite
+ CHARMM>    !Bulk System: Solvent Boundary Potential for Computer Simulations,
+ CHARMM>    !Journal of Chemical Physics, 1994, 100: 9050-9063
+ CHARMM>    !
+ CHARMM>    !ZINC
+ CHARMM>    !
+ CHARMM>    !Stote, R.H. and Karplus, M. Zinc Binding in Proteins and
+ CHARMM>    !Solution: A Simple but Accurate Nonbonded Representation, PROTEINS:
+ CHARMM>    !Structure, Function, and Genetics 23:12-31 (1995)
+ CHARMM>     
+  
+ CHARMM>    !test "append" to determine if previous toppar files have been read and
+ CHARMM>    !add append to "read rtf card" if true
+ CHARMM>    set nat ?NATC
+ RDCMND: can not substitute energy "?NATC"
+ Parameter: NAT <- "?NATC"
+  
+ CHARMM>    set app
+ Parameter: APP <- "" <empty>
+  
+ CHARMM>    !We're exploiting what is arguably a bug in the parser. On the left hand side,
+ CHARMM>    !the quotes have priority, so NAT is correctly substituted. On the right hand
+ CHARMM>    !side, the ? has priority and NATC" (sic) is not a valid substitution...
+ CHARMM>    if "@NAT" ne "?NATC" if @nat ne 0 set app append
+ Parameter: NAT -> "?NATC"
+ Parameter: NAT -> "?NATC"
+ RDCMND: can not substitute energy "?NATC""
+ Comparing ""?NATC"" and ""?NATC"".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>     
+  
+ CHARMM>    read rtf card  !REA 26/07/2013 - deleted @app - always stream this first and everything else must be appended)
+ MAINIO> Residue topology file being read from unit  99.
+ RDTITL> * TOPOLOGY FOR WATER AND IONS
+ RDTITL> *
+  
+ CHARMM>     
+  
+ CHARMM>    read para card flex  !REA - deleted @app
+
+          PARAMETER FILE BEING READ FROM UNIT 99
+ RDTITL> * PARAMETERS FOR WATER AND IONS
+ RDTITL> *
+ PARMIO> NONBOND, HBOND lists and IMAGE atoms cleared.
+  
+ CHARMM>     
+  
+ CHARMM>    ! The following section contains NBFixes for sodium interacting with
+ CHARMM>    ! carboxylate oxygens of various CHARMM force fields. It will generate
+ CHARMM>    ! level -1 warnings whenever any of these force fields have not been
+ CHARMM>    ! read prior to the current stream file. Since we don't want to force
+ CHARMM>    ! the user to always read all the force fields, we're suppressing the
+ CHARMM>    ! warnings. The only side effect is that you will have "most severe
+ CHARMM>    ! warning was at level 0" at the end of your output. Also note that
+ CHARMM>    ! the user is responsible for reading the current file last if they
+ CHARMM>    ! want the NBFixes to apply. A more elegant solution would require new
+ CHARMM>    ! features to be added to CHARMM.
+ CHARMM>    ! parallel fix, to avoid duplicated messages in the log
+ CHARMM>    set para
+ Parameter: PARA <- "" <empty>
+  
+ CHARMM>    if ?NUMNODE gt 1 set para node 0
+ RDCMND substituted energy or value "?NUMNODE" to "1"
+ Comparing "1" and "1".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>     
+  
+ CHARMM>    set wrn ?WRNLEV
+ RDCMND substituted energy or value "?WRNLEV" to "5"
+ Parameter: WRN <- "5"
+  
+ CHARMM>    ! Some versions of CHARMM don't seem to initialize wrnlev...
+ CHARMM>    if "@WRN" eq "?WRNLEV" set wrn 5
+ Parameter: WRN -> "5"
+ RDCMND: can not substitute energy "?WRNLEV""
+ Comparing ""5"" and ""?WRNLEV"".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>    set bom ?bomlev
+ RDCMND substituted energy or value "?BOMLEV" to "0"
+ Parameter: BOM <- "0"
+  
+ CHARMM>    WRNLEV -1 @PARA
+ Parameter: PARA -> "" <empty>
+  
+ CHARMM>    BOMLEV -1 @PARA
+ Parameter: PARA -> "" <empty>
+  
+ CHARMM>    read para card flex append
+
+          PARAMETER FILE BEING READ FROM UNIT 99
+ RDTITL> * NBFIX BETWEEN CARBOXYLATE AND SODIUM
+ RDTITL> *
+ PARMIO> NONBOND, HBOND lists and IMAGE atoms cleared.
+  
+ CHARMM>    BOMLEV @bom @PARA
+ Parameter: BOM -> "0"
+ Parameter: PARA -> "" <empty>
+  
+ CHARMM>    WRNLEV @wrn @PARA
+ Parameter: WRN -> "5"
+ Parameter: PARA -> "" <empty>
+  
+ CHARMM>     
+  
+ CHARMM>    return
+ VCLOSE: Closing unit   99 with status "KEEP"
+
+                    RETURNING TO INPUT STREAM     5
+  
+ CHARMM>    read rtf card name ../common/aadh_topologies.rtf append flex
+ VOPEN> Attempting to open::../common/aadh_topologies.rtf::
+ MAINIO> Residue topology file being read from unit  90.
+ TITLE> * RESIDUES AND PATCHES FOR CREATING AADH REACTANT AND PRODUCTS
+ TITLE> * ATOM DEFINITIONS IS TAKEN FROM TOP_ALL36_PROT.RTF
+ TITLE> * PREAMLE IS TAKEN FROM TOP_TTW.INP
+ TITLE> * >>>>>
+ TITLE> * RESI TTW - /DATA/KR/TOP_TTW.INP
+ TITLE> * RESI TTW2 - /DATA/KR/TOP_TTW.INP - I DON'T THINK THIS IS USED SO THIS WON'T BE ADJUSTED.
+ TITLE> * PRES TRPM - /DATA/NEW_MD/TRPM.RTF
+ TITLE> * PRES TTWP - /DATA/KR/TTW_PROD.RTF
+ TITLE> * PRES ASP1/2 - /DATA/KR/TTW_PROD.RTF
+ TITLE> * PRES TTQ_TRP - /DATA/NEW_MD/TTW_TOP.INP
+ TITLE> * THE ORIGINAL PATCHES AND RESIDUES WERE SPECIFIED IN THE CHARM22 FF
+ TITLE> * 23/07/2016 - THE PRODUCT PATCHES WILL HAVE TO CHANGE (TO GET RID OF DELE STATEMENT)
+ TITLE> *               AND TO PRESERVE THE ATOMS LABELLING CHANGES.
+ TITLE> *
+ WARNING from DECODI -- Zero length string being converted to 0
+ RTFRDR> WARNING: Version number is NOT specified.
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>    read rtf card name ../common/top_all36_cgenff.rtf append flex
+ VOPEN> Attempting to open::../common/top_all36_cgenff.rtf::
+ MAINIO> Residue topology file being read from unit  90.
+ TITLE> *  --------------------------------------------------------------------------  *
+ TITLE> *          CGENFF: TOPOLOGY FOR THE CHARMM GENERAL FORCE FIELD V. 3.1          *
+ TITLE> *                    FOR SMALL MOLECULE DRUG DESIGN                            *
+ TITLE> *  --------------------------------------------------------------------------  *
+ TITLE> *
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>    read para card name ../common/par_all36_prot_mod.prm append flex
+ VOPEN> Attempting to open::../common/par_all36_prot_mod.prm::
+
+          PARAMETER FILE BEING READ FROM UNIT 90
+ TITLE> *>>>> CHARMM36 ALL-HYDROGEN PARAMETER FILE FOR PROTEINS <<<<<<<<<<
+ TITLE> *>>>>> INCLUDES PHI, PSI CROSS TERM MAP (CMAP) CORRECTION <<<<<<<<
+ TITLE> *>>>>>>>>>>>>>>>>>>>>>>>>>> JAN. 2016 <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+ TITLE> * ALL COMMENTS TO THE CHARMM WEB SITE: WWW.CHARMM.ORG
+ TITLE> *             PARAMETER SET DISCUSSION FORUM
+ TITLE> *
+ PARMIO> NONBOND, HBOND lists and IMAGE atoms cleared.
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>    read para card name ../common/aadh_parameters.prm append flex
+ VOPEN> Attempting to open::../common/aadh_parameters.prm::
+
+          PARAMETER FILE BEING READ FROM UNIT 90
+ TITLE> * PARAMETERS SPECIFIC TO AADH.  TO BE USED IN CONJUNCTION WITH AADH_TOPOLOGIES.RTF
+ TITLE> * THESE WERE TAKEN FROM EACH SECTION IN /DATA/KR/PAR_TTW.INP
+ TITLE> *   AND ADDITIONALLY FROM /DATA/NEW_MD/PAR_TTW.INP
+ TITLE> * THERE'S NO ANGLE PARAMETERS FOR HA ONLY HA1/2/3 SO CHANGE THE HAS IN THE AADH_TOPOLOGIES
+ TITLE> * ADDED NBFIX
+ TITLE>  
+ PARMIO> NONBOND, HBOND lists and IMAGE atoms cleared.
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>    read para card name ../common/par_all36_cgenff.prm append flex
+ VOPEN> Attempting to open::../common/par_all36_cgenff.prm::
+
+          PARAMETER FILE BEING READ FROM UNIT 90
+ TITLE> *  --------------------------------------------------------------------------  *
+ TITLE> *         CGENFF: PARAMETERS FOR THE CHARMM GENERAL FORCE FIELD V. 3.1         *
+ TITLE> *                    FOR SMALL MOLECULE DRUG DESIGN                            *
+ TITLE> *  --------------------------------------------------------------------------  *
+ TITLE> *
+ PARMIO> NONBOND, HBOND lists and IMAGE atoms cleared.
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>     
+  
+ CHARMM>    read psf card name ../common/@molname.psf
+ Parameter: MOLNAME -> "1-AS-SOLVATED-NEUT"
+ VOPEN> Attempting to open::../common/1-as-solvated-neut.psf::
+ MAINIO> Protein structure file being read from unit  90.
+ PSFRD2> Reading PSF in the expanded format.
+ TITLE>  * 1-AS-SOLVATED NEUTRALIZED WITH POTASSIUM CHLORIDE
+ TITLE>  *  DATE:    10/10/16     16: 6: 1      CREATED BY USER: ra15808
+ TITLE>  *
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        4   Number of residues   =     6714
+         Number of atoms         =    20104   Number of groups     =     6724
+         Number of bonds         =    20066   Number of angles     =     6756
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     6673   Number of HB donors  =    13347
+         Number of NB exclusions =        0   Total charge =    0.00000
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>    read coord card name ../common/@molname.cor
+ Parameter: MOLNAME -> "1-AS-SOLVATED-NEUT"
+ VOPEN> Attempting to open::../common/1-as-solvated-neut.cor::
+          SPATIAL COORDINATES BEING READ FROM UNIT 90
+ TITLE> * NEUTRALIZED STRUCTURE.
+ TITLE> *  DATE:    10/10/16     16: 6: 5      CREATED BY USER: RA15808
+ TITLE> *
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>     
+  
+ CHARMM>    SET XDIM 43
+ Parameter: XDIM <- "43"
+  
+ CHARMM>    SET YDIM 43
+ Parameter: YDIM <- "43"
+  
+ CHARMM>    SET ZDIM 43
+ Parameter: ZDIM <- "43"
+  
+ CHARMM>    calc cutf 16
+Evaluating: 16
+ Parameter: CUTF <- "16"
+  
+ CHARMM>     
+  
+ CHARMM>    ! SETUP CRYSTAL (DEFINE, BUILD), IMAGE CENTERING W. MODIFIED PSF
+ CHARMM>    ! WE USE THE SAME PARAMS AS IN SOLVATION
+ CHARMM>    CRYSTAL DEFI cubi @xdim @ydim @zdim 90.0 90.0 90.0
+ Parameter: XDIM -> "43"
+ Parameter: YDIM -> "43"
+ Parameter: ZDIM -> "43"
+ Crystal Parameters : Crystal Type = CUBI
+           A     =   43.00000 B    =   43.00000 C     =   43.00000
+           Alpha =   90.00000 Beta =   90.00000 Gamma =   90.00000
+  
+ CHARMM>    CRYSTAL BUILD CUTOFF @CUTF NOPER 0
+ Parameter: CUTF -> "16"
+ XBUILD> Building all transformations with a minimum atom-atom
+         contact distance of less than   16.00 Angstroms.
+
+ Range of Grid Search for Transformation     1 :
+ Lattice Vector A    -2 TO     2
+ Lattice Vector B    -2 TO     2
+ Lattice Vector C    -2 TO     2
+
+
+ The number of transformations generated =    26
+
+
+ Number  Symop   A   B   C   Distance
+
+      1      1  -1  -1  -1     2.9808
+      2      1  -1   0  -1     1.3677
+      3      1  -1   1  -1     2.4179
+      4      1   0  -1  -1     1.5611
+      5      1   0   0  -1     1.4338
+      6      1   0   1  -1     3.3657
+      7      1  -1  -1   0     2.4973
+      8      1  -1   0   0     1.5889
+      9      1  -1   1   0     2.3047
+     10      1   0  -1   0     1.3712
+     11      1   0   1   0     1.3712
+     12      1  -1  -1   1     4.1039
+     13      1  -1   0   1     1.6195
+     14      1  -1   1   1     2.7186
+     15      1   0  -1   1     3.3657
+     16      1   0   0   1     1.4338
+     17      1   0   1   1     1.5611
+     18      1   1   1   1     2.9808
+     19      1   1   0   1     1.3677
+     20      1   1  -1   1     2.4179
+     21      1   1   1   0     2.4973
+     22      1   1   0   0     1.5889
+     23      1   1  -1   0     2.3047
+     24      1   1   1  -1     4.1039
+     25      1   1   0  -1     1.6195
+     26      1   1  -1  -1     2.7186
+                     THERE ARE NO ROTATIONS FOR THIS TRANSFORMATION SET
+    26 Transformations have been processed.
+
+  
+ CHARMM>    IMAGE BYRES SELE all END
+ SELRPN>  20104 atoms have been selected out of  20104
+ IMAGE CENTERING ON FOR SOME ATOMS
+  
+ CHARMM>     
+  
+ CHARMM>    !NON BONDED SPECIFICATION
+ CHARMM>    set ftx 48
+ Parameter: FTX <- "48"
+  
+ CHARMM>    set fty 48
+ Parameter: FTY <- "48"
+  
+ CHARMM>    set ftz 48
+ Parameter: FTZ <- "48"
+  
+ CHARMM>    calc kp 14/40
+Evaluating: 14/40
+ Parameter: KP <- "0.35"
+  
+ CHARMM>     
+  
+ CHARMM>    NBONDED inbfrq -1 imgfrq -1 nbxmod 5 -                                              ! C36 DEFAULTS
+ CHARMM>            atom cdiel fshift -                                                         ! use atom based electrostatics, C36 DEFAULTS
+ CHARMM>            vatom vdistance vfswitch -                                                  ! C36 DEFAULTS
+ CHARMM>            elec ewald pmew fftx @ftx ffty @fty fftz @ftz kappa @kp spline order 6 -    ! PME SUMMATION
+ CHARMM>            cutnb 14.0 ctofnb 12.0 ctonnb 10.0 -                                        ! C36 DEFAULTS
+ CHARMM>            cutim 14.0 -                                                                ! must be same as cutnb
+ CHARMM>            eps 1.0 e14fac 1.0 wmin 1.5                                                 ! C36 DEFAULTS
+ Parameter: FTX -> "48"
+ Parameter: FTY -> "48"
+ Parameter: FTZ -> "48"
+ Parameter: KP -> "0.35"
+
+ SELECTED IMAGES ATOMS BEING CENTERED ABOUT  0.000000  0.000000  0.000000
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     429     143     143        0.47
+    2  C002 has    2048     684     684        0.00
+    3  C003 has     535     179     179        1.33
+    4  C004 has    2036     682     682        0.00
+    5  C005 has    7224    2416    2416        0.00
+    6  C006 has    2059     687     687        0.00
+    7  C007 has    1905     635     635        0.00
+    8  C008 has    7273    2431    2431        0.00
+    9  C009 has    2088     698     698        0.00
+   10  C010 has    7099    2377    2377        0.00
+   12  C012 has     438     146     146        1.83
+   13  C013 has    2117     709     709        0.00
+   14  C014 has     484     162     162        0.35
+ Total of55839 atoms and18673 groups and18663 residues were included
+
+ <PME> Total heap storage needed =     1052179
+ Fill Ewald table: Number of points=     10000 EWXmax=    4.375000
+ fill erfc table: linear inter has rms error = 0.102274D-07 maximum error = 0.231796D-07
+ fill erfc table: cubic spline has rms error = 0.387536D-11 maximum error = 0.118290D-10
+
+ NONBOND OPTION FLAGS: 
+     ELEC     VDW      ATOMs    CDIElec  FSHIft   VATOm    VFSWIt  
+     BYGRoup  NOEXtnd  EWALd   
+ CUTNB  = 14.000 CTEXNB =999.000 CTONNB = 10.000 CTOFNB = 12.000
+ CGONNB =  0.000 CGOFNB = 10.000
+ WMIN   =  1.500 WRNMXD =  0.500 E14FAC =  1.000 EPS    =  1.000
+ NBXMOD =      5
+ PME EWALD OPTIONS: KAPPA  =  0.350  QCOR =  0.000  Bspline order = 6
+ FFTX=  48  FFTY=  48  FFTZ=  48
+                Using Pub FFT
+                Real-to-Complex FFT
+ There are        0 atom  pairs and        0 atom  exclusions.
+ There are        0 group pairs and        0 group exclusions.
+ <MAKINB> with mode   5 found  20150 exclusions and    101 interactions(1-4)
+ <MAKGRP> found     22 group exclusions.
+ <MAKGRP> found      0 image group exclusions.
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR  5776917 ATOM PAIRS AND        0 GROUP PAIRS
+ == PRIMARY == SPACE FOR  8665396 ATOM PAIRS AND        0 GROUP PAIRS
+ == PRIMARY == SPACE FOR 12998114 ATOM PAIRS AND        0 GROUP PAIRS
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18021789 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   902082 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 11827545 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   915365 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+  
+ CHARMM>     
+  
+ CHARMM>    mini sd nstep 100 nprint 10
+
+ SELECTED IMAGES ATOMS BEING CENTERED ABOUT  0.000000  0.000000  0.000000
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     429     143     143        0.47
+    2  C002 has    2048     684     684        0.00
+    3  C003 has     535     179     179        1.33
+    4  C004 has    2036     682     682        0.00
+    5  C005 has    7224    2416    2416        0.00
+    6  C006 has    2059     687     687        0.00
+    7  C007 has    1905     635     635        0.00
+    8  C008 has    7273    2431    2431        0.00
+    9  C009 has    2088     698     698        0.00
+   10  C010 has    7099    2377    2377        0.00
+   12  C012 has     438     146     146        1.83
+   13  C013 has    2117     709     709        0.00
+   14  C014 has     484     162     162        0.35
+ Total of55839 atoms and18673 groups and18663 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+
+ NONBOND OPTION FLAGS: 
+     ELEC     VDW      ATOMs    CDIElec  FSHIft   VATOm    VFSWIt  
+     BYGRoup  NOEXtnd  EWALd   
+ CUTNB  = 14.000 CTEXNB =999.000 CTONNB = 10.000 CTOFNB = 12.000
+ CGONNB =  0.000 CGOFNB = 10.000
+ WMIN   =  1.500 WRNMXD =  0.500 E14FAC =  1.000 EPS    =  1.000
+ NBXMOD =      5
+ PME EWALD OPTIONS: KAPPA  =  0.350  QCOR =  0.000  Bspline order = 6
+ FFTX=  48  FFTY=  48  FFTZ=  48
+                Using Pub FFT
+                Real-to-Complex FFT
+ There are 18021789 atom  pairs and    20251 atom  exclusions.
+ There are        0 group pairs and       22 group exclusions.
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18021789 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   902082 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 11827545 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   915365 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+
+
+ STEEPD> An energy minimization has been requested.
+
+ NSTEP  =          100   NPRINT =           10
+ STEP   =    0.0200000   TOLFUN =    0.0000000
+ TOLGRD =    0.0000000   TOLSTP =    0.0000000
+
+MINI MIN: Cycle      ENERgy      Delta-E         GRMS    Step-size
+MINI INTERN:          BONDs       ANGLes       UREY-b    DIHEdrals    IMPRopers
+MINI EXTERN:        VDWaals         ELEC       HBONds          ASP         USER
+MINI IMAGES:        IMNBvdw       IMELec       IMHBnd       RXNField    EXTElec
+MINI EWALD:          EWKSum       EWSElf       EWEXcl       EWQCor       EWUTil
+ ----------       ---------    ---------    ---------    ---------    ---------
+MINI>        0 620504.28913      0.00000     59.70966      0.02000
+MINI INTERN>       12.79213     39.76030     10.04200     16.22200      0.00977
+MINI EXTERN>   612918.66584 -67543.45591      0.00000      0.00000      0.00000
+MINI IMAGES>    82313.42365  -7342.69366      0.00000      0.00000      0.00000
+MINI EWALD>     11702.29600-459384.39564 447761.62265      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+ UPDECI: Image update at step         2
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     426     142     142        0.47
+    2  C002 has    2045     683     683        0.00
+    3  C003 has     535     179     179        1.36
+    4  C004 has    2036     682     682        0.00
+    5  C005 has    7224    2416    2416        0.00
+    6  C006 has    2059     687     687        0.00
+    7  C007 has    1908     636     636        0.00
+    8  C008 has    7273    2431    2431        0.00
+    9  C009 has    2088     698     698        0.00
+   10  C010 has    7099    2377    2377        0.00
+   12  C012 has     435     145     145        1.83
+   13  C013 has    2114     708     708        0.00
+   14  C014 has     484     162     162        0.35
+ Total of55830 atoms and18670 groups and18660 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step         2
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18027214 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   906566 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 11818580 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   918690 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step         3
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     426     142     142        0.47
+    2  C002 has    2045     683     683        0.00
+    3  C003 has     535     179     179        1.36
+    4  C004 has    2036     682     682        0.00
+    5  C005 has    7224    2416    2416        0.00
+    6  C006 has    2059     687     687        0.00
+    7  C007 has    1908     636     636        0.00
+    8  C008 has    7273    2431    2431        0.00
+    9  C009 has    2088     698     698        0.00
+   10  C010 has    7099    2377    2377        0.00
+   12  C012 has     435     145     145        1.83
+   13  C013 has    2114     708     708        0.00
+   14  C014 has     484     162     162        0.35
+ Total of55830 atoms and18670 groups and18660 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step         3
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18027305 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   906724 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 11818246 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   918842 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step         6
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     426     142     142        0.48
+    2  C002 has    2045     683     683        0.00
+    3  C003 has     535     179     179        1.37
+    4  C004 has    2033     681     681        0.00
+    5  C005 has    7227    2417    2417        0.00
+    6  C006 has    2056     686     686        0.00
+    7  C007 has    1908     636     636        0.00
+    8  C008 has    7273    2431    2431        0.00
+    9  C009 has    2091     699     699        0.00
+   10  C010 has    7099    2377    2377        0.00
+   12  C012 has     435     145     145        1.83
+   13  C013 has    2114     708     708        0.00
+   14  C014 has     484     162     162        0.35
+ Total of55830 atoms and18670 groups and18660 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step         6
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18028253 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   907095 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 11816427 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   918997 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step        10
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     426     142     142        0.48
+    2  C002 has    2039     681     681        0.00
+    3  C003 has     535     179     179        1.39
+    4  C004 has    2033     681     681        0.00
+    5  C005 has    7230    2418    2418        0.00
+    6  C006 has    2053     685     685        0.00
+    7  C007 has    1905     635     635        0.00
+    8  C008 has    7276    2432    2432        0.00
+    9  C009 has    2094     700     700        0.00
+   10  C010 has    7105    2379    2379        0.00
+   12  C012 has     435     145     145        1.84
+   13  C013 has    2114     708     708        0.00
+   14  C014 has     484     162     162        0.34
+ Total of55833 atoms and18671 groups and18661 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step        10
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18036236 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   909061 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 11803397 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   919172 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+MINI>       10 1249976.9448 -629472.6557   47747.9568       0.0090
+MINI INTERN>     5907.45762   2338.58092      8.89145     16.00104      0.00497
+MINI EXTERN>   1249683.3790  -76851.2522       0.0000       0.0000       0.0000
+MINI IMAGES>    76584.31659  -8338.99912      0.00000      0.00000      0.00000
+MINI EWALD>     13007.14126-459384.39564 447005.81895      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+ UPDECI: Image update at step        12
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     426     142     142        0.48
+    2  C002 has    2039     681     681        0.00
+    3  C003 has     535     179     179        1.39
+    4  C004 has    2033     681     681        0.00
+    5  C005 has    7230    2418    2418        0.00
+    6  C006 has    2053     685     685        0.00
+    7  C007 has    1905     635     635        0.00
+    8  C008 has    7276    2432    2432        0.00
+    9  C009 has    2094     700     700        0.00
+   10  C010 has    7105    2379    2379        0.00
+   12  C012 has     435     145     145        1.84
+   13  C013 has    2114     708     708        0.00
+   14  C014 has     484     162     162        0.34
+ Total of55833 atoms and18671 groups and18661 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step        12
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18036771 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   909127 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 11802523 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   919139 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step        15
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     420     140     140        0.48
+    2  C002 has    2033     679     679        0.00
+    3  C003 has     532     178     178        1.41
+    4  C004 has    2027     679     679        0.00
+    5  C005 has    7227    2417    2417        0.00
+    6  C006 has    2050     684     684        0.00
+    7  C007 has    1905     635     635        0.00
+    8  C008 has    7279    2433    2433        0.00
+    9  C009 has    2100     702     702        0.00
+   10  C010 has    7105    2379    2379        0.00
+   12  C012 has     432     144     144        1.84
+   13  C013 has    2114     708     708        0.00
+   14  C014 has     484     162     162        0.33
+ Total of55812 atoms and18664 groups and18654 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step        15
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18042463 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   909598 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 11791758 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   918224 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step        16
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     420     140     140        0.48
+    2  C002 has    2033     679     679        0.00
+    3  C003 has     532     178     178        1.41
+    4  C004 has    2027     679     679        0.00
+    5  C005 has    7224    2416    2416        0.00
+    6  C006 has    2044     682     682        0.00
+    7  C007 has    1908     636     636        0.00
+    8  C008 has    7276    2432    2432        0.00
+    9  C009 has    2100     702     702        0.00
+   10  C010 has    7102    2378    2378        0.00
+   12  C012 has     432     144     144        1.84
+   13  C013 has    2114     708     708        0.00
+   14  C014 has     481     161     161        0.33
+ Total of55797 atoms and18659 groups and18649 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step        16
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18045166 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   909657 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 11787599 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   917998 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step        18
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     420     140     140        0.48
+    2  C002 has    2030     678     678        0.00
+    3  C003 has     532     178     178        1.41
+    4  C004 has    2027     679     679        0.00
+    5  C005 has    7224    2416    2416        0.00
+    6  C006 has    2041     681     681        0.00
+    7  C007 has    1908     636     636        0.00
+    8  C008 has    7279    2433    2433        0.00
+    9  C009 has    2100     702     702        0.00
+   10  C010 has    7102    2378    2378        0.00
+   12  C012 has     432     144     144        1.84
+   13  C013 has    2114     708     708        0.00
+   14  C014 has     481     161     161        0.33
+ Total of55794 atoms and18658 groups and18648 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step        18
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18045369 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   909552 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 11787201 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   917621 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step        19
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     420     140     140        0.48
+    2  C002 has    2030     678     678        0.00
+    3  C003 has     532     178     178        1.41
+    4  C004 has    2027     679     679        0.00
+    5  C005 has    7224    2416    2416        0.00
+    6  C006 has    2041     681     681        0.00
+    7  C007 has    1908     636     636        0.00
+    8  C008 has    7279    2433    2433        0.00
+    9  C009 has    2100     702     702        0.00
+   10  C010 has    7102    2378    2378        0.00
+   12  C012 has     432     144     144        1.85
+   13  C013 has    2114     708     708        0.00
+   14  C014 has     481     161     161        0.33
+ Total of55794 atoms and18658 groups and18648 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step        19
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18046448 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   909592 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 11785412 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   917508 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+MINI>       20 552831.12086 697145.82393    151.40419      0.00401
+MINI INTERN>     8158.17395   4062.82542      8.44956     15.88128      0.01894
+MINI EXTERN>   555097.28978 -80695.92569      0.00000      0.00000      0.00000
+MINI IMAGES>    74282.26447  -8698.03086      0.00000      0.00000      0.00000
+MINI EWALD>     13199.07615-459384.39564 446785.49349      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+MINI>       30 513484.00824  39347.11261     27.40130      0.00431
+MINI INTERN>     6777.99584   6220.14605      7.85632     15.70011      0.03887
+MINI EXTERN>   523675.08862 -85265.67445      0.00000      0.00000      0.00000
+MINI IMAGES>    71054.20834  -9204.21485      0.00000      0.00000      0.00000
+MINI EWALD>     12996.72278-459384.39564 446590.53626      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+ UPDECI: Image update at step        38
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     411     137     137        0.45
+    2  C002 has    2012     672     672        0.00
+    3  C003 has     535     179     179        1.45
+    4  C004 has    2024     678     678        0.00
+    5  C005 has    7227    2417    2417        0.00
+    6  C006 has    2050     684     684        0.00
+    7  C007 has    1908     636     636        0.00
+    8  C008 has    7279    2433    2433        0.00
+    9  C009 has    2079     695     695        0.00
+   10  C010 has    7099    2377    2377        0.00
+   12  C012 has     426     142     142        1.88
+   13  C013 has    2108     706     706        0.00
+   14  C014 has     469     157     157        0.30
+ Total of55731 atoms and18637 groups and18627 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step        38
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18081134 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   908586 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 11725969 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   910295 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+MINI>       40 487683.49251  25800.51574     63.28259      0.00464
+MINI INTERN>     6347.54741   8020.78569      7.30179     15.53891      0.04674
+MINI EXTERN>   504726.37217 -89226.88222      0.00000      0.00000      0.00000
+MINI IMAGES>    67763.19548  -9627.88703      0.00000      0.00000      0.00000
+MINI EWALD>     12587.49557-459384.39564 446454.37364      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+ UPDECI: Image update at step        47
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     411     137     137        0.44
+    2  C002 has    2006     670     670        0.00
+    3  C003 has     535     179     179        1.46
+    4  C004 has    2021     677     677        0.00
+    5  C005 has    7230    2418    2418        0.00
+    6  C006 has    2044     682     682        0.00
+    7  C007 has    1908     636     636        0.00
+    8  C008 has    7270    2430    2430        0.00
+    9  C009 has    2076     694     694        0.00
+   10  C010 has    7102    2378    2378        0.00
+   12  C012 has     426     142     142        1.89
+   13  C013 has    2102     704     704        0.00
+   14  C014 has     469     157     157        0.28
+ Total of55704 atoms and18628 groups and18618 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step        47
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18096369 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   908830 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 11699461 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   908311 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+MINI>       50 458774.11474  28909.37776     22.95489      0.00498
+MINI INTERN>     5575.70990   9190.50353      6.75186     15.41493      0.04525
+MINI EXTERN>   482858.74980 -92738.81605      0.00000      0.00000      0.00000
+MINI IMAGES>    65029.90650 -10068.83470      0.00000      0.00000      0.00000
+MINI EWALD>     11926.97881-459384.39564 446362.10056      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+MINI>       60 435298.96706  23475.14768     45.46627      0.00536
+MINI INTERN>     5158.39681   9817.49997      6.23369     15.34954      0.03964
+MINI EXTERN>   465458.93434 -95710.15688      0.00000      0.00000      0.00000
+MINI IMAGES>    62906.23080 -10460.77401      0.00000      0.00000      0.00000
+MINI EWALD>     11189.57541-459384.39564 446302.03339      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+MINI>       70 414049.35532  21249.61174     47.10991      0.00576
+MINI INTERN>     5156.70992  10049.87075      5.76498     15.34345      0.03289
+MINI EXTERN>   450160.00024 -98309.18360      0.00000      0.00000      0.00000
+MINI IMAGES>    60520.71021 -10819.39180      0.00000      0.00000      0.00000
+MINI EWALD>     10387.39830-459384.39564 446266.49562      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+ UPDECI: Image update at step        72
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     405     135     135        0.36
+    2  C002 has    1982     662     662        0.00
+    3  C003 has     529     177     177        1.42
+    4  C004 has    2015     675     675        0.00
+    5  C005 has    7221    2415    2415        0.00
+    6  C006 has    2035     679     679        0.00
+    7  C007 has    1908     636     636        0.00
+    8  C008 has    7274    2432    2432        0.00
+    9  C009 has    2049     685     685        0.00
+   10  C010 has    7123    2385    2385        0.00
+   12  C012 has     417     139     139        1.88
+   13  C013 has    2105     705     705        0.00
+   14  C014 has     466     156     156        0.24
+ Total of55633 atoms and18605 groups and18595 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step        72
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18148377 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   911043 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 11609163 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   902079 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step        76
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     405     135     135        0.34
+    2  C002 has    1985     663     663        0.00
+    3  C003 has     529     177     177        1.42
+    4  C004 has    2018     676     676        0.00
+    5  C005 has    7224    2416    2416        0.00
+    6  C006 has    2035     679     679        0.00
+    7  C007 has    1908     636     636        0.00
+    8  C008 has    7274    2432    2432        0.00
+    9  C009 has    2046     684     684        0.00
+   10  C010 has    7123    2385    2385        0.00
+   12  C012 has     417     139     139        1.88
+   13  C013 has    2105     705     705        0.00
+   14  C014 has     466     156     156        0.24
+ Total of55639 atoms and18607 groups and18597 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step        76
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18152954 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   911478 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 11600863 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   901601 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step        77
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     405     135     135        0.34
+    2  C002 has    1985     663     663        0.00
+    3  C003 has     529     177     177        1.42
+    4  C004 has    2021     677     677        0.00
+    5  C005 has    7224    2416    2416        0.00
+    6  C006 has    2035     679     679        0.00
+    7  C007 has    1908     636     636        0.00
+    8  C008 has    7274    2432    2432        0.00
+    9  C009 has    2046     684     684        0.00
+   10  C010 has    7123    2385    2385        0.00
+   12  C012 has     417     139     139        1.88
+   13  C013 has    2105     705     705        0.00
+   14  C014 has     466     156     156        0.24
+ Total of55642 atoms and18608 groups and18598 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step        77
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18154030 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   911604 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 11598807 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   901725 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+MINI>       80 404763.99863   9285.35669     27.04635      0.00258
+MINI INTERN>     5151.18447  10166.43350      5.58412     15.35512      0.03005
+MINI EXTERN>   443485.10859 -99341.18200      0.00000      0.00000      0.00000
+MINI IMAGES>    59352.53093 -10981.02819      0.00000      0.00000      0.00000
+MINI EWALD>     10046.35488-459384.39564 446248.02280      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+ UPDECI: Image update at step        82
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     405     135     135        0.33
+    2  C002 has    1982     662     662        0.00
+    3  C003 has     529     177     177        1.42
+    4  C004 has    2021     677     677        0.00
+    5  C005 has    7224    2416    2416        0.00
+    6  C006 has    2035     679     679        0.00
+    7  C007 has    1908     636     636        0.00
+    8  C008 has    7274    2432    2432        0.00
+    9  C009 has    2046     684     684        0.00
+   10  C010 has    7123    2385    2385        0.00
+   12  C012 has     417     139     139        1.87
+   13  C013 has    2108     706     706        0.00
+   14  C014 has     466     156     156        0.23
+ Total of55642 atoms and18608 groups and18598 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step        82
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18158544 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   911870 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 11590765 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   901121 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+MINI>       90 380565.81617  24198.18246     33.08216      0.00665
+MINI INTERN>     4615.33862   9790.12832      5.11374     15.42384      0.02203
+MINI EXTERN>   426760.00255-101932.02643      0.00000      0.00000      0.00000
+MINI IMAGES>    56844.67210 -11372.45217      0.00000      0.00000      0.00000
+MINI EWALD>      8986.32742-459384.39564 446237.66180      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+MINI>      100 382468.48966  -1902.67349    893.72929      0.00715
+MINI INTERN>     4810.45453   9487.51326      4.82617     15.49292      0.01683
+MINI EXTERN>   432989.82130-103553.33741      0.00000      0.00000      0.00000
+MINI IMAGES>    55145.64902 -11587.36036      0.00000      0.00000      0.00000
+MINI EWALD>      8304.66983-459384.39564 446235.13922      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+
+ STEEPD> Minimization exiting with number of steps limit (       100) exceeded.
+
+STPD MIN: Cycle      ENERgy      Delta-E         GRMS    Step-size
+STPD INTERN:          BONDs       ANGLes       UREY-b    DIHEdrals    IMPRopers
+STPD EXTERN:        VDWaals         ELEC       HBONds          ASP         USER
+STPD IMAGES:        IMNBvdw       IMELec       IMHBnd       RXNField    EXTElec
+STPD EWALD:          EWKSum       EWSElf       EWEXcl       EWQCor       EWUTil
+ ----------       ---------    ---------    ---------    ---------    ---------
+STPD>      100 382468.48966  -1902.67349    893.72929      0.00358
+STPD INTERN>     4810.45453   9487.51326      4.82617     15.49292      0.01683
+STPD EXTERN>   432989.82130-103553.33741      0.00000      0.00000      0.00000
+STPD IMAGES>    55145.64902 -11587.36036      0.00000      0.00000      0.00000
+STPD EWALD>      8304.66983-459384.39564 446235.13922      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+  
+ CHARMM>     
+  
+ CHARMM>    mini abnr nstep 3000 nprint 100 tolg 0.1
+
+ SELECTED IMAGES ATOMS BEING CENTERED ABOUT  0.000000  0.000000  0.000000
+ RESIDUE   22 OPERATED ON BY TRANSFORMATION C010
+ RESIDUE   97 OPERATED ON BY TRANSFORMATION C022
+ RESIDUE  129 OPERATED ON BY TRANSFORMATION C008
+ RESIDUE  179 OPERATED ON BY TRANSFORMATION C005
+ RESIDUE  409 OPERATED ON BY TRANSFORMATION C016
+ RESIDUE  494 OPERATED ON BY TRANSFORMATION C022
+ RESIDUE  543 OPERATED ON BY TRANSFORMATION C013
+ RESIDUE  586 OPERATED ON BY TRANSFORMATION C005
+ RESIDUE  647 OPERATED ON BY TRANSFORMATION C005
+ RESIDUE  746 OPERATED ON BY TRANSFORMATION C005
+ RESIDUE  750 OPERATED ON BY TRANSFORMATION C005
+ RESIDUE  753 OPERATED ON BY TRANSFORMATION C005
+ RESIDUE  937 OPERATED ON BY TRANSFORMATION C005
+ RESIDUE 1180 OPERATED ON BY TRANSFORMATION C010
+ RESIDUE 1373 OPERATED ON BY TRANSFORMATION C011
+ RESIDUE 1400 OPERATED ON BY TRANSFORMATION C011
+ RESIDUE 1413 OPERATED ON BY TRANSFORMATION C008
+ RESIDUE 2055 OPERATED ON BY TRANSFORMATION C022
+ RESIDUE 2111 OPERATED ON BY TRANSFORMATION C008
+ RESIDUE 2156 OPERATED ON BY TRANSFORMATION C008
+ RESIDUE 2270 OPERATED ON BY TRANSFORMATION C008
+ RESIDUE 2949 OPERATED ON BY TRANSFORMATION C010
+ RESIDUE 2961 OPERATED ON BY TRANSFORMATION C011
+ RESIDUE 3220 OPERATED ON BY TRANSFORMATION C011
+ RESIDUE 3271 OPERATED ON BY TRANSFORMATION C010
+ RESIDUE 3330 OPERATED ON BY TRANSFORMATION C011
+ RESIDUE 3336 OPERATED ON BY TRANSFORMATION C022
+ RESIDUE 3361 OPERATED ON BY TRANSFORMATION C011
+ RESIDUE 3508 OPERATED ON BY TRANSFORMATION C011
+ RESIDUE 3540 OPERATED ON BY TRANSFORMATION C011
+ RESIDUE 3634 OPERATED ON BY TRANSFORMATION C011
+ RESIDUE 3752 OPERATED ON BY TRANSFORMATION C011
+ RESIDUE 3778 OPERATED ON BY TRANSFORMATION C008
+ RESIDUE 3884 OPERATED ON BY TRANSFORMATION C022
+ RESIDUE 3895 OPERATED ON BY TRANSFORMATION C008
+ RESIDUE 4349 OPERATED ON BY TRANSFORMATION C022
+ RESIDUE 4483 OPERATED ON BY TRANSFORMATION C008
+ RESIDUE 4492 OPERATED ON BY TRANSFORMATION C022
+ RESIDUE 4651 OPERATED ON BY TRANSFORMATION C008
+ RESIDUE 4679 OPERATED ON BY TRANSFORMATION C008
+ RESIDUE 5247 OPERATED ON BY TRANSFORMATION C008
+ RESIDUE 5271 OPERATED ON BY TRANSFORMATION C011
+ RESIDUE 5404 OPERATED ON BY TRANSFORMATION C010
+ RESIDUE 5457 OPERATED ON BY TRANSFORMATION C011
+ RESIDUE 5496 OPERATED ON BY TRANSFORMATION C011
+ RESIDUE 5564 OPERATED ON BY TRANSFORMATION C011
+ RESIDUE 5568 OPERATED ON BY TRANSFORMATION C010
+ RESIDUE 5675 OPERATED ON BY TRANSFORMATION C011
+ RESIDUE 5750 OPERATED ON BY TRANSFORMATION C005
+ RESIDUE 5809 OPERATED ON BY TRANSFORMATION C005
+ RESIDUE 5894 OPERATED ON BY TRANSFORMATION C016
+ RESIDUE 6170 OPERATED ON BY TRANSFORMATION C005
+ RESIDUE 6199 OPERATED ON BY TRANSFORMATION C022
+ RESIDUE 6221 OPERATED ON BY TRANSFORMATION C008
+ RESIDUE 6448 OPERATED ON BY TRANSFORMATION C016
+ RESIDUE 6465 OPERATED ON BY TRANSFORMATION C005
+ RESIDUE 6561 OPERATED ON BY TRANSFORMATION C016
+ RESIDUE 6608 OPERATED ON BY TRANSFORMATION C016
+ RESIDUE 6664 OPERATED ON BY TRANSFORMATION C010
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     399     133     133        0.35
+    2  C002 has    2006     670     670        0.00
+    3  C003 has     520     174     174        1.47
+    4  C004 has    2030     680     680        0.00
+    5  C005 has    7218    2414    2414        0.00
+    6  C006 has    2008     670     670        0.00
+    7  C007 has    1905     635     635        0.00
+    8  C008 has    7262    2428    2428        0.00
+    9  C009 has    1995     667     667        0.00
+   10  C010 has    7114    2382    2382        0.00
+   12  C012 has     420     140     140        1.97
+   13  C013 has    2039     683     683        0.00
+   14  C014 has     457     153     153        0.27
+ Total of55477 atoms and18553 groups and18543 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+
+ NONBOND OPTION FLAGS: 
+     ELEC     VDW      ATOMs    CDIElec  FSHIft   VATOm    VFSWIt  
+     BYGRoup  NOEXtnd  EWALd   
+ CUTNB  = 14.000 CTEXNB =999.000 CTONNB = 10.000 CTOFNB = 12.000
+ CGONNB =  0.000 CGOFNB = 10.000
+ WMIN   =  1.500 WRNMXD =  0.500 E14FAC =  1.000 EPS    =  1.000
+ NBXMOD =      5
+ PME EWALD OPTIONS: KAPPA  =  0.350  QCOR =  0.000  Bspline order = 6
+ FFTX=  48  FFTY=  48  FFTZ=  48
+                Using Pub FFT
+                Real-to-Complex FFT
+ There are 18158544 atom  pairs and    20251 atom  exclusions.
+ There are        0 group pairs and       22 group exclusions.
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18202853 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   914899 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 11513403 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   897238 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+
+
+ ABNER> An energy minimization has been requested.
+
+ EIGRNG =    0.0005000   MINDIM =            5
+ NPRINT =          100   NSTEP  =         3000
+ PSTRCT =    0.0000000   SDSTP  =    0.0200000
+ STPLIM =    1.0000000   STRICT =    0.1000000
+ TOLFUN =    0.0000000   TOLGRD =    0.1000000
+ TOLITR =          100   TOLSTP =    0.0000000
+ FMEM   =    0.0000000
+MINI MIN: Cycle      ENERgy      Delta-E         GRMS    Step-size
+MINI INTERN:          BONDs       ANGLes       UREY-b    DIHEdrals    IMPRopers
+MINI EXTERN:        VDWaals         ELEC       HBONds          ASP         USER
+MINI IMAGES:        IMNBvdw       IMELec       IMHBnd       RXNField    EXTElec
+MINI EWALD:          EWKSum       EWSElf       EWEXcl       EWQCor       EWUTil
+ ----------       ---------    ---------    ---------    ---------    ---------
+MINI>        0 366181.34604  16287.14362     53.78173      0.00000
+MINI INTERN>     4509.94211   9488.73804      4.84441     15.48789      0.01716
+MINI EXTERN>   415275.36128-103462.51483      0.00000      0.00000      0.00000
+MINI IMAGES>    56752.13252 -11587.60786      0.00000      0.00000      0.00000
+MINI EWALD>      8332.36244-459384.39564 446236.97853      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+ UPDECI: Image update at step        18
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     399     133     133        0.31
+    2  C002 has    1991     665     665        0.00
+    3  C003 has     517     173     173        1.34
+    4  C004 has    2017     675     675        0.00
+    5  C005 has    7212    2412    2412        0.00
+    6  C006 has    2005     669     669        0.00
+    7  C007 has    1908     636     636        0.00
+    8  C008 has    7250    2424    2424        0.00
+    9  C009 has    1980     662     662        0.00
+   10  C010 has    7096    2376    2376        0.00
+   12  C012 has     411     137     137        1.93
+   13  C013 has    2030     680     680        0.00
+   14  C014 has     454     152     152        0.15
+ Total of55374 atoms and18518 groups and18508 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step        18
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18251148 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   920422 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 11430616 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   894299 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step        29
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     399     133     133        0.21
+    2  C002 has    1994     666     666        0.00
+    3  C003 has     520     174     174        1.24
+    4  C004 has    2008     672     672        0.00
+    5  C005 has    7191    2405    2405        0.00
+    6  C006 has    1999     667     667        0.00
+    7  C007 has    1914     638     638        0.00
+    8  C008 has    7241    2421    2421        0.00
+    9  C009 has    1968     658     658        0.00
+   10  C010 has    7093    2375    2375        0.00
+   12  C012 has     399     133     133        1.89
+   13  C013 has    2027     679     679        0.00
+   14  C014 has     451     151     151        0.06
+ Total of55308 atoms and18496 groups and18486 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step        29
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18293518 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   924859 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 11356873 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   891345 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step        44
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     393     131     131        0.07
+    2  C002 has    1976     660     660        0.00
+    3  C003 has     526     176     176        1.18
+    4  C004 has    1999     669     669        0.00
+    5  C005 has    7191    2405    2405        0.00
+    6  C006 has    1990     664     664        0.00
+    7  C007 has    1911     637     637        0.00
+    8  C008 has    7240    2420    2420        0.00
+    9  C009 has    1956     654     654        0.00
+   10  C010 has    7075    2369    2369        0.00
+   12  C012 has     396     132     132        1.83
+   13  C013 has    2012     674     674        0.00
+   14  C014 has     451     151     151        0.00
+ Total of55220 atoms and18466 groups and18456 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step        44
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18352915 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   929978 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 11255205 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   885138 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step        76
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     384     128     128        0.00
+    2  C002 has    1964     656     656        0.00
+    3  C003 has     529     177     177        1.13
+    4  C004 has    1975     661     661        0.00
+    5  C005 has    7176    2400    2400        0.00
+    6  C006 has    1955     653     653        0.00
+    7  C007 has    1887     629     629        0.00
+    8  C008 has    7219    2413    2413        0.00
+    9  C009 has    1944     650     650        0.00
+   10  C010 has    7081    2371    2371        0.00
+   12  C012 has     387     129     129        1.76
+   13  C013 has    1976     662     662        0.00
+   14  C014 has     445     149     149        0.00
+ Total of55026 atoms and18402 groups and18392 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step        76
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18474830 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   941120 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 11049279 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   873172 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step        82
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     384     128     128        0.00
+    2  C002 has    1961     655     655        0.00
+    3  C003 has     526     176     176        1.13
+    4  C004 has    1975     661     661        0.00
+    5  C005 has    7176    2400    2400        0.00
+    6  C006 has    1955     653     653        0.00
+    7  C007 has    1884     628     628        0.00
+    8  C008 has    7219    2413    2413        0.00
+    9  C009 has    1944     650     650        0.00
+   10  C010 has    7078    2370    2370        0.00
+   12  C012 has     387     129     129        1.74
+   13  C013 has    1976     662     662        0.00
+   14  C014 has     445     149     149        0.00
+ Total of55014 atoms and18398 groups and18388 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step        82
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18483883 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   941545 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 11033905 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   871997 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step        97
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     381     127     127        0.00
+    2  C002 has    1940     648     648        0.00
+    3  C003 has     529     177     177        1.14
+    4  C004 has    1963     657     657        0.00
+    5  C005 has    7158    2394    2394        0.00
+    6  C006 has    1931     645     645        0.00
+    7  C007 has    1881     627     627        0.00
+    8  C008 has    7219    2413    2413        0.00
+    9  C009 has    1941     649     649        0.00
+   10  C010 has    7066    2366    2366        0.00
+   12  C012 has     390     130     130        1.70
+   13  C013 has    1973     661     661        0.00
+   14  C014 has     442     148     148        0.00
+ Total of54918 atoms and18366 groups and18356 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step        97
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18529652 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   945946 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 10955020 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   867268 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+MINI>      100 229926.01419 136255.33185      9.18054      6.94511
+MINI INTERN>     3891.74847   6328.23906      2.82441     20.36029      0.00555
+MINI EXTERN>   321175.12611-116731.83123      0.00000      0.00000      0.00000
+MINI IMAGES>    39168.50510 -13113.38193      0.00000      0.00000      0.00000
+MINI EWALD>      2323.81733-459384.39564 446244.99667      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+ UPDECI: Image update at step       114
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     372     124     124        0.00
+    2  C002 has    1937     647     647        0.00
+    3  C003 has     526     176     176        1.16
+    4  C004 has    1957     655     655        0.00
+    5  C005 has    7128    2384    2384        0.00
+    6  C006 has    1925     643     643        0.00
+    7  C007 has    1869     623     623        0.00
+    8  C008 has    7201    2407    2407        0.00
+    9  C009 has    1917     641     641        0.00
+   10  C010 has    7060    2364    2364        0.00
+   12  C012 has     399     133     133        1.70
+   13  C013 has    1967     659     659        0.00
+   14  C014 has     439     147     147        0.00
+ Total of54801 atoms and18327 groups and18317 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       114
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18588780 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   951040 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 10855692 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   861029 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       131
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     360     120     120        0.00
+    2  C002 has    1934     646     646        0.00
+    3  C003 has     526     176     176        0.60
+    4  C004 has    1954     654     654        0.00
+    5  C005 has    7101    2375    2375        0.00
+    6  C006 has    1913     639     639        0.00
+    7  C007 has    1860     620     620        0.00
+    8  C008 has    7204    2408    2408        0.00
+    9  C009 has    1911     639     639        0.00
+   10  C010 has    7048    2360    2360        0.00
+   12  C012 has     399     133     133        1.37
+   13  C013 has    1976     662     662        0.00
+   14  C014 has     436     146     146        0.00
+ Total of54726 atoms and18302 groups and18292 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       131
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18632089 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   955524 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 10785305 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   857473 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       132
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     360     120     120        0.00
+    2  C002 has    1934     646     646        0.00
+    3  C003 has     526     176     176        0.99
+    4  C004 has    1954     654     654        0.00
+    5  C005 has    7104    2376    2376        0.00
+    6  C006 has    1913     639     639        0.00
+    7  C007 has    1860     620     620        0.00
+    8  C008 has    7195    2405    2405        0.00
+    9  C009 has    1911     639     639        0.00
+   10  C010 has    7048    2360    2360        0.00
+   12  C012 has     399     133     133        1.59
+   13  C013 has    1970     660     660        0.00
+   14  C014 has     436     146     146        0.00
+ Total of54714 atoms and18298 groups and18288 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       132
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18629698 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   955157 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 10789286 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   857184 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       134
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     360     120     120        0.00
+    2  C002 has    1934     646     646        0.00
+    3  C003 has     526     176     176        1.10
+    4  C004 has    1954     654     654        0.00
+    5  C005 has    7104    2376    2376        0.00
+    6  C006 has    1913     639     639        0.00
+    7  C007 has    1860     620     620        0.00
+    8  C008 has    7192    2404    2404        0.00
+    9  C009 has    1908     638     638        0.00
+   10  C010 has    7048    2360    2360        0.00
+   12  C012 has     399     133     133        1.67
+   13  C013 has    1970     660     660        0.00
+   14  C014 has     436     146     146        0.00
+ Total of54708 atoms and18296 groups and18286 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       134
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18630392 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   955209 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 10788102 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   857004 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       135
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     360     120     120        0.00
+    2  C002 has    1934     646     646        0.00
+    3  C003 has     526     176     176        1.17
+    4  C004 has    1954     654     654        0.00
+    5  C005 has    7104    2376    2376        0.00
+    6  C006 has    1913     639     639        0.00
+    7  C007 has    1857     619     619        0.00
+    8  C008 has    7192    2404    2404        0.00
+    9  C009 has    1908     638     638        0.00
+   10  C010 has    7048    2360    2360        0.00
+   12  C012 has     399     133     133        1.72
+   13  C013 has    1967     659     659        0.00
+   14  C014 has     436     146     146        0.00
+ Total of54702 atoms and18294 groups and18284 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       135
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18631317 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   955301 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 10786815 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   857124 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       136
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     360     120     120        0.00
+    2  C002 has    1934     646     646        0.00
+    3  C003 has     526     176     176        1.19
+    4  C004 has    1954     654     654        0.00
+    5  C005 has    7104    2376    2376        0.00
+    6  C006 has    1913     639     639        0.00
+    7  C007 has    1860     620     620        0.00
+    8  C008 has    7192    2404    2404        0.00
+    9  C009 has    1908     638     638        0.00
+   10  C010 has    7048    2360    2360        0.00
+   12  C012 has     399     133     133        1.73
+   13  C013 has    1970     660     660        0.00
+   14  C014 has     436     146     146        0.00
+ Total of54708 atoms and18296 groups and18286 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       136
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18628951 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   955047 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 10790499 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   857125 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       137
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     360     120     120        0.00
+    2  C002 has    1934     646     646        0.00
+    3  C003 has     526     176     176        0.79
+    4  C004 has    1954     654     654        0.00
+    5  C005 has    7104    2376    2376        0.00
+    6  C006 has    1913     639     639        0.00
+    7  C007 has    1860     620     620        0.00
+    8  C008 has    7195    2405    2405        0.00
+    9  C009 has    1908     638     638        0.00
+   10  C010 has    7048    2360    2360        0.00
+   12  C012 has     399     133     133        1.47
+   13  C013 has    1970     660     660        0.00
+   14  C014 has     436     146     146        0.00
+ Total of54711 atoms and18297 groups and18287 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       137
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18628844 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   955070 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 10790571 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   857150 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       147
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     360     120     120        0.00
+    2  C002 has    1916     640     640        0.00
+    3  C003 has     526     176     176        0.70
+    4  C004 has    1945     651     651        0.00
+    5  C005 has    7098    2374    2374        0.00
+    6  C006 has    1910     638     638        0.00
+    7  C007 has    1842     614     614        0.00
+    8  C008 has    7192    2404    2404        0.00
+    9  C009 has    1899     635     635        0.00
+   10  C010 has    7036    2356    2356        0.00
+   12  C012 has     396     132     132        1.44
+   13  C013 has    1967     659     659        0.00
+   14  C014 has     433     145     145        0.00
+ Total of54624 atoms and18268 groups and18258 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       147
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18665932 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   958771 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 10731307 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   853572 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       158
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     357     119     119        0.00
+    2  C002 has    1913     639     639        0.00
+    3  C003 has     520     174     174        0.28
+    4  C004 has    1945     651     651        0.00
+    5  C005 has    7098    2374    2374        0.00
+    6  C006 has    1904     636     636        0.00
+    7  C007 has    1818     606     606        0.00
+    8  C008 has    7201    2407    2407        0.00
+    9  C009 has    1884     630     630        0.00
+   10  C010 has    7021    2351    2351        0.00
+   12  C012 has     393     131     131        1.00
+   13  C013 has    1970     660     660        0.00
+   14  C014 has     430     144     144        0.00
+ Total of54558 atoms and18246 groups and18236 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       158
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18712903 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   963068 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 10659187 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   849430 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       165
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     357     119     119        0.00
+    2  C002 has    1907     637     637        0.00
+    3  C003 has     520     174     174        0.76
+    4  C004 has    1936     648     648        0.00
+    5  C005 has    7083    2369    2369        0.00
+    6  C006 has    1901     635     635        0.00
+    7  C007 has    1812     604     604        0.00
+    8  C008 has    7177    2399    2399        0.00
+    9  C009 has    1881     629     629        0.00
+   10  C010 has    7006    2346    2346        0.00
+   12  C012 has     393     131     131        1.44
+   13  C013 has    1967     659     659        0.00
+   14  C014 has     427     143     143        0.00
+ Total of54471 atoms and18217 groups and18207 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       165
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18734201 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   964469 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 10627320 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   846980 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       166
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     357     119     119        0.00
+    2  C002 has    1907     637     637        0.00
+    3  C003 has     520     174     174        0.82
+    4  C004 has    1939     649     649        0.00
+    5  C005 has    7083    2369    2369        0.00
+    6  C006 has    1901     635     635        0.00
+    7  C007 has    1812     604     604        0.00
+    8  C008 has    7177    2399    2399        0.00
+    9  C009 has    1881     629     629        0.00
+   10  C010 has    7009    2347    2347        0.00
+   12  C012 has     393     131     131        1.50
+   13  C013 has    1967     659     659        0.00
+   14  C014 has     427     143     143        0.00
+ Total of54477 atoms and18219 groups and18209 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       166
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18731769 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   964545 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 10630586 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   847260 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       168
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     357     119     119        0.00
+    2  C002 has    1907     637     637        0.00
+    3  C003 has     520     174     174        0.61
+    4  C004 has    1939     649     649        0.00
+    5  C005 has    7083    2369    2369        0.00
+    6  C006 has    1901     635     635        0.00
+    7  C007 has    1812     604     604        0.00
+    8  C008 has    7183    2401    2401        0.00
+    9  C009 has    1881     629     629        0.00
+   10  C010 has    7009    2347    2347        0.00
+   12  C012 has     393     131     131        1.30
+   13  C013 has    1970     660     660        0.00
+   14  C014 has     427     143     143        0.00
+ Total of54486 atoms and18222 groups and18212 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       168
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18730026 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   964719 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 10633150 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   847653 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       182
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     354     118     118        0.00
+    2  C002 has    1904     636     636        0.00
+    3  C003 has     523     175     175        0.46
+    4  C004 has    1933     647     647        0.00
+    5  C005 has    7068    2364    2364        0.00
+    6  C006 has    1883     629     629        0.00
+    7  C007 has    1797     599     599        0.00
+    8  C008 has    7195    2405    2405        0.00
+    9  C009 has    1878     628     628        0.00
+   10  C010 has    7006    2346    2346        0.00
+   12  C012 has     390     130     130        1.11
+   13  C013 has    1958     656     656        0.00
+   14  C014 has     424     142     142        0.00
+ Total of54417 atoms and18199 groups and18189 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       182
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18775827 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   968601 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 10565004 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   842673 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       189
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     354     118     118        0.00
+    2  C002 has    1889     631     631        0.00
+    3  C003 has     520     174     174        0.08
+    4  C004 has    1921     643     643        0.00
+    5  C005 has    7053    2359    2359        0.00
+    6  C006 has    1877     627     627        0.00
+    7  C007 has    1788     596     596        0.00
+    8  C008 has    7189    2403    2403        0.00
+    9  C009 has    1866     624     624        0.00
+   10  C010 has    7003    2345    2345        0.00
+   12  C012 has     390     130     130        0.72
+   13  C013 has    1961     657     657        0.00
+   14  C014 has     418     140     140        0.00
+ Total of54333 atoms and18171 groups and18161 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       189
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18808231 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   971581 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 10517489 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   839255 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       195
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     351     117     117        0.00
+    2  C002 has    1883     629     629        0.00
+    3  C003 has     520     174     174        0.00
+    4  C004 has    1918     642     642        0.00
+    5  C005 has    7041    2355    2355        0.00
+    6  C006 has    1868     624     624        0.00
+    7  C007 has    1785     595     595        0.00
+    8  C008 has    7195    2405    2405        0.00
+    9  C009 has    1860     622     622        0.00
+   10  C010 has    6994    2342    2342        0.00
+   12  C012 has     390     130     130        0.48
+   13  C013 has    1970     660     660        0.00
+   14  C014 has     418     140     140        0.00
+ Total of54297 atoms and18159 groups and18149 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       195
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18834806 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   973745 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 10479368 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   836859 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+MINI>      200 176037.71422  53888.29997     47.06772      5.60706
+MINI INTERN>     4009.10552   5299.83097      3.93985     34.31423      0.02700
+MINI EXTERN>   282496.86607-122108.97092      0.00000      0.00000      0.00000
+MINI IMAGES>    31931.88960 -13307.13866      0.00000      0.00000      0.00000
+MINI EWALD>       821.86191-459384.39564 446240.38429      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+ UPDECI: Image update at step       202
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     351     117     117        0.00
+    2  C002 has    1877     627     627        0.00
+    3  C003 has     520     174     174        0.07
+    4  C004 has    1915     641     641        0.00
+    5  C005 has    7041    2355    2355        0.00
+    6  C006 has    1856     620     620        0.00
+    7  C007 has    1776     592     592        0.00
+    8  C008 has    7177    2399    2399        0.00
+    9  C009 has    1860     622     622        0.00
+   10  C010 has    6988    2340    2340        0.00
+   12  C012 has     390     130     130        0.67
+   13  C013 has    1967     659     659        0.00
+   14  C014 has     418     140     140        0.00
+ Total of54240 atoms and18140 groups and18130 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       202
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18851729 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   975113 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 10455712 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   835368 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       203
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     351     117     117        0.00
+    2  C002 has    1877     627     627        0.00
+    3  C003 has     520     174     174        0.06
+    4  C004 has    1915     641     641        0.00
+    5  C005 has    7041    2355    2355        0.00
+    6  C006 has    1856     620     620        0.00
+    7  C007 has    1776     592     592        0.00
+    8  C008 has    7183    2401    2401        0.00
+    9  C009 has    1860     622     622        0.00
+   10  C010 has    6988    2340    2340        0.00
+   12  C012 has     390     130     130        0.66
+   13  C013 has    1967     659     659        0.00
+   14  C014 has     418     140     140        0.00
+ Total of54246 atoms and18142 groups and18132 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       203
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18850561 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   974977 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 10457538 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   835292 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       207
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     351     117     117        0.00
+    2  C002 has    1880     628     628        0.00
+    3  C003 has     520     174     174        0.07
+    4  C004 has    1915     641     641        0.00
+    5  C005 has    7041    2355    2355        0.00
+    6  C006 has    1856     620     620        0.00
+    7  C007 has    1776     592     592        0.00
+    8  C008 has    7177    2399    2399        0.00
+    9  C009 has    1863     623     623        0.00
+   10  C010 has    6988    2340    2340        0.00
+   12  C012 has     390     130     130        0.67
+   13  C013 has    1961     657     657        0.00
+   14  C014 has     418     140     140        0.00
+ Total of54240 atoms and18140 groups and18130 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       207
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18851394 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   974988 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 10456299 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   835047 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       209
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     351     117     117        0.00
+    2  C002 has    1880     628     628        0.00
+    3  C003 has     520     174     174        0.08
+    4  C004 has    1915     641     641        0.00
+    5  C005 has    7041    2355    2355        0.00
+    6  C006 has    1856     620     620        0.00
+    7  C007 has    1776     592     592        0.00
+    8  C008 has    7174    2398    2398        0.00
+    9  C009 has    1863     623     623        0.00
+   10  C010 has    6988    2340    2340        0.00
+   12  C012 has     390     130     130        0.67
+   13  C013 has    1958     656     656        0.00
+   14  C014 has     418     140     140        0.00
+ Total of54234 atoms and18138 groups and18128 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       209
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18851887 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   974996 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 10455651 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   834958 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       216
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     351     117     117        0.00
+    2  C002 has    1877     627     627        0.00
+    3  C003 has     517     173     173        0.16
+    4  C004 has    1915     641     641        0.00
+    5  C005 has    7032    2352    2352        0.00
+    6  C006 has    1853     619     619        0.00
+    7  C007 has    1776     592     592        0.00
+    8  C008 has    7168    2396    2396        0.00
+    9  C009 has    1860     622     622        0.00
+   10  C010 has    6991    2341    2341        0.00
+   12  C012 has     390     130     130        0.75
+   13  C013 has    1952     654     654        0.00
+   14  C014 has     418     140     140        0.00
+ Total of54204 atoms and18128 groups and18118 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       216
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18863060 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   975828 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 10440224 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   833699 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       223
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     348     116     116        0.00
+    2  C002 has    1874     626     626        0.00
+    3  C003 has     514     172     172        0.28
+    4  C004 has    1915     641     641        0.00
+    5  C005 has    7029    2351    2351        0.00
+    6  C006 has    1847     617     617        0.00
+    7  C007 has    1773     591     591        0.00
+    8  C008 has    7165    2395    2395        0.00
+    9  C009 has    1860     622     622        0.00
+   10  C010 has    7000    2344    2344        0.00
+   12  C012 has     387     129     129        0.85
+   13  C013 has    1949     653     653        0.00
+   14  C014 has     412     138     138        0.00
+ Total of54177 atoms and18119 groups and18109 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       223
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18886254 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   978194 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 10408469 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   831630 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       238
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     348     116     116        0.00
+    2  C002 has    1856     620     620        0.00
+    3  C003 has     514     172     172        0.39
+    4  C004 has    1891     633     633        0.00
+    5  C005 has    7008    2344    2344        0.00
+    6  C006 has    1820     608     608        0.00
+    7  C007 has    1755     585     585        0.00
+    8  C008 has    7156    2392    2392        0.00
+    9  C009 has    1848     618     618        0.00
+   10  C010 has    6961    2331    2331        0.00
+   12  C012 has     381     127     127        0.87
+   13  C013 has    1946     652     652        0.00
+   14  C014 has     400     134     134        0.00
+ Total of53988 atoms and18056 groups and18046 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       238
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18950657 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   984011 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 10320841 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   825381 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       254
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     345     115     115        0.00
+    2  C002 has    1862     622     622        0.00
+    3  C003 has     505     169     169        0.59
+    4  C004 has    1888     632     632        0.00
+    5  C005 has    6987    2337    2337        0.00
+    6  C006 has    1808     604     604        0.00
+    7  C007 has    1749     583     583        0.00
+    8  C008 has    7135    2385    2385        0.00
+    9  C009 has    1836     614     614        0.00
+   10  C010 has    6970    2334    2334        0.00
+   12  C012 has     378     126     126        0.96
+   13  C013 has    1958     656     656        0.00
+   14  C014 has     403     135     135        0.00
+ Total of53928 atoms and18036 groups and18026 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       254
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 19017367 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   988635 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 10234748 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   819100 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       255
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     342     114     114        0.00
+    2  C002 has    1859     621     621        0.00
+    3  C003 has     505     169     169        0.44
+    4  C004 has    1888     632     632        0.00
+    5  C005 has    6993    2339    2339        0.00
+    6  C006 has    1808     604     604        0.00
+    7  C007 has    1749     583     583        0.00
+    8  C008 has    7135    2385    2385        0.00
+    9  C009 has    1833     613     613        0.00
+   10  C010 has    6970    2334    2334        0.00
+   12  C012 has     378     126     126        0.82
+   13  C013 has    1955     655     655        0.00
+   14  C014 has     403     135     135        0.00
+ Total of53922 atoms and18034 groups and18024 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       255
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 19013541 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   988826 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 10239180 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   819331 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       282
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     348     116     116        0.00
+    2  C002 has    1832     612     612        0.00
+    3  C003 has     514     172     172        0.21
+    4  C004 has    1870     626     626        0.00
+    5  C005 has    6966    2330    2330        0.00
+    6  C006 has    1799     601     601        0.00
+    7  C007 has    1740     580     580        0.00
+    8  C008 has    7129    2383    2383        0.00
+    9  C009 has    1821     609     609        0.00
+   10  C010 has    6961    2331    2331        0.00
+   12  C012 has     372     124     124        0.43
+   13  C013 has    1952     654     654        0.00
+   14  C014 has     391     131     131        0.00
+ Total of53799 atoms and17993 groups and17983 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       282
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 19108882 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   996075 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 10119747 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   810918 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       293
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     345     115     115        0.00
+    2  C002 has    1826     610     610        0.00
+    3  C003 has     511     171     171        0.18
+    4  C004 has    1861     623     623        0.00
+    5  C005 has    6954    2326    2326        0.00
+    6  C006 has    1793     599     599        0.00
+    7  C007 has    1731     577     577        0.00
+    8  C008 has    7135    2385    2385        0.00
+    9  C009 has    1815     607     607        0.00
+   10  C010 has    6946    2326    2326        0.00
+   12  C012 has     369     123     123        0.34
+   13  C013 has    1949     653     653        0.00
+   14  C014 has     391     131     131        0.00
+ Total of53730 atoms and17970 groups and17960 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       293
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 19150992 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   998030 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 10069362 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   806383 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       294
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     345     115     115        0.00
+    2  C002 has    1832     612     612        0.00
+    3  C003 has     511     171     171        0.18
+    4  C004 has    1861     623     623        0.00
+    5  C005 has    6960    2328    2328        0.00
+    6  C006 has    1793     599     599        0.00
+    7  C007 has    1734     578     578        0.00
+    8  C008 has    7138    2386    2386        0.00
+    9  C009 has    1818     608     608        0.00
+   10  C010 has    6949    2327    2327        0.00
+   12  C012 has     369     123     123        0.33
+   13  C013 has    1952     654     654        0.00
+   14  C014 has     391     131     131        0.00
+ Total of53757 atoms and17979 groups and17969 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       294
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 19148650 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   999042 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 10072224 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   807420 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       299
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     345     115     115        0.00
+    2  C002 has    1829     611     611        0.00
+    3  C003 has     511     171     171        0.14
+    4  C004 has    1864     624     624        0.00
+    5  C005 has    6957    2327    2327        0.00
+    6  C006 has    1793     599     599        0.00
+    7  C007 has    1734     578     578        0.00
+    8  C008 has    7135    2385    2385        0.00
+    9  C009 has    1812     606     606        0.00
+   10  C010 has    6949    2327    2327        0.00
+   12  C012 has     366     122     122        0.29
+   13  C013 has    1949     653     653        0.00
+   14  C014 has     391     131     131        0.00
+ Total of53739 atoms and17973 groups and17963 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       299
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 19157942 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   999336 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 10060998 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   806368 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+MINI>      300 146351.76379  29685.95043      6.59305      3.71737
+MINI INTERN>     3981.22785   4880.11576     10.64243     51.82539      0.00844
+MINI EXTERN>   261141.44936-124967.58320      0.00000      0.00000      0.00000
+MINI IMAGES>    27349.88375 -13254.33787      0.00000      0.00000      0.00000
+MINI EWALD>       302.87259-459384.39564 446240.05495      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+ UPDECI: Image update at step       312
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     342     114     114        0.00
+    2  C002 has    1802     602     602        0.00
+    3  C003 has     511     171     171        0.03
+    4  C004 has    1855     621     621        0.00
+    5  C005 has    6948    2324    2324        0.00
+    6  C006 has    1796     600     600        0.00
+    7  C007 has    1722     574     574        0.00
+    8  C008 has    7123    2381    2381        0.00
+    9  C009 has    1803     603     603        0.00
+   10  C010 has    6937    2323    2323        0.00
+   12  C012 has     363     121     121        0.16
+   13  C013 has    1961     657     657        0.00
+   14  C014 has     391     131     131        0.00
+ Total of53658 atoms and17946 groups and17936 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       312
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 19223509 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1004096 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+  9984905 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   800910 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       324
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     345     115     115        0.00
+    2  C002 has    1781     595     595        0.00
+    3  C003 has     511     171     171        0.00
+    4  C004 has    1852     620     620        0.00
+    5  C005 has    6950    2324    2324        0.00
+    6  C006 has    1790     598     598        0.00
+    7  C007 has    1719     573     573        0.00
+    8  C008 has    7132    2384    2384        0.00
+    9  C009 has    1803     603     603        0.00
+   10  C010 has    6934    2322    2322        0.00
+   12  C012 has     363     121     121        0.00
+   13  C013 has    1960     656     656        0.00
+   14  C014 has     391     131     131        0.00
+ Total of53635 atoms and17937 groups and17927 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       324
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 19267306 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1007214 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+  9934422 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   797240 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       338
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     345     115     115        0.00
+    2  C002 has    1769     591     591        0.00
+    3  C003 has     502     168     168        0.00
+    4  C004 has    1846     618     618        0.00
+    5  C005 has    6959    2327    2327        0.00
+    6  C006 has    1787     597     597        0.00
+    7  C007 has    1707     569     569        0.00
+    8  C008 has    7117    2379    2379        0.00
+    9  C009 has    1800     602     602        0.00
+   10  C010 has    6925    2319    2319        0.00
+   12  C012 has     357     119     119        0.00
+   13  C013 has    1966     658     658        0.00
+   14  C014 has     388     130     130        0.00
+ Total of53572 atoms and17916 groups and17906 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       338
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 19329375 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1012457 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+  9864725 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   792143 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       369
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     351     117     117        0.00
+    2  C002 has    1778     594     594        0.00
+    3  C003 has     502     168     168        0.00
+    4  C004 has    1849     619     619        0.00
+    5  C005 has    6962    2328    2328        0.00
+    6  C006 has    1781     595     595        0.00
+    7  C007 has    1704     568     568        0.00
+    8  C008 has    7111    2377    2377        0.00
+    9  C009 has    1791     599     599        0.00
+   10  C010 has    6913    2315    2315        0.00
+   12  C012 has     357     119     119        0.11
+   13  C013 has    1936     648     648        0.00
+   14  C014 has     388     130     130        0.00
+ Total of53527 atoms and17901 groups and17891 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       369
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 19376190 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1016675 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+  9814911 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   788894 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+MINI>      400 128465.19355  17886.57024      1.75009      1.31420
+MINI INTERN>     4192.03073   4550.30773     15.92337     63.41479      0.29834
+MINI EXTERN>   250079.24337-128569.25825      0.00000      0.00000      0.00000
+MINI IMAGES>    24555.51487 -13423.39588      0.00000      0.00000      0.00000
+MINI EWALD>       154.96843-459384.39564 446230.54169      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+ UPDECI: Image update at step       402
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     345     115     115        0.00
+    2  C002 has    1769     591     591        0.00
+    3  C003 has     487     163     163        0.00
+    4  C004 has    1840     616     616        0.00
+    5  C005 has    6974    2332    2332        0.00
+    6  C006 has    1772     592     592        0.00
+    7  C007 has    1698     566     566        0.00
+    8  C008 has    7105    2375    2375        0.00
+    9  C009 has    1806     604     604        0.00
+   10  C010 has    6919    2317    2317        0.00
+   12  C012 has     360     120     120        0.25
+   13  C013 has    1918     642     642        0.00
+   14  C014 has     391     131     131        0.00
+ Total of53488 atoms and17888 groups and17878 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       402
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 19435301 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1021154 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+  9751617 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   784606 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       440
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     348     116     116        0.00
+    2  C002 has    1769     591     591        0.00
+    3  C003 has     484     162     162        0.00
+    4  C004 has    1843     617     617        0.00
+    5  C005 has    6983    2335    2335        0.00
+    6  C006 has    1777     593     593        0.00
+    7  C007 has    1692     564     564        0.00
+    8  C008 has    7099    2373    2373        0.00
+    9  C009 has    1824     610     610        0.00
+   10  C010 has    6940    2324    2324        0.00
+   12  C012 has     363     121     121        0.53
+   13  C013 has    1918     642     642        0.00
+   14  C014 has     394     132     132        0.00
+ Total of53538 atoms and17904 groups and17894 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       440
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 19465064 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1023665 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+  9719900 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   782173 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       473
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     354     118     118        0.00
+    2  C002 has    1769     591     591        0.00
+    3  C003 has     487     163     163        0.00
+    4  C004 has    1849     619     619        0.00
+    5  C005 has    7010    2344    2344        0.00
+    6  C006 has    1795     599     599        0.00
+    7  C007 has    1683     561     561        0.00
+    8  C008 has    7117    2379    2379        0.00
+    9  C009 has    1821     609     609        0.00
+   10  C010 has    6946    2326    2326        0.00
+   12  C012 has     372     124     124        0.61
+   13  C013 has    1907     639     639        0.00
+   14  C014 has     388     130     130        0.00
+ Total of53602 atoms and17926 groups and17916 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       473
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 19459318 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1024959 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+  9725962 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   782331 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+MINI>      500 119342.11094   9123.08261      4.02960      1.65567
+MINI INTERN>     4159.58649   4462.98685     17.14232     67.58364      0.74964
+MINI EXTERN>   243139.39446-130299.92821      0.00000      0.00000      0.00000
+MINI IMAGES>    24437.16567 -13622.94888      0.00000      0.00000      0.00000
+MINI EWALD>       133.85692-459384.39564 446230.91769      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+ UPDECI: Image update at step       512
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     363     121     121        0.00
+    2  C002 has    1784     596     596        0.00
+    3  C003 has     490     164     164        0.00
+    4  C004 has    1858     622     622        0.00
+    5  C005 has    7023    2349    2349        0.00
+    6  C006 has    1798     600     600        0.00
+    7  C007 has    1695     565     565        0.00
+    8  C008 has    7114    2378    2378        0.00
+    9  C009 has    1812     606     606        0.00
+   10  C010 has    6961    2331    2331        0.00
+   12  C012 has     390     130     130        0.60
+   13  C013 has    1910     640     640        0.00
+   14  C014 has     388     130     130        0.00
+ Total of53690 atoms and17956 groups and17946 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       512
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 19442773 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1024233 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+  9744121 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   783135 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       554
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     363     121     121        0.00
+    2  C002 has    1796     600     600        0.00
+    3  C003 has     499     167     167        0.00
+    4  C004 has    1861     623     623        0.00
+    5  C005 has    7064    2362    2362        0.00
+    6  C006 has    1792     598     598        0.00
+    7  C007 has    1689     563     563        0.00
+    8  C008 has    7141    2387    2387        0.00
+    9  C009 has    1809     605     605        0.00
+   10  C010 has    6952    2328    2328        0.00
+   12  C012 has     390     130     130        0.55
+   13  C013 has    1925     645     645        0.00
+   14  C014 has     394     132     132        0.00
+ Total of53779 atoms and17985 groups and17975 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       554
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 19440938 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1024714 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+  9743964 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   783088 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+MINI>      600 113694.10791   5648.00303      0.98821      0.13501
+MINI INTERN>     4204.36171   4286.83501     17.18665     75.41294      0.04798
+MINI EXTERN>   239695.19217-131918.85831      0.00000      0.00000      0.00000
+MINI IMAGES>    24278.06726 -13905.21119      0.00000      0.00000      0.00000
+MINI EWALD>       112.35824-459384.39564 446233.11112      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+ UPDECI: Image update at step       603
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     357     119     119        0.00
+    2  C002 has    1820     608     608        0.00
+    3  C003 has     496     166     166        0.00
+    4  C004 has    1843     617     617        0.00
+    5  C005 has    7091    2371    2371        0.00
+    6  C006 has    1792     598     598        0.00
+    7  C007 has    1701     567     567        0.00
+    8  C008 has    7159    2393    2393        0.00
+    9  C009 has    1839     615     615        0.00
+   10  C010 has    6976    2336    2336        0.00
+   12  C012 has     387     129     129        0.51
+   13  C013 has    1919     643     643        0.00
+   14  C014 has     385     129     129        0.00
+ Total of53869 atoms and18015 groups and18005 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       603
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 19451434 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1026276 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+  9732884 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   782654 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       658
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     354     118     118        0.00
+    2  C002 has    1826     610     610        0.00
+    3  C003 has     490     164     164        0.00
+    4  C004 has    1840     616     616        0.00
+    5  C005 has    7097    2373    2373        0.00
+    6  C006 has    1789     597     597        0.00
+    7  C007 has    1701     567     567        0.00
+    8  C008 has    7174    2398    2398        0.00
+    9  C009 has    1839     615     615        0.00
+   10  C010 has    6958    2330    2330        0.00
+   12  C012 has     387     129     129        0.56
+   13  C013 has    1943     651     651        0.00
+   14  C014 has     382     128     128        0.00
+ Total of53884 atoms and18020 groups and18010 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       658
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 19458066 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1026410 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+  9726113 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   782333 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+MINI>      700 111090.86318   2603.24474      1.02495      0.27245
+MINI INTERN>     4284.02566   4211.29699     17.67605     94.94182      0.00006
+MINI EXTERN>   238041.37363-132454.82223      0.00000      0.00000      0.00000
+MINI IMAGES>    24223.40640 -14278.91845      0.00000      0.00000      0.00000
+MINI EWALD>       104.40125-459384.39564 446231.87762      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+ UPDECI: Image update at step       701
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     348     116     116        0.00
+    2  C002 has    1838     614     614        0.00
+    3  C003 has     496     166     166        0.00
+    4  C004 has    1846     618     618        0.00
+    5  C005 has    7085    2369    2369        0.00
+    6  C006 has    1789     597     597        0.00
+    7  C007 has    1698     566     566        0.00
+    8  C008 has    7174    2398    2398        0.00
+    9  C009 has    1836     614     614        0.00
+   10  C010 has    6955    2329    2329        0.00
+   12  C012 has     393     131     131        0.54
+   13  C013 has    1937     649     649        0.00
+   14  C014 has     382     128     128        0.00
+ Total of53881 atoms and18019 groups and18009 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       701
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 19460427 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1027361 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+  9724126 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   782979 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       753
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     345     115     115        0.00
+    2  C002 has    1820     608     608        0.00
+    3  C003 has     496     166     166        0.00
+    4  C004 has    1849     619     619        0.00
+    5  C005 has    7097    2373    2373        0.00
+    6  C006 has    1789     597     597        0.00
+    7  C007 has    1695     565     565        0.00
+    8  C008 has    7177    2399    2399        0.00
+    9  C009 has    1851     619     619        0.00
+   10  C010 has    6958    2330    2330        0.00
+   12  C012 has     387     129     129        0.50
+   13  C013 has    1946     652     652        0.00
+   14  C014 has     382     128     128        0.00
+ Total of53896 atoms and18024 groups and18014 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       753
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 19461113 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1026680 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+  9722584 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   782533 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+MINI>      800 109639.46330   1451.39988      0.31980      0.04275
+MINI INTERN>     4232.07085   4232.37216     20.41594     85.34915      0.06667
+MINI EXTERN>   237094.28116-132739.47146      0.00000      0.00000      0.00000
+MINI IMAGES>    24207.62466 -14436.56311      0.00000      0.00000      0.00000
+MINI EWALD>        99.10823-459384.39564 446228.60469      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+ UPDECI: Image update at step       814
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     345     115     115        0.00
+    2  C002 has    1808     604     604        0.00
+    3  C003 has     490     164     164        0.00
+    4  C004 has    1852     620     620        0.00
+    5  C005 has    7076    2366    2366        0.00
+    6  C006 has    1780     594     594        0.00
+    7  C007 has    1695     565     565        0.00
+    8  C008 has    7180    2400    2400        0.00
+    9  C009 has    1842     616     616        0.00
+   10  C010 has    6970    2334    2334        0.00
+   12  C012 has     381     127     127        0.50
+   13  C013 has    1943     651     651        0.00
+   14  C014 has     379     127     127        0.00
+ Total of53845 atoms and18007 groups and17997 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       814
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 19464480 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1026776 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+  9720203 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   782458 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       859
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     348     116     116        0.00
+    2  C002 has    1805     603     603        0.00
+    3  C003 has     490     164     164        0.00
+    4  C004 has    1852     620     620        0.00
+    5  C005 has    7097    2373    2373        0.00
+    6  C006 has    1801     601     601        0.00
+    7  C007 has    1689     563     563        0.00
+    8  C008 has    7180    2400    2400        0.00
+    9  C009 has    1839     615     615        0.00
+   10  C010 has    6991    2341    2341        0.00
+   12  C012 has     372     124     124        0.51
+   13  C013 has    1943     651     651        0.00
+   14  C014 has     379     127     127        0.00
+ Total of53890 atoms and18022 groups and18012 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       859
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 19465001 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1026381 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+  9718772 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   782544 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+MINI>      900 108684.36840    955.09490      0.56411      0.07101
+MINI INTERN>     4236.32983   4253.78518     21.61434     82.16787      0.02711
+MINI EXTERN>   236631.56333-133025.13134      0.00000      0.00000      0.00000
+MINI IMAGES>    24182.92955 -14634.85497      0.00000      0.00000      0.00000
+MINI EWALD>        96.76823-459384.39564 446223.56491      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+ UPDECI: Image update at step       916
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     336     112     112        0.00
+    2  C002 has    1802     602     602        0.00
+    3  C003 has     493     165     165        0.00
+    4  C004 has    1855     621     621        0.00
+    5  C005 has    7085    2369    2369        0.00
+    6  C006 has    1798     600     600        0.00
+    7  C007 has    1671     557     557        0.00
+    8  C008 has    7201    2407    2407        0.00
+    9  C009 has    1845     617     617        0.00
+   10  C010 has    6985    2339    2339        0.00
+   12  C012 has     360     120     120        0.45
+   13  C013 has    1931     647     647        0.00
+   14  C014 has     379     127     127        0.00
+ Total of53845 atoms and18007 groups and17997 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       916
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 19465429 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1026556 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+  9718117 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   782274 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step       955
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     333     111     111        0.00
+    2  C002 has    1799     601     601        0.00
+    3  C003 has     499     167     167        0.00
+    4  C004 has    1846     618     618        0.00
+    5  C005 has    7073    2365    2365        0.00
+    6  C006 has    1804     602     602        0.00
+    7  C007 has    1671     557     557        0.00
+    8  C008 has    7186    2402    2402        0.00
+    9  C009 has    1842     616     616        0.00
+   10  C010 has    7000    2344    2344        0.00
+   12  C012 has     363     121     121        0.28
+   13  C013 has    1928     646     646        0.00
+   14  C014 has     382     128     128        0.00
+ Total of53830 atoms and18002 groups and17992 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step       955
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 19465897 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1026147 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+  9717563 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   782183 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+MINI>     1000 108031.41071    652.95769      0.49374      0.08598
+MINI INTERN>     4261.20413   4216.86907     23.37896     81.61174      0.10716
+MINI EXTERN>   236228.89476-133222.00699      0.00000      0.00000      0.00000
+MINI IMAGES>    24195.36904 -14691.07250      0.00000      0.00000      0.00000
+MINI EWALD>        94.94288-459384.39564 446226.50810      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+ UPDECI: Image update at step      1004
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     333     111     111        0.00
+    2  C002 has    1805     603     603        0.00
+    3  C003 has     496     166     166        0.00
+    4  C004 has    1837     615     615        0.00
+    5  C005 has    7079    2367    2367        0.00
+    6  C006 has    1801     601     601        0.00
+    7  C007 has    1671     557     557        0.00
+    8  C008 has    7198    2406    2406        0.00
+    9  C009 has    1851     619     619        0.00
+   10  C010 has    7000    2344    2344        0.00
+   12  C012 has     360     120     120        0.29
+   13  C013 has    1916     642     642        0.00
+   14  C014 has     382     128     128        0.00
+ Total of53833 atoms and18003 groups and17993 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step      1004
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 19466799 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1026066 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+  9716265 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   782052 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step      1046
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     327     109     109        0.00
+    2  C002 has    1796     600     600        0.00
+    3  C003 has     490     164     164        0.00
+    4  C004 has    1843     617     617        0.00
+    5  C005 has    7088    2370    2370        0.00
+    6  C006 has    1801     601     601        0.00
+    7  C007 has    1677     559     559        0.00
+    8  C008 has    7204    2408    2408        0.00
+    9  C009 has    1851     619     619        0.00
+   10  C010 has    7015    2349    2349        0.00
+   12  C012 has     357     119     119        0.29
+   13  C013 has    1919     643     643        0.00
+   14  C014 has     379     127     127        0.00
+ Total of53851 atoms and18009 groups and17999 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step      1046
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 19467687 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1026373 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+  9715673 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   782124 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+MINI>     1100 107572.23463    459.17607      0.18682      0.02498
+MINI INTERN>     4255.11554   4227.90195     24.83650     81.75673      0.11958
+MINI EXTERN>   235893.98232-133331.78768      0.00000      0.00000      0.00000
+MINI IMAGES>    24172.18238 -14685.01909      0.00000      0.00000      0.00000
+MINI EWALD>        91.98887-459384.39564 446225.55316      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+ UPDECI: Image update at step      1120
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     330     110     110        0.00
+    2  C002 has    1799     601     601        0.00
+    3  C003 has     487     163     163        0.00
+    4  C004 has    1849     619     619        0.00
+    5  C005 has    7082    2368    2368        0.00
+    6  C006 has    1804     602     602        0.00
+    7  C007 has    1680     560     560        0.00
+    8  C008 has    7198    2406    2406        0.00
+    9  C009 has    1845     617     617        0.00
+   10  C010 has    7024    2352    2352        0.00
+   12  C012 has     357     119     119        0.28
+   13  C013 has    1912     640     640        0.00
+   14  C014 has     379     127     127        0.00
+ Total of53850 atoms and18008 groups and17998 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step      1120
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 19468233 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1027378 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+  9715386 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   782211 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step      1170
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     330     110     110        0.00
+    2  C002 has    1787     597     597        0.00
+    3  C003 has     490     164     164        0.00
+    4  C004 has    1852     620     620        0.00
+    5  C005 has    7067    2363    2363        0.00
+    6  C006 has    1798     600     600        0.00
+    7  C007 has    1683     561     561        0.00
+    8  C008 has    7189    2403    2403        0.00
+    9  C009 has    1845     617     617        0.00
+   10  C010 has    7024    2352    2352        0.00
+   12  C012 has     357     119     119        0.28
+   13  C013 has    1922     644     644        0.00
+   14  C014 has     376     126     126        0.00
+ Total of53824 atoms and18000 groups and17990 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step      1170
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 19468790 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1027691 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+  9714527 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   781834 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+MINI>     1200 107124.64681    447.58782      0.58077      0.08403
+MINI INTERN>     4256.80320   4214.32683     25.04184     81.33904      0.04010
+MINI EXTERN>   235689.76859-133582.37368      0.00000      0.00000      0.00000
+MINI IMAGES>    24140.82979 -14634.15335      0.00000      0.00000      0.00000
+MINI EWALD>        91.42388-459384.39564 446225.99622      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+ UPDECI: Image update at step      1242
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     327     109     109        0.00
+    2  C002 has    1778     594     594        0.00
+    3  C003 has     493     165     165        0.00
+    4  C004 has    1852     620     620        0.00
+    5  C005 has    7061    2361    2361        0.00
+    6  C006 has    1792     598     598        0.00
+    7  C007 has    1674     558     558        0.00
+    8  C008 has    7201    2407    2407        0.00
+    9  C009 has    1848     618     618        0.00
+   10  C010 has    7021    2351    2351        0.00
+   12  C012 has     357     119     119        0.29
+   13  C013 has    1918     642     642        0.00
+   14  C014 has     376     126     126        0.00
+ Total of53802 atoms and17992 groups and17982 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step      1242
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 19469723 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1027947 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+  9714147 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   781951 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Image update at step      1293
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     327     109     109        0.00
+    2  C002 has    1775     593     593        0.00
+    3  C003 has     490     164     164        0.00
+    4  C004 has    1855     621     621        0.00
+    5  C005 has    7061    2361    2361        0.00
+    6  C006 has    1792     598     598        0.00
+    7  C007 has    1683     561     561        0.00
+    8  C008 has    7204    2408    2408        0.00
+    9  C009 has    1854     620     620        0.00
+   10  C010 has    7018    2350    2350        0.00
+   12  C012 has     357     119     119        0.29
+   13  C013 has    1918     642     642        0.00
+   14  C014 has     376     126     126        0.00
+ Total of53814 atoms and17996 groups and17986 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step      1293
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 19470928 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1027947 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+  9712828 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   781800 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+MINI>     1300 106826.05959    298.58722      0.24540      0.03618
+MINI INTERN>     4246.96495   4226.70531     24.91622     79.75419      0.01808
+MINI EXTERN>   235566.97021-133763.86090      0.00000      0.00000      0.00000
+MINI IMAGES>    24126.42904 -14612.68596      0.00000      0.00000      0.00000
+MINI EWALD>        91.41571-459384.39564 446223.82838      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+ UPDECI: Image update at step      1363
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     327     109     109        0.00
+    2  C002 has    1772     592     592        0.00
+    3  C003 has     487     163     163        0.00
+    4  C004 has    1864     624     624        0.00
+    5  C005 has    7055    2359    2359        0.00
+    6  C006 has    1792     598     598        0.00
+    7  C007 has    1677     559     559        0.00
+    8  C008 has    7207    2409    2409        0.00
+    9  C009 has    1851     619     619        0.00
+   10  C010 has    7018    2350    2350        0.00
+   12  C012 has     357     119     119        0.28
+   13  C013 has    1921     643     643        0.00
+   14  C014 has     376     126     126        0.00
+ Total of53808 atoms and17994 groups and17984 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step      1363
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 19471299 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1028247 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+  9711441 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   781515 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+MINI>     1400 106633.74807    192.31152      0.30264      0.04380
+MINI INTERN>     4252.67136   4213.36043     24.33001     79.76916      0.01313
+MINI EXTERN>   235436.90415-133805.57899      0.00000      0.00000      0.00000
+MINI IMAGES>    24119.90960 -14618.86189      0.00000      0.00000      0.00000
+MINI EWALD>        91.24961-459384.39564 446224.37715      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+ UPDECI: Image update at step      1459
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     327     109     109        0.00
+    2  C002 has    1772     592     592        0.00
+    3  C003 has     481     161     161        0.00
+    4  C004 has    1873     627     627        0.00
+    5  C005 has    7043    2355    2355        0.00
+    6  C006 has    1789     597     597        0.00
+    7  C007 has    1680     560     560        0.00
+    8  C008 has    7210    2410    2410        0.00
+    9  C009 has    1854     620     620        0.00
+   10  C010 has    7036    2356    2356        0.00
+   12  C012 has     357     119     119        0.08
+   13  C013 has    1924     644     644        0.00
+   14  C014 has     376     126     126        0.00
+ Total of53826 atoms and18000 groups and17990 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step      1459
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 19471709 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1028613 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+  9711673 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   781257 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+MINI>     1500 106478.93064    154.81743      0.23415      0.03536
+MINI INTERN>     4252.29816   4216.80465     24.30740     79.08471      0.00850
+MINI EXTERN>   235320.26793-133839.35378      0.00000      0.00000      0.00000
+MINI IMAGES>    24120.82140 -14625.50239      0.00000      0.00000      0.00000
+MINI EWALD>        91.11944-459384.39564 446223.47027      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+ UPDECI: Image update at step      1536
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     327     109     109        0.00
+    2  C002 has    1775     593     593        0.00
+    3  C003 has     478     160     160        0.00
+    4  C004 has    1885     631     631        0.00
+    5  C005 has    7034    2352    2352        0.00
+    6  C006 has    1783     595     595        0.00
+    7  C007 has    1680     560     560        0.00
+    8  C008 has    7207    2409    2409        0.00
+    9  C009 has    1857     621     621        0.00
+   10  C010 has    7045    2359    2359        0.00
+   12  C012 has     348     116     116        0.01
+   13  C013 has    1921     643     643        0.00
+   14  C014 has     376     126     126        0.00
+ Total of53820 atoms and17998 groups and17988 residues were included
+
+ <MAKGRP> found      0 image group exclusions.
+ UPDECI: Nonbond update at step      1536
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 19471253 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1028812 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 32051960 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+  9711933 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   781546 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+
+ ABNER> Minimization exiting with gradient tolerance ( 0.1000000) satisfied.
+
+ABNR MIN: Cycle      ENERgy      Delta-E         GRMS    Step-size
+ABNR INTERN:          BONDs       ANGLes       UREY-b    DIHEdrals    IMPRopers
+ABNR EXTERN:        VDWaals         ELEC       HBONds          ASP         USER
+ABNR IMAGES:        IMNBvdw       IMELec       IMHBnd       RXNField    EXTElec
+ABNR EWALD:          EWKSum       EWSElf       EWEXcl       EWQCor       EWUTil
+ ----------       ---------    ---------    ---------    ---------    ---------
+ABNR>     1582 106347.84156    131.08908      0.08637      0.01479
+ABNR INTERN>     4255.60727   4198.87548     24.57063     78.02123      0.00003
+ABNR EXTERN>   235221.24959-133869.12053      0.00000      0.00000      0.00000
+ABNR IMAGES>    24144.36442 -14638.13489      0.00000      0.00000      0.00000
+ABNR EWALD>        91.56532-459384.39564 446225.23866      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+  
+ CHARMM>     
+  
+ CHARMM>    write psf card name @molname-min.psf
+ Parameter: MOLNAME -> "1-AS-SOLVATED-NEUT"
+ VOPEN> Attempting to open::1-as-solvated-neut-min.psf::
+ RDTITL> * 1-AS-SOLVATED-NEUT MINIMIZED
+ RDTITL> *
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>     
+  
+ CHARMM>    ioformat extended
+ MISCOM> Expanded I/O format is used.
+  
+ CHARMM>     
+  
+ CHARMM>    write coor card name @molname-min.cor
+ Parameter: MOLNAME -> "1-AS-SOLVATED-NEUT"
+ VOPEN> Attempting to open::1-as-solvated-neut-min.cor::
+ RDTITL> * MINIMIZED
+ RDTITL> *
+ VCLOSE: Closing unit   90 with status "KEEP"
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>     
+  
+ CHARMM>    stop
+$$$$$$  New timer profile $$$$$
+      Image Update                    3.92 Other:            0.00
+      NBONDS                        161.58 Other:            0.00
+   List time                     165.51 Other:            0.00
+            Direct Ewald time            1690.62 Other:            0.00
+               Fill charge grid               32.32 Other:            0.00
+               Scalar sum                      9.34 Other:            0.00
+               Grad sum                       35.25 Other:            0.00
+               FFT                             7.67 Other:            0.00
+            Recip Ewald time               84.67 Other:            0.10
+         Ewald time                   1775.30 Other:            0.01
+      Nonbond force                1777.17 Other:            1.87
+         Bond energy                     0.56 Other:            0.00
+         Angle energy                    1.10 Other:            0.00
+         Dihedral energy                 0.06 Other:            0.00
+         Restraints energy               0.00 Other:            0.00
+      INTRNL energy                   2.46 Other:            0.75
+   Energy time                  1781.15 Other:            1.52
+ Total time                   1964.32 Other:           17.67
+
+                    NORMAL TERMINATION BY NORMAL STOP
+                    MOST SEVERE WARNING WAS AT LEVEL  0
+
+                    $$$$$ JOB ACCOUNTING INFORMATION $$$$$
+                     ELAPSED TIME:    32.74  MINUTES 
+                         CPU TIME:    31.45  MINUTES 

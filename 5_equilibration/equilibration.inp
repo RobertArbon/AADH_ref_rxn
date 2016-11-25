@@ -1,0 +1,82 @@
+* Equilibration reference reaction
+*
+
+prnlev 5
+set molname 1-as-solvated-neut-min
+
+stream ../common/toppar_water_ions_fixed.str
+read rtf card name ../common/aadh_topologies.rtf append flex
+read rtf card name ../common/top_all36_cgenff.rtf append flex
+read para card name ../common/par_all36_prot_mod.prm append flex
+read para card name ../common/aadh_parameters.prm append flex
+read para card name ../common/par_all36_cgenff.prm append flex
+
+read psf card name ../common/@molname.psf
+read coord card name @molname-310k.cor
+
+SET XDIM 43
+SET YDIM 43
+SET ZDIM 43
+calc cutf 16
+
+! SETUP CRYSTAL (DEFINE, BUILD), IMAGE CENTERING W. MODIFIED PSF
+! WE USE THE SAME PARAMS AS IN SOLVATION
+CRYSTAL DEFI cubi @xdim @ydim @zdim 90.0 90.0 90.0
+CRYSTAL BUILD CUTOFF @CUTF NOPER 0
+IMAGE BYRES SELE all END
+
+!NON BONDED SPECIFICATION
+set ftx 48
+set fty 48
+set ftz 48
+calc kp 40/14
+
+shake bonh param sele all end
+
+NBONDED inbfrq -1 imgfrq -1 nbxmod 5 -                                              ! C36 DEFAULTS
+        atom cdiel fshift -                                                         ! use atom based electrostatics, C36 DEFAULTS
+        vatom vdistance vfswitch -                                                  ! C36 DEFAULTS
+        elec ewald pmew fftx @ftx ffty @fty fftz @ftz kappa @kp spline order 6 -    ! PME SUMMATION
+        cutnb 14.0 ctofnb 12.0 ctonnb 10.0 -                                        ! C36 DEFAULTS
+        cutim 14.0 -                                                                ! must be same as cutnb
+        eps 1.0 e14fac 1.0 wmin 1.5                                                 ! C36 DEFAULTS
+
+
+open unit 11 read card name @molname-310k.res !restart file that will be read
+open unit 41 write card name @molname-310k-equ.res !restart file that will be written
+open unit 31 write file name @molname-310k-equ.dcd !trajectory file name
+open unit 21 write card name @molname-310k-equ.ene !energies
+set nsteps 1 !00000
+set nwrite 1000
+calc nrest @nsteps/10
+set echeck = echeck -1
+
+dynamics leap restart timestep 0.001 -
+     nstep @nsteps nprint @nwrite iprfrq @nwrite isvfrq @nrest nsavc @nwrite -
+     iunwri 41 iunrea 11 kunit 21 iuncrd 31 - 
+     firstt 310 finalt 310  -
+     ichecw 0 ihtfrq 0 ieqfrq 0 -
+     iasors 1 iasvel 1 iscvel 0  -
+     ilbfrq 0 inbfrq -1 imgfrq -1 @echeck bycb -
+     ntrfq 100 -  
+     omm langevin gamma 10 - ! turn on openmm, set-up Langevin
+     mcpr pref 1 iprsfrq 25  ! set-up MC barostat at 1 atm, move attempt / 25 steps
+
+
+!dyna leap start -
+!   timestep 0.001 nstep 21000 nprint 1000 -
+!   isvfrq 1000 iunwri 41 iuncrd 31 kunit 21 nsavc 1000 -
+!   firstt 100.0 finalt 310.0 tbath 310.0 -
+!   ihtfrq 1000 teminc 10 ieqfrq 0 -
+!   iasors 1 iasvel 1 iscvel 0 ichecw 0 -
+!   ntrfrq 100 -
+!   iseed  11033 21033 31033 41033 echeck 100.0
+
+ioformat extended
+
+write coor card name @molname-310k-equil.cor
+* equilibrated to 310K 
+*
+
+stop
+

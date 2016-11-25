@@ -1,0 +1,595 @@
+1
+                 Chemistry at HARvard Macromolecular Mechanics
+           (CHARMM) - Developmental Version 41a2   February 15, 2016            
+                             Git commit ID f89d5df                              
+       Copyright(c) 1984-2014  President and Fellows of Harvard College
+                              All Rights Reserved
+     Current operating system: Linux-2.6.32-220.23.1.el6.x86_64(x86_64)@nod     
+                 Created on 10/21/16 at 16:20:51 by user: ra15808     
+
+            Maximum number of ATOMS:    360720, and RESidues:      120240
+ RDTITL> * EQUILIBRATION REFERENCE REACTION
+ RDTITL> *
+  
+ CHARMM>     
+  
+ CHARMM>    prnlev 5
+  
+ CHARMM>    set molname 1-as-solvated-neut-min
+ Parameter: MOLNAME <- "1-AS-SOLVATED-NEUT-MIN"
+  
+ CHARMM>     
+  
+ CHARMM>    stream ../common/toppar_water_ions_fixed.str
+ VOPEN> Attempting to open::../common/toppar_water_ions_fixed.str::
+ OPNLGU> Unit 99 opened for READONLY access to ../common/toppar_water_ions_fixed.str
+
+                    INPUT STREAM SWITCHING TO UNIT    99
+ RDTITL> * TOPLOGY AND PARAMETER INFORMATION FOR WATER AND IONS.
+ RDTITL> *
+ Parameter: IN1 <- "" <empty>
+  
+ CHARMM>     
+  
+ CHARMM>    !Testcase
+ CHARMM>    !test_water_ions.inp
+ CHARMM>     
+  
+ CHARMM>    ! IMPORTANT NOTE: this file contains NBFixes between carboxylates and sodium,
+ CHARMM>    ! which will only apply if the main files containing carboxylate atom types
+ CHARMM>    ! have been read in first!
+ CHARMM>     
+  
+ CHARMM>    !references
+ CHARMM>    !
+ CHARMM>    !TIP3P water model
+ CHARMM>    !
+ CHARMM>    !W.L. Jorgensen; J.Chandrasekhar; J.D. Madura; R.W. Impey;
+ CHARMM>    !M.L. Klein; "Comparison of simple potential functions for
+ CHARMM>    !simulating liquid water", J. Chem. Phys. 79 926-935 (1983).
+ CHARMM>    !
+ CHARMM>    !IONS
+ CHARMM>    !
+ CHARMM>    !Ions from Roux and coworkers
+ CHARMM>    !
+ CHARMM>    !Beglov, D. and Roux, B., Finite Representation of an Infinite
+ CHARMM>    !Bulk System: Solvent Boundary Potential for Computer Simulations,
+ CHARMM>    !Journal of Chemical Physics, 1994, 100: 9050-9063
+ CHARMM>    !
+ CHARMM>    !ZINC
+ CHARMM>    !
+ CHARMM>    !Stote, R.H. and Karplus, M. Zinc Binding in Proteins and
+ CHARMM>    !Solution: A Simple but Accurate Nonbonded Representation, PROTEINS:
+ CHARMM>    !Structure, Function, and Genetics 23:12-31 (1995)
+ CHARMM>     
+  
+ CHARMM>    !test "append" to determine if previous toppar files have been read and
+ CHARMM>    !add append to "read rtf card" if true
+ CHARMM>    set nat ?NATC
+ RDCMND: can not substitute energy "?NATC"
+ Parameter: NAT <- "?NATC"
+  
+ CHARMM>    set app
+ Parameter: APP <- "" <empty>
+  
+ CHARMM>    !We're exploiting what is arguably a bug in the parser. On the left hand side,
+ CHARMM>    !the quotes have priority, so NAT is correctly substituted. On the right hand
+ CHARMM>    !side, the ? has priority and NATC" (sic) is not a valid substitution...
+ CHARMM>    if "@NAT" ne "?NATC" if @nat ne 0 set app append
+ Parameter: NAT -> "?NATC"
+ Parameter: NAT -> "?NATC"
+ RDCMND: can not substitute energy "?NATC""
+ Comparing ""?NATC"" and ""?NATC"".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>     
+  
+ CHARMM>    read rtf card  !REA 26/07/2013 - deleted @app - always stream this first and everything else must be appended)
+ MAINIO> Residue topology file being read from unit  99.
+ RDTITL> * TOPOLOGY FOR WATER AND IONS
+ RDTITL> *
+  
+ CHARMM>     
+  
+ CHARMM>    read para card flex  !REA - deleted @app
+
+          PARAMETER FILE BEING READ FROM UNIT 99
+ RDTITL> * PARAMETERS FOR WATER AND IONS
+ RDTITL> *
+ PARMIO> NONBOND, HBOND lists and IMAGE atoms cleared.
+  
+ CHARMM>     
+  
+ CHARMM>    ! The following section contains NBFixes for sodium interacting with
+ CHARMM>    ! carboxylate oxygens of various CHARMM force fields. It will generate
+ CHARMM>    ! level -1 warnings whenever any of these force fields have not been
+ CHARMM>    ! read prior to the current stream file. Since we don't want to force
+ CHARMM>    ! the user to always read all the force fields, we're suppressing the
+ CHARMM>    ! warnings. The only side effect is that you will have "most severe
+ CHARMM>    ! warning was at level 0" at the end of your output. Also note that
+ CHARMM>    ! the user is responsible for reading the current file last if they
+ CHARMM>    ! want the NBFixes to apply. A more elegant solution would require new
+ CHARMM>    ! features to be added to CHARMM.
+ CHARMM>    ! parallel fix, to avoid duplicated messages in the log
+ CHARMM>    set para
+ Parameter: PARA <- "" <empty>
+  
+ CHARMM>    if ?NUMNODE gt 1 set para node 0
+ RDCMND substituted energy or value "?NUMNODE" to "1"
+ Comparing "1" and "1".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>     
+  
+ CHARMM>    set wrn ?WRNLEV
+ RDCMND substituted energy or value "?WRNLEV" to "5"
+ Parameter: WRN <- "5"
+  
+ CHARMM>    ! Some versions of CHARMM don't seem to initialize wrnlev...
+ CHARMM>    if "@WRN" eq "?WRNLEV" set wrn 5
+ Parameter: WRN -> "5"
+ RDCMND: can not substitute energy "?WRNLEV""
+ Comparing ""5"" and ""?WRNLEV"".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>    set bom ?bomlev
+ RDCMND substituted energy or value "?BOMLEV" to "0"
+ Parameter: BOM <- "0"
+  
+ CHARMM>    WRNLEV -1 @PARA
+ Parameter: PARA -> "" <empty>
+  
+ CHARMM>    BOMLEV -1 @PARA
+ Parameter: PARA -> "" <empty>
+  
+ CHARMM>    read para card flex append
+
+          PARAMETER FILE BEING READ FROM UNIT 99
+ RDTITL> * NBFIX BETWEEN CARBOXYLATE AND SODIUM
+ RDTITL> *
+ PARMIO> NONBOND, HBOND lists and IMAGE atoms cleared.
+  
+ CHARMM>    BOMLEV @bom @PARA
+ Parameter: BOM -> "0"
+ Parameter: PARA -> "" <empty>
+  
+ CHARMM>    WRNLEV @wrn @PARA
+ Parameter: WRN -> "5"
+ Parameter: PARA -> "" <empty>
+  
+ CHARMM>     
+  
+ CHARMM>    return
+ VCLOSE: Closing unit   99 with status "KEEP"
+
+                    RETURNING TO INPUT STREAM     5
+  
+ CHARMM>    read rtf card name ../common/aadh_topologies.rtf append flex
+ VOPEN> Attempting to open::../common/aadh_topologies.rtf::
+ MAINIO> Residue topology file being read from unit  90.
+ TITLE> * RESIDUES AND PATCHES FOR CREATING AADH REACTANT AND PRODUCTS
+ TITLE> * ATOM DEFINITIONS IS TAKEN FROM TOP_ALL36_PROT.RTF
+ TITLE> * PREAMLE IS TAKEN FROM TOP_TTW.INP
+ TITLE> * >>>>>
+ TITLE> * RESI TTW - /DATA/KR/TOP_TTW.INP
+ TITLE> * RESI TTW2 - /DATA/KR/TOP_TTW.INP - I DON'T THINK THIS IS USED SO THIS WON'T BE ADJUSTED.
+ TITLE> * PRES TRPM - /DATA/NEW_MD/TRPM.RTF
+ TITLE> * PRES TTWP - /DATA/KR/TTW_PROD.RTF
+ TITLE> * PRES ASP1/2 - /DATA/KR/TTW_PROD.RTF
+ TITLE> * PRES TTQ_TRP - /DATA/NEW_MD/TTW_TOP.INP
+ TITLE> * THE ORIGINAL PATCHES AND RESIDUES WERE SPECIFIED IN THE CHARM22 FF
+ TITLE> * 23/07/2016 - THE PRODUCT PATCHES WILL HAVE TO CHANGE (TO GET RID OF DELE STATEMENT)
+ TITLE> *               AND TO PRESERVE THE ATOMS LABELLING CHANGES.
+ TITLE> *
+ WARNING from DECODI -- Zero length string being converted to 0
+ RTFRDR> WARNING: Version number is NOT specified.
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>    read rtf card name ../common/top_all36_cgenff.rtf append flex
+ VOPEN> Attempting to open::../common/top_all36_cgenff.rtf::
+ MAINIO> Residue topology file being read from unit  90.
+ TITLE> *  --------------------------------------------------------------------------  *
+ TITLE> *          CGENFF: TOPOLOGY FOR THE CHARMM GENERAL FORCE FIELD V. 3.1          *
+ TITLE> *                    FOR SMALL MOLECULE DRUG DESIGN                            *
+ TITLE> *  --------------------------------------------------------------------------  *
+ TITLE> *
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>    read para card name ../common/par_all36_prot_mod.prm append flex
+ VOPEN> Attempting to open::../common/par_all36_prot_mod.prm::
+
+          PARAMETER FILE BEING READ FROM UNIT 90
+ TITLE> *>>>> CHARMM36 ALL-HYDROGEN PARAMETER FILE FOR PROTEINS <<<<<<<<<<
+ TITLE> *>>>>> INCLUDES PHI, PSI CROSS TERM MAP (CMAP) CORRECTION <<<<<<<<
+ TITLE> *>>>>>>>>>>>>>>>>>>>>>>>>>> JAN. 2016 <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+ TITLE> * ALL COMMENTS TO THE CHARMM WEB SITE: WWW.CHARMM.ORG
+ TITLE> *             PARAMETER SET DISCUSSION FORUM
+ TITLE> *
+ PARMIO> NONBOND, HBOND lists and IMAGE atoms cleared.
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>    read para card name ../common/aadh_parameters.prm append flex
+ VOPEN> Attempting to open::../common/aadh_parameters.prm::
+
+          PARAMETER FILE BEING READ FROM UNIT 90
+ TITLE> * PARAMETERS SPECIFIC TO AADH.  TO BE USED IN CONJUNCTION WITH AADH_TOPOLOGIES.RTF
+ TITLE> * THESE WERE TAKEN FROM EACH SECTION IN /DATA/KR/PAR_TTW.INP
+ TITLE> *   AND ADDITIONALLY FROM /DATA/NEW_MD/PAR_TTW.INP
+ TITLE> * THERE'S NO ANGLE PARAMETERS FOR HA ONLY HA1/2/3 SO CHANGE THE HAS IN THE AADH_TOPOLOGIES
+ TITLE> * ADDED NBFIX
+ TITLE>  
+ PARMIO> NONBOND, HBOND lists and IMAGE atoms cleared.
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>    read para card name ../common/par_all36_cgenff.prm append flex
+ VOPEN> Attempting to open::../common/par_all36_cgenff.prm::
+
+          PARAMETER FILE BEING READ FROM UNIT 90
+ TITLE> *  --------------------------------------------------------------------------  *
+ TITLE> *         CGENFF: PARAMETERS FOR THE CHARMM GENERAL FORCE FIELD V. 3.1         *
+ TITLE> *                    FOR SMALL MOLECULE DRUG DESIGN                            *
+ TITLE> *  --------------------------------------------------------------------------  *
+ TITLE> *
+ PARMIO> NONBOND, HBOND lists and IMAGE atoms cleared.
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>     
+  
+ CHARMM>    read psf card name ../common/@molname.psf
+ Parameter: MOLNAME -> "1-AS-SOLVATED-NEUT-MIN"
+ VOPEN> Attempting to open::../common/1-as-solvated-neut-min.psf::
+ MAINIO> Protein structure file being read from unit  90.
+ PSFRD2> Reading PSF in the expanded format.
+ TITLE>  * 1-AS-SOLVATED-NEUT MINIMIZED
+ TITLE>  *  DATE:    10/10/16     17:34:25      CREATED BY USER: ra15808
+ TITLE>  *
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        4   Number of residues   =     6714
+         Number of atoms         =    20104   Number of groups     =     6724
+         Number of bonds         =    20066   Number of angles     =     6756
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     6673   Number of HB donors  =    13347
+         Number of NB exclusions =        0   Total charge =    0.00000
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>    read coord card name @molname-310k.cor
+ Parameter: MOLNAME -> "1-AS-SOLVATED-NEUT-MIN"
+ VOPEN> Attempting to open::1-as-solvated-neut-min-310k.cor::
+          SPATIAL COORDINATES BEING READ FROM UNIT 90
+ TITLE> * HEATED TO 310K
+ TITLE> *  DATE:    10/20/16     18:14:53      CREATED BY USER: RA15808
+ TITLE> *
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>     
+  
+ CHARMM>    SET XDIM 43
+ Parameter: XDIM <- "43"
+  
+ CHARMM>    SET YDIM 43
+ Parameter: YDIM <- "43"
+  
+ CHARMM>    SET ZDIM 43
+ Parameter: ZDIM <- "43"
+  
+ CHARMM>    calc cutf 16
+Evaluating: 16
+ Parameter: CUTF <- "16"
+  
+ CHARMM>     
+  
+ CHARMM>    ! SETUP CRYSTAL (DEFINE, BUILD), IMAGE CENTERING W. MODIFIED PSF
+ CHARMM>    ! WE USE THE SAME PARAMS AS IN SOLVATION
+ CHARMM>    CRYSTAL DEFI cubi @xdim @ydim @zdim 90.0 90.0 90.0
+ Parameter: XDIM -> "43"
+ Parameter: YDIM -> "43"
+ Parameter: ZDIM -> "43"
+ Crystal Parameters : Crystal Type = CUBI
+           A     =   43.00000 B    =   43.00000 C     =   43.00000
+           Alpha =   90.00000 Beta =   90.00000 Gamma =   90.00000
+  
+ CHARMM>    CRYSTAL BUILD CUTOFF @CUTF NOPER 0
+ Parameter: CUTF -> "16"
+ XBUILD> Building all transformations with a minimum atom-atom
+         contact distance of less than   16.00 Angstroms.
+
+ Range of Grid Search for Transformation     1 :
+ Lattice Vector A    -2 TO     2
+ Lattice Vector B    -2 TO     2
+ Lattice Vector C    -2 TO     2
+
+
+ The number of transformations generated =    26
+
+
+ Number  Symop   A   B   C   Distance
+
+      1      1  -1  -1  -1     1.8680
+      2      1  -1   0  -1     1.8253
+      3      1  -1   1  -1     3.3871
+      4      1   0  -1  -1     2.4333
+      5      1   0   0  -1     1.8947
+      6      1   0   1  -1     3.1085
+      7      1  -1  -1   0     1.7729
+      8      1  -1   0   0     1.5011
+      9      1  -1   1   0     2.2621
+     10      1   0  -1   0     1.5819
+     11      1   0   1   0     1.5819
+     12      1  -1  -1   1     2.9774
+     13      1  -1   0   1     1.4883
+     14      1  -1   1   1     3.9403
+     15      1   0  -1   1     3.1085
+     16      1   0   0   1     1.8947
+     17      1   0   1   1     2.4333
+     18      1   1   1   1     1.8680
+     19      1   1   0   1     1.8253
+     20      1   1  -1   1     3.3871
+     21      1   1   1   0     1.7729
+     22      1   1   0   0     1.5011
+     23      1   1  -1   0     2.2621
+     24      1   1   1  -1     2.9774
+     25      1   1   0  -1     1.4883
+     26      1   1  -1  -1     3.9403
+                     THERE ARE NO ROTATIONS FOR THIS TRANSFORMATION SET
+    26 Transformations have been processed.
+
+  
+ CHARMM>    IMAGE BYRES SELE all END
+ SELRPN>  20104 atoms have been selected out of  20104
+ IMAGE CENTERING ON FOR SOME ATOMS
+  
+ CHARMM>     
+  
+ CHARMM>    !NON BONDED SPECIFICATION
+ CHARMM>    set ftx 48
+ Parameter: FTX <- "48"
+  
+ CHARMM>    set fty 48
+ Parameter: FTY <- "48"
+  
+ CHARMM>    set ftz 48
+ Parameter: FTZ <- "48"
+  
+ CHARMM>    calc kp 40/14
+Evaluating: 40/14
+ Parameter: KP <- "2.85714286"
+  
+ CHARMM>     
+  
+ CHARMM>    shake bonh param sele all end
+ SELRPN>  20104 atoms have been selected out of  20104
+ SHKCOM> SHAKE parameters: TOL =   0.1000D-09 MXITer =    500
+
+           20037 constraints will held by SHAKE.
+  
+ CHARMM>     
+  
+ CHARMM>    NBONDED inbfrq -1 imgfrq -1 nbxmod 5 -                                              ! C36 DEFAULTS
+ CHARMM>            atom cdiel fshift -                                                         ! use atom based electrostatics, C36 DEFAULTS
+ CHARMM>            vatom vdistance vfswitch -                                                  ! C36 DEFAULTS
+ CHARMM>            elec ewald pmew fftx @ftx ffty @fty fftz @ftz kappa @kp spline order 6 -    ! PME SUMMATION
+ CHARMM>            cutnb 14.0 ctofnb 12.0 ctonnb 10.0 -                                        ! C36 DEFAULTS
+ CHARMM>            cutim 14.0 -                                                                ! must be same as cutnb
+ CHARMM>            eps 1.0 e14fac 1.0 wmin 1.5                                                 ! C36 DEFAULTS
+ Parameter: FTX -> "48"
+ Parameter: FTY -> "48"
+ Parameter: FTZ -> "48"
+ Parameter: KP -> "2.85714286"
+
+ SELECTED IMAGES ATOMS BEING CENTERED ABOUT  0.000000  0.000000  0.000000
+ RESIDUE  100 OPERATED ON BY TRANSFORMATION C005
+ RESIDUE  250 OPERATED ON BY TRANSFORMATION C005
+ RESIDUE  405 OPERATED ON BY TRANSFORMATION C005
+ RESIDUE  470 OPERATED ON BY TRANSFORMATION C008
+ RESIDUE  891 OPERATED ON BY TRANSFORMATION C008
+ RESIDUE  922 OPERATED ON BY TRANSFORMATION C010
+ RESIDUE  925 OPERATED ON BY TRANSFORMATION C005
+ RESIDUE 1567 OPERATED ON BY TRANSFORMATION C008
+ RESIDUE 2055 OPERATED ON BY TRANSFORMATION C008
+ RESIDUE 2121 OPERATED ON BY TRANSFORMATION C022
+ RESIDUE 2253 OPERATED ON BY TRANSFORMATION C022
+ RESIDUE 2313 OPERATED ON BY TRANSFORMATION C008
+ RESIDUE 2902 OPERATED ON BY TRANSFORMATION C008
+ RESIDUE 2924 OPERATED ON BY TRANSFORMATION C008
+ RESIDUE 3312 OPERATED ON BY TRANSFORMATION C022
+ RESIDUE 3344 OPERATED ON BY TRANSFORMATION C008
+ RESIDUE 3364 OPERATED ON BY TRANSFORMATION C008
+ RESIDUE 3481 OPERATED ON BY TRANSFORMATION C010
+ RESIDUE 3751 OPERATED ON BY TRANSFORMATION C022
+ RESIDUE 4474 OPERATED ON BY TRANSFORMATION C008
+ RESIDUE 4488 OPERATED ON BY TRANSFORMATION C008
+ RESIDUE 4533 OPERATED ON BY TRANSFORMATION C008
+ RESIDUE 5247 OPERATED ON BY TRANSFORMATION C008
+ RESIDUE 5326 OPERATED ON BY TRANSFORMATION C011
+ RESIDUE 5680 OPERATED ON BY TRANSFORMATION C011
+ RESIDUE 5691 OPERATED ON BY TRANSFORMATION C005
+ RESIDUE 5710 OPERATED ON BY TRANSFORMATION C010
+ RESIDUE 6186 OPERATED ON BY TRANSFORMATION C022
+ RESIDUE 6460 OPERATED ON BY TRANSFORMATION C005
+ RESIDUE 6484 OPERATED ON BY TRANSFORMATION C016
+ RESIDUE 6547 OPERATED ON BY TRANSFORMATION C016
+ RESIDUE 6650 OPERATED ON BY TRANSFORMATION C005
+
+ <MKIMAT2>: updating the image atom lists and remapping
+ Transformation   Atoms  Groups  Residues  Min-Distance
+    1  C001 has     474     158     158        0.71
+    2  C002 has    1808     604     604        0.00
+    3  C003 has     408     136     136        1.01
+    4  C004 has    1813     607     607        0.00
+    5  C005 has    7030    2350    2350        0.00
+    6  C006 has    1867     623     623        0.00
+    7  C007 has    1776     592     592        0.00
+    8  C008 has    7029    2349    2349        0.00
+    9  C009 has    1902     636     636        0.00
+   10  C010 has    7088    2374    2374        0.00
+   12  C012 has     381     127     127        1.13
+   13  C013 has    1907     639     639        0.00
+   14  C014 has     388     130     130        1.19
+ Total of53975 atoms and18049 groups and18039 residues were included
+
+ <PME> Total heap storage needed =     1052179
+ Fill Ewald table: Number of points=     10000 EWXmax=    5.000000
+ fill erfc table: linear inter has rms error = 0.124955D-07 maximum error = 0.302754D-07
+ fill erfc table: cubic spline has rms error = 0.541283D-11 maximum error = 0.176574D-10
+
+ NONBOND OPTION FLAGS: 
+     ELEC     VDW      ATOMs    CDIElec  FSHIft   VATOm    VFSWIt  
+     BYGRoup  NOEXtnd  EWALd   
+ CUTNB  = 14.000 CTEXNB =999.000 CTONNB = 10.000 CTOFNB = 12.000
+ CGONNB =  0.000 CGOFNB = 10.000
+ WMIN   =  1.500 WRNMXD =  0.500 E14FAC =  1.000 EPS    =  1.000
+ NBXMOD =      5
+ PME EWALD OPTIONS: KAPPA  =  2.857  QCOR =  0.000  Bspline order = 6
+ FFTX=  48  FFTY=  48  FFTZ=  48
+                Using Pub FFT
+                Real-to-Complex FFT
+ There are        0 atom  pairs and        0 atom  exclusions.
+ There are        0 group pairs and        0 group exclusions.
+ <MAKINB> with mode   5 found  20150 exclusions and    101 interactions(1-4)
+ <MAKGRP> found     22 group exclusions.
+ <MAKGRP> found      0 image group exclusions.
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR  5776917 ATOM PAIRS AND        0 GROUP PAIRS
+ == PRIMARY == SPACE FOR  8665396 ATOM PAIRS AND        0 GROUP PAIRS
+ == PRIMARY == SPACE FOR 12998114 ATOM PAIRS AND        0 GROUP PAIRS
+ == PRIMARY == SPACE FOR 19497192 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 18805639 ATOM PAIRS WERE FOUND FOR ATOM LIST
+   930674 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ SPACE FOR 31702412 ATOM PAIRS AND        0 GROUP PAIRS
+
+ Image nonbond list generation found:
+ 10520565 ATOM PAIRS WERE FOUND FOR ATOM LIST
+        0 ATOM PAIRS WERE FOUND FOR ATOM SELF LIST
+   802882 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+  
+ CHARMM>     
+  
+ CHARMM>     
+  
+ CHARMM>    open unit 11 read card name @molname-310k.res !restart file that will be read
+ Parameter: MOLNAME -> "1-AS-SOLVATED-NEUT-MIN"
+ VOPEN> Attempting to open::1-as-solvated-neut-min-310k.res::
+ OPNLGU> Unit 11 opened for READONLY access to 1-as-solvated-neut-min-310k.res
+  
+ CHARMM>    open unit 41 write card name @molname-310k-equ.res !restart file that will be written
+ Parameter: MOLNAME -> "1-AS-SOLVATED-NEUT-MIN"
+ VOPEN> Attempting to open::1-as-solvated-neut-min-310k-equ.res::
+ OPNLGU> Unit 41 opened for WRITE access to 1-as-solvated-neut-min-310k-equ.res
+  
+ CHARMM>    open unit 31 write file name @molname-310k-equ.dcd !trajectory file name
+ Parameter: MOLNAME -> "1-AS-SOLVATED-NEUT-MIN"
+ VOPEN> Attempting to open::1-as-solvated-neut-min-310k-equ.dcd::
+ OPNLGU> Unit 31 opened for WRITE access to 1-as-solvated-neut-min-310k-equ.dcd
+  
+ CHARMM>    open unit 21 write card name @molname-310k-equ.ene !energies
+ Parameter: MOLNAME -> "1-AS-SOLVATED-NEUT-MIN"
+ VOPEN> Attempting to open::1-as-solvated-neut-min-310k-equ.ene::
+ OPNLGU> Unit 21 opened for WRITE access to 1-as-solvated-neut-min-310k-equ.ene
+  
+ CHARMM>    set nsteps 1 !00000
+ Parameter: NSTEPS <- "1"
+  
+ CHARMM>    set nwrite 1000
+ Parameter: NWRITE <- "1000"
+  
+ CHARMM>    calc nrest @nsteps/10
+ Parameter: NSTEPS -> "1"
+Evaluating: 1/10
+ Parameter: NREST <- "0.1"
+  
+ CHARMM>    set echeck = echeck -1
+ Parameter: ECHECK <- "ECHECK -1"
+  
+ CHARMM>     
+  
+ CHARMM>    dynamics leap restart timestep 0.001 -
+ CHARMM>         nstep @nsteps nprint @nwrite iprfrq @nwrite isvfrq @nrest nsavc @nwrite -
+ CHARMM>         iunwri 41 iunrea 11 kunit 21 iuncrd 31 -
+ CHARMM>         firstt 310 finalt 310  -
+ CHARMM>         ichecw 0 ihtfrq 0 ieqfrq 0 -
+ CHARMM>         iasors 1 iasvel 1 iscvel 0  -
+ CHARMM>         ilbfrq 0 inbfrq -1 imgfrq -1 @echeck bycb -
+ CHARMM>         ntrfq 100 -
+ CHARMM>         omm langevin gamma 10 - ! turn on openmm, set-up Langevin
+ CHARMM>         mcpr pref 1 iprsfrq 25  ! set-up MC barostat at 1 atm, move attempt / 25 steps
+ Parameter: NSTEPS -> "1"
+ Parameter: NWRITE -> "1000"
+ Parameter: NWRITE -> "1000"
+ Parameter: NREST -> "0.1"
+ Parameter: NWRITE -> "1000"
+ Parameter: ECHECK -> "ECHECK -1"
+  IUNREA = 11         IUNWRI = 41          IUNOS = -1
+  IUNCRD = 31         IUNVEL = -1          KUNIT = 21
+ TITLE>  * HEATING REFERENCE REACTION
+ TITLE>  *  DATE:    10/20/16     18:14:53      CREATED BY USER: ra15808
+ TITLE>  *
+ READYN> dynamics restart file was read. Current step=   21000
+ NSTEP  = 21000  JHSTRT =     0
+
+ SELECTED IMAGES ATOMS BEING CENTERED ABOUT  0.000000  0.000000  0.000000
+
+ NONBOND OPTION FLAGS: 
+     ELEC     VDW      ATOMs    CDIElec  FSHIft   VATOm    VFSWIt  
+     BYCB     NOEXtnd  EWALd   
+ CUTNB  = 14.000 CTEXNB =999.000 CTONNB = 10.000 CTOFNB = 12.000
+ CGONNB =  0.000 CGOFNB = 10.000
+ WMIN   =  1.500 WRNMXD =  0.500 E14FAC =  1.000 EPS    =  1.000
+ NBXMOD =      5
+ PME EWALD OPTIONS: KAPPA  =  2.857  QCOR =  0.000  Bspline order = 6
+ FFTX=  48  FFTY=  48  FFTZ=  48
+                Using Pub FFT
+                Real-to-Complex FFT
+ There are 18805639 atom  pairs and    20251 atom  exclusions.
+ There are        0 group pairs and       22 group exclusions.
+Using Image CUBE search
+Using Image CUBE search
+ PRNHBD: CUToff Hydrogen Bond  distance =    0.5000   Angle =   90.0000
+         CuT switching ON HB dist. =     3.5000  OFf HB dist. =    4.0000
+         CuT switching ON Hb Angle =    50.0000  OFf Hb Angle =   70.0000
+         ACCEptor antecedents included
+         All hydrogen bonds for each hydrogen will be found
+         Hydrogen bonds between excluded atoms will be kept
+
+ WARNING FROM DECODI - REAL to INTEGER conversion
+ 0.1
+Integer portion will be returned.
+ DCNTRL> Langevin integration requested.
+ DCNTRL>  OpenMM interface requested for energy and dynamics calculations.
+ DCNTRL>  Constant temperature w/ OpenMM using Langevin heatbath requested.
+ DCNTRL>  Reference heatbath temperature is   310.000K
+ DCNTRL>  Using friction coefficient value of    10.000  ps^-1
+   NSTEP =        1    NSAVC =     1000    NSAVV =       10
+  ISCALE =        0   ISCVEL =        0   IASORS =        1
+  IASVEL =        1   ICHECW =        0   NTRFRQ =      100
+  IHTFRQ =        0   IEQFRQ =        0   NPRINT =        1
+  INBFRQ =       -1   IHBFRQ =        0   IPRFRQ =        1
+  ILBFRQ =        0   IMGFRQ =       -1
+  ISVFRQ =        0   NCYCLE =        1    NSNOS =       10
+  FIRSTT =   310.000  TEMINC =     5.000  TSTRUC =  -999.000
+  FINALT =   310.000  TWINDH =    10.000  TWINDL =   -10.000
+
+  TIME STEP =  2.04548E-02 AKMA       1.00000E-03 PS
+
+  RANDOM NUM. GEN. SEED(S) = 1073017244 1391432288 326626264 1060033108
+
+           SHAKE TOLERANCE =     0.10000E-09
+ NUMBER OF DEGREES OF FREEDOM =  40275
+ **** Warning ****  The following extraneous characters
+ were found while command processing in DCNTRL
+ MCPR PREF 1 IPRSFRQ 25
+get_PlatformDefaults> Finding default platform values
+get_PlatformDefaults> Default values found: platform=CPU precision= deviceid=
+Setup_OpenMM: Initializing OpenMM context
+CHARMM> Using switching functions for vdW interactions and OpenMM PME/RxnFld for electrostatics
+CHARMM> Using OpenMM nb routines.
+CHARMM> configuring OpenMM PME with
+        alpha     2.8571
+        fft   48   48   48
+
+NBFIxes in effect, using CustomNonbondedForce

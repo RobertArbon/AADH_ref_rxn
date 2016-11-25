@@ -1,0 +1,52 @@
+REMARK  ACTIVE SITE WITH HYDROGENS RE-BUILT.  ACETATE WITH CGENFF.                    
+REMARK   DATE:    10/10/16     10:54:54      CREATED BY USER: ra15808                 
+ATOM      1  CX1 TTW2    1       6.231   1.371  -1.966  1.00  0.00      ASIT
+ATOM      2  HX1 TTW2    1       7.015   2.097  -1.724  1.00  0.00      ASIT
+ATOM      3  HX2 TTW2    1       5.670   1.823  -2.786  1.00  0.00      ASIT
+ATOM      4  HX3 TTW2    1       6.684   0.413  -2.299  1.00  0.00      ASIT
+ATOM      5  CX2 TTW2    1       5.380   1.158  -0.738  1.00  0.00      ASIT
+ATOM      6  CD1 TTW2    1       5.880   1.499   0.517  1.00  0.00      ASIT
+ATOM      7  HD1 TTW2    1       6.838   1.938   0.762  1.00  0.00      ASIT
+ATOM      8  NE1 TTW2    1       4.969   1.217   1.481  1.00  0.00      ASIT
+ATOM      9  HE1 TTW2    1       5.021   1.489   2.467  1.00  0.00      ASIT
+ATOM     10  CE2 TTW2    1       3.839   0.728   0.885  1.00  0.00      ASIT
+ATOM     11  CD2 TTW2    1       4.041   0.671  -0.516  1.00  0.00      ASIT
+ATOM     12  CE3 TTW2    1       2.972   0.088  -1.330  1.00  0.00      ASIT
+ATOM     13  HE3 TTW2    1       3.108  -0.047  -2.393  1.00  0.00      ASIT
+ATOM     14  CZ3 TTW2    1       1.811  -0.278  -0.706  1.00  0.00      ASIT
+ATOM     15  HZ3 TTW2    1       0.991  -0.668  -1.293  1.00  0.00      ASIT
+ATOM     16  CZ2 TTW2    1       2.639   0.397   1.595  1.00  0.00      ASIT
+ATOM     17  OT  TTW2    1       2.455   0.532   2.821  1.00  0.00      ASIT
+ATOM     18  CH2 TTW2    1       1.571  -0.076   0.687  1.00  0.00      ASIT
+ATOM     19  NT  TTW2    1       0.378  -0.235   1.246  1.00  0.00      ASIT
+ATOM     20  HNT TTW2    1       0.390  -0.117   2.268  1.00  0.00      ASIT
+ATOM     21  CI2 TTW2    1      -0.807  -0.593   0.624  1.00  0.00      ASIT
+ATOM     22  HI2 TTW2    1      -0.644  -1.893   0.162  1.00  0.00      ASIT
+ATOM     23  HI3 TTW2    1      -0.863  -0.143  -0.370  1.00  0.00      ASIT
+ATOM     24  C1  TTW2    1      -2.085  -0.404   1.439  1.00  0.00      ASIT
+ATOM     25  H3  TTW2    1      -1.842  -0.370   2.507  1.00  0.00      ASIT
+ATOM     26  H4  TTW2    1      -2.726  -1.283   1.305  1.00  0.00      ASIT
+ATOM     27  CW1 TTW2    1      -2.835   0.824   0.997  1.00  0.00      ASIT
+ATOM     28  CW2 TTW2    1      -2.457   2.139   1.145  1.00  0.00      ASIT
+ATOM     29  HW1 TTW2    1      -1.602   2.572   1.647  1.00  0.00      ASIT
+ATOM     30  NW1 TTW2    1      -3.350   2.957   0.477  1.00  0.00      ASIT
+ATOM     31  HNW TTW2    1      -3.300   3.965   0.475  1.00  0.00      ASIT
+ATOM     32  CW3 TTW2    1      -4.327   2.192  -0.122  1.00  0.00      ASIT
+ATOM     33  CW8 TTW2    1      -4.025   0.833   0.185  1.00  0.00      ASIT
+ATOM     34  CW4 TTW2    1      -5.434   2.543  -0.900  1.00  0.00      ASIT
+ATOM     35  HW2 TTW2    1      -5.676   3.580  -1.117  1.00  0.00      ASIT
+ATOM     36  CW6 TTW2    1      -5.959   0.169  -1.084  1.00  0.00      ASIT
+ATOM     37  HW4 TTW2    1      -6.614  -0.608  -1.474  1.00  0.00      ASIT
+ATOM     38  CW5 TTW2    1      -6.240   1.516  -1.379  1.00  0.00      ASIT
+ATOM     39  HW3 TTW2    1      -7.107   1.761  -1.983  1.00  0.00      ASIT
+ATOM     40  CW7 TTW2    1      -4.860  -0.181  -0.311  1.00  0.00      ASIT
+ATOM     41  HW5 TTW2    1      -4.634  -1.222  -0.109  1.00  0.00      ASIT
+ATOM     42  CB  ACT2    2      -0.132  -5.241  -0.391  1.00  0.00      ASIT
+ATOM     43  HB1 ACT2    2      -0.019  -5.252  -1.480  1.00  0.00      ASIT
+ATOM     44  HB2 ACT2    2      -1.175  -5.501  -0.181  1.00  0.00      ASIT
+ATOM     45  HB3 ACT2    2       0.556  -5.960   0.095  1.00  0.00      ASIT
+ATOM     46  CG  ACT2    2       0.089  -3.842   0.175  1.00  0.00      ASIT
+ATOM     47  OD2 ACT2    2      -0.547  -2.917  -0.509  1.00  0.00      ASIT
+ATOM     48  OD1 ACT2    2       0.732  -3.642   1.201  1.00  0.00      ASIT
+TER      49      ACT2     2
+END

@@ -1,0 +1,53 @@
+* Create active site structures only. 
+*
+
+
+stream ./../setup.inp
+
+read rtf card name @datadir/kr/top_ttw.inp
+read rtf card name @datadir/kr/ttw_prod.rtf append
+read para card name @datadir/kr/par_ttw.inp
+
+! read rtf card name @basedir/data/top_all22_prot.rtf
+! read para card name @basedir/data/par_all22_prot.prm
+
+
+set geom 1
+
+
+label loop
+    read psf card name @datadir/kr/aadh_reactant.psf
+
+    read coor card name ../evb/kr_geoms/b3lyp/@geom.crd
+
+    define asite sele bynum 3011:3049 .or. bynum 3326:3331 end
+
+    rename resn ttw2 sele bynum 3011:3049 end 
+    rename resn act2 sele bynum 3326:3331 end
+
+
+    energy
+
+    dele atom sele .not. asite end 
+
+    join bchn renumber
+
+    energy
+
+    if @geom .lt. 2 then
+        write psf card name ./common/@geom-as-noH.psf
+        * Active site - no hydrogens
+        *
+    endif 
+
+    write coor card name ./common/@geom-as-noH.cor
+    * Active site - no hydrogens
+    *
+
+    dele atom sele all end
+    
+    incr geom by 1
+
+if @geom .lt. 71 then goto loop
+
+stop

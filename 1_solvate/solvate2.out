@@ -1,0 +1,2879 @@
+1
+                 Chemistry at HARvard Macromolecular Mechanics
+           (CHARMM) - Developmental Version 41a2   February 15, 2016            
+                             Git commit ID 2bac8cc                              
+       Copyright(c) 1984-2014  President and Fellows of Harvard College
+                              All Rights Reserved
+     Current operating system: Linux-2.6.32-220.23.1.el6.x86_64(x86_64)@nod     
+                 Created on 10/10/16 at 11:18:23 by user: ra15808     
+
+            Maximum number of ATOMS:    360720, and RESidues:      120240
+ RDTITL> *NAME: SOLVENT-BOX.STR
+ RDTITL> *PURPOSE: MAKE A TIP3 BOX WITH USER-DEFINED EDGES, AND MAKE ROOM FOR SOLUTE
+ RDTITL> *AUTHOR: LENNART NILSSON, KAROLINSKA INSTITUTET (OCTOBER 7, 2003)
+ RDTITL> * THERE IS NO ERROR CHECKING IN THIS FILE
+ RDTITL> *
+  
+ CHARMM>     
+  
+ CHARMM>     
+  
+ CHARMM>    prnlev 5
+  
+ CHARMM>     
+  
+ CHARMM>    set molname 1-as
+ Parameter: MOLNAME <- "1-AS"
+  
+ CHARMM>     
+  
+ CHARMM>    stream ../common/toppar_water_ions_fixed.str
+ VOPEN> Attempting to open::../common/toppar_water_ions_fixed.str::
+ OPNLGU> Unit 99 opened for READONLY access to ../common/toppar_water_ions_fixed.str
+
+                    INPUT STREAM SWITCHING TO UNIT    99
+ RDTITL> * TOPLOGY AND PARAMETER INFORMATION FOR WATER AND IONS.
+ RDTITL> *
+ Parameter: IN1 <- "" <empty>
+  
+ CHARMM>     
+  
+ CHARMM>    !Testcase
+ CHARMM>    !test_water_ions.inp
+ CHARMM>     
+  
+ CHARMM>    ! IMPORTANT NOTE: this file contains NBFixes between carboxylates and sodium,
+ CHARMM>    ! which will only apply if the main files containing carboxylate atom types
+ CHARMM>    ! have been read in first!
+ CHARMM>     
+  
+ CHARMM>    !references
+ CHARMM>    !
+ CHARMM>    !TIP3P water model
+ CHARMM>    !
+ CHARMM>    !W.L. Jorgensen; J.Chandrasekhar; J.D. Madura; R.W. Impey;
+ CHARMM>    !M.L. Klein; "Comparison of simple potential functions for
+ CHARMM>    !simulating liquid water", J. Chem. Phys. 79 926-935 (1983).
+ CHARMM>    !
+ CHARMM>    !IONS
+ CHARMM>    !
+ CHARMM>    !Ions from Roux and coworkers
+ CHARMM>    !
+ CHARMM>    !Beglov, D. and Roux, B., Finite Representation of an Infinite
+ CHARMM>    !Bulk System: Solvent Boundary Potential for Computer Simulations,
+ CHARMM>    !Journal of Chemical Physics, 1994, 100: 9050-9063
+ CHARMM>    !
+ CHARMM>    !ZINC
+ CHARMM>    !
+ CHARMM>    !Stote, R.H. and Karplus, M. Zinc Binding in Proteins and
+ CHARMM>    !Solution: A Simple but Accurate Nonbonded Representation, PROTEINS:
+ CHARMM>    !Structure, Function, and Genetics 23:12-31 (1995)
+ CHARMM>     
+  
+ CHARMM>    !test "append" to determine if previous toppar files have been read and
+ CHARMM>    !add append to "read rtf card" if true
+ CHARMM>    set nat ?NATC
+ RDCMND: can not substitute energy "?NATC"
+ Parameter: NAT <- "?NATC"
+  
+ CHARMM>    set app
+ Parameter: APP <- "" <empty>
+  
+ CHARMM>    !We're exploiting what is arguably a bug in the parser. On the left hand side,
+ CHARMM>    !the quotes have priority, so NAT is correctly substituted. On the right hand
+ CHARMM>    !side, the ? has priority and NATC" (sic) is not a valid substitution...
+ CHARMM>    if "@NAT" ne "?NATC" if @nat ne 0 set app append
+ Parameter: NAT -> "?NATC"
+ Parameter: NAT -> "?NATC"
+ RDCMND: can not substitute energy "?NATC""
+ Comparing ""?NATC"" and ""?NATC"".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>     
+  
+ CHARMM>    read rtf card  !REA 26/07/2013 - deleted @app - always stream this first and everything else must be appended)
+ MAINIO> Residue topology file being read from unit  99.
+ RDTITL> * TOPOLOGY FOR WATER AND IONS
+ RDTITL> *
+  
+ CHARMM>     
+  
+ CHARMM>    read para card flex  !REA - deleted @app
+
+          PARAMETER FILE BEING READ FROM UNIT 99
+ RDTITL> * PARAMETERS FOR WATER AND IONS
+ RDTITL> *
+ PARMIO> NONBOND, HBOND lists and IMAGE atoms cleared.
+  
+ CHARMM>     
+  
+ CHARMM>    ! The following section contains NBFixes for sodium interacting with
+ CHARMM>    ! carboxylate oxygens of various CHARMM force fields. It will generate
+ CHARMM>    ! level -1 warnings whenever any of these force fields have not been
+ CHARMM>    ! read prior to the current stream file. Since we don't want to force
+ CHARMM>    ! the user to always read all the force fields, we're suppressing the
+ CHARMM>    ! warnings. The only side effect is that you will have "most severe
+ CHARMM>    ! warning was at level 0" at the end of your output. Also note that
+ CHARMM>    ! the user is responsible for reading the current file last if they
+ CHARMM>    ! want the NBFixes to apply. A more elegant solution would require new
+ CHARMM>    ! features to be added to CHARMM.
+ CHARMM>    ! parallel fix, to avoid duplicated messages in the log
+ CHARMM>    set para
+ Parameter: PARA <- "" <empty>
+  
+ CHARMM>    if ?NUMNODE gt 1 set para node 0
+ RDCMND substituted energy or value "?NUMNODE" to "1"
+ Comparing "1" and "1".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>     
+  
+ CHARMM>    set wrn ?WRNLEV
+ RDCMND substituted energy or value "?WRNLEV" to "5"
+ Parameter: WRN <- "5"
+  
+ CHARMM>    ! Some versions of CHARMM don't seem to initialize wrnlev...
+ CHARMM>    if "@WRN" eq "?WRNLEV" set wrn 5
+ Parameter: WRN -> "5"
+ RDCMND: can not substitute energy "?WRNLEV""
+ Comparing ""5"" and ""?WRNLEV"".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>    set bom ?bomlev
+ RDCMND substituted energy or value "?BOMLEV" to "0"
+ Parameter: BOM <- "0"
+  
+ CHARMM>    WRNLEV -1 @PARA
+ Parameter: PARA -> "" <empty>
+  
+ CHARMM>    BOMLEV -1 @PARA
+ Parameter: PARA -> "" <empty>
+  
+ CHARMM>    read para card flex append
+
+          PARAMETER FILE BEING READ FROM UNIT 99
+ RDTITL> * NBFIX BETWEEN CARBOXYLATE AND SODIUM
+ RDTITL> *
+ PARMIO> NONBOND, HBOND lists and IMAGE atoms cleared.
+  
+ CHARMM>    BOMLEV @bom @PARA
+ Parameter: BOM -> "0"
+ Parameter: PARA -> "" <empty>
+  
+ CHARMM>    WRNLEV @wrn @PARA
+ Parameter: WRN -> "5"
+ Parameter: PARA -> "" <empty>
+  
+ CHARMM>     
+  
+ CHARMM>    return
+ VCLOSE: Closing unit   99 with status "KEEP"
+
+                    RETURNING TO INPUT STREAM     5
+  
+ CHARMM>    read rtf card name ../common/aadh_topologies.rtf append flex
+ VOPEN> Attempting to open::../common/aadh_topologies.rtf::
+ MAINIO> Residue topology file being read from unit  90.
+ TITLE> * RESIDUES AND PATCHES FOR CREATING AADH REACTANT AND PRODUCTS
+ TITLE> * ATOM DEFINITIONS IS TAKEN FROM TOP_ALL36_PROT.RTF
+ TITLE> * PREAMLE IS TAKEN FROM TOP_TTW.INP
+ TITLE> * >>>>>
+ TITLE> * RESI TTW - /DATA/KR/TOP_TTW.INP
+ TITLE> * RESI TTW2 - /DATA/KR/TOP_TTW.INP - I DON'T THINK THIS IS USED SO THIS WON'T BE ADJUSTED.
+ TITLE> * PRES TRPM - /DATA/NEW_MD/TRPM.RTF
+ TITLE> * PRES TTWP - /DATA/KR/TTW_PROD.RTF
+ TITLE> * PRES ASP1/2 - /DATA/KR/TTW_PROD.RTF
+ TITLE> * PRES TTQ_TRP - /DATA/NEW_MD/TTW_TOP.INP
+ TITLE> * THE ORIGINAL PATCHES AND RESIDUES WERE SPECIFIED IN THE CHARM22 FF
+ TITLE> * 23/07/2016 - THE PRODUCT PATCHES WILL HAVE TO CHANGE (TO GET RID OF DELE STATEMENT)
+ TITLE> *               AND TO PRESERVE THE ATOMS LABELLING CHANGES.
+ TITLE> *
+ WARNING from DECODI -- Zero length string being converted to 0
+ RTFRDR> WARNING: Version number is NOT specified.
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>    read rtf card name ../common/top_all36_cgenff.rtf append flex
+ VOPEN> Attempting to open::../common/top_all36_cgenff.rtf::
+ MAINIO> Residue topology file being read from unit  90.
+ TITLE> *  --------------------------------------------------------------------------  *
+ TITLE> *          CGENFF: TOPOLOGY FOR THE CHARMM GENERAL FORCE FIELD V. 3.1          *
+ TITLE> *                    FOR SMALL MOLECULE DRUG DESIGN                            *
+ TITLE> *  --------------------------------------------------------------------------  *
+ TITLE> *
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>    read para card name ../common/par_all36_prot_mod.prm flex
+ VOPEN> Attempting to open::../common/par_all36_prot_mod.prm::
+
+          PARAMETER FILE BEING READ FROM UNIT 90
+ TITLE> *>>>> CHARMM36 ALL-HYDROGEN PARAMETER FILE FOR PROTEINS <<<<<<<<<<
+ TITLE> *>>>>> INCLUDES PHI, PSI CROSS TERM MAP (CMAP) CORRECTION <<<<<<<<
+ TITLE> *>>>>>>>>>>>>>>>>>>>>>>>>>> JAN. 2016 <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+ TITLE> * ALL COMMENTS TO THE CHARMM WEB SITE: WWW.CHARMM.ORG
+ TITLE> *             PARAMETER SET DISCUSSION FORUM
+ TITLE> *
+ PARMIO> NONBOND, HBOND lists and IMAGE atoms cleared.
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>    read para card name ../common/aadh_parameters.prm append flex
+ VOPEN> Attempting to open::../common/aadh_parameters.prm::
+
+          PARAMETER FILE BEING READ FROM UNIT 90
+ TITLE> * PARAMETERS SPECIFIC TO AADH.  TO BE USED IN CONJUNCTION WITH AADH_TOPOLOGIES.RTF
+ TITLE> * THESE WERE TAKEN FROM EACH SECTION IN /DATA/KR/PAR_TTW.INP
+ TITLE> *   AND ADDITIONALLY FROM /DATA/NEW_MD/PAR_TTW.INP
+ TITLE> * THERE'S NO ANGLE PARAMETERS FOR HA ONLY HA1/2/3 SO CHANGE THE HAS IN THE AADH_TOPOLOGIES
+ TITLE> * ADDED NBFIX
+ TITLE>  
+ PARMIO> NONBOND, HBOND lists and IMAGE atoms cleared.
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>    read para card name ../common/par_all36_cgenff.prm append flex
+ VOPEN> Attempting to open::../common/par_all36_cgenff.prm::
+
+          PARAMETER FILE BEING READ FROM UNIT 90
+ TITLE> *  --------------------------------------------------------------------------  *
+ TITLE> *         CGENFF: PARAMETERS FOR THE CHARMM GENERAL FORCE FIELD V. 3.1         *
+ TITLE> *                    FOR SMALL MOLECULE DRUG DESIGN                            *
+ TITLE> *  --------------------------------------------------------------------------  *
+ TITLE> *
+ PARMIO> NONBOND, HBOND lists and IMAGE atoms cleared.
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>     
+  
+ CHARMM>    read psf card name ../common/@molname.psf
+ Parameter: MOLNAME -> "1-AS"
+ VOPEN> Attempting to open::../common/1-as.psf::
+ MAINIO> Protein structure file being read from unit  90.
+ PSFRD2> Reading PSF in the expanded format.
+ TITLE>  * ACTIVE SITE WITH HYDROGENS RE-BUILT.  ACETATE WITH CGENFF.
+ TITLE>  *  DATE:    10/10/16     10:54:53      CREATED BY USER: ra15808
+ TITLE>  *
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        1   Number of residues   =        2
+         Number of atoms         =       48   Number of groups     =       12
+         Number of bonds         =       50   Number of angles     =       84
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =        1   Number of HB donors  =        3
+         Number of NB exclusions =        0   Total charge =    0.00000
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>    read coord card name ../common/@molname.cor
+ Parameter: MOLNAME -> "1-AS"
+ VOPEN> Attempting to open::../common/1-as.cor::
+          SPATIAL COORDINATES BEING READ FROM UNIT 90
+ TITLE> * ACTIVE SITE WITH HYDROGENS RE-BUILT.  ACETATE WITH CGENFF.
+ TITLE> *  DATE:    10/10/16     10:54:53      CREATED BY USER: RA15808
+ TITLE> *
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>     
+  
+ CHARMM>    ! NAME: solvent-box.str
+ CHARMM>    ! PURPOSE: make a TIP3 box with user-defined edges, and make room for solute
+ CHARMM>    ! AUTHOR: Lennart Nilsson, Karolinska Institutet (October 7, 2003)
+ CHARMM>    ! THERE IS NO ERROR CHECKING IN THIS FILE
+ CHARMM>    ! Dynamic segment generation added for those CHARMM versions, which do not
+ CHARMM>    ! support more than 9999 residues per segment . Modification
+ CHARMM>    ! by Davit Hakobyan (October 1, 2004).
+ CHARMM>     
+  
+ CHARMM>    !ASSUMPTIONS:
+ CHARMM>    ! The psf and coordinates of the solute are present
+ CHARMM>    ! A selection "SOLUTE" defining the solute has been made
+ CHARMM>    ! (define solute sele ... end)
+ CHARMM>    ! There is no segment present with segid WAT, WAT0, WAT1, WAT2 or WAT3
+ CHARMM>    ! XSIZ, YSIZ and ZSIZ have been s set to the desired box dimensions
+ CHARMM>    ! Uses $CHM_STREAM/read-watbox.str to get coordinates for primary water box
+ CHARMM>    ! Unix environment variable CHM_STREAM points to directory containing these
+ CHARMM>    ! scripts
+ CHARMM>    !RESULT:
+ CHARMM>    ! At return there will be a new segment named WAT containing TIP3 water
+ CHARMM>    ! molecules ! that have their oxygen atom in the box, and not overlapping
+ CHARMM>    ! with the solute.
+ CHARMM>    ! The system is centered at the origin, with the main axis of inertia of the
+ CHARMM>    ! SOLUTE! along the x-axis. For the deletion of overlapping waters only
+ CHARMM>    ! heavy solute atoms and water oxygens are considered; overlap distance
+ CHARMM>    ! criteria are defined below
+ CHARMM>    ! No other manipulations (minimizations etc) are performed on the system;
+ CHARMM>    ! bomblevel is set to -2 to avoid stopping at empty selections or
+ CHARMM>    !  empty segments
+ CHARMM>    ! 2004.10.01 modification
+ CHARMM>    ! For those segments, which threaten to contain more than 9999 residues per segment
+ CHARMM>    ! new segment name is created. This results in some changes in water segments
+ CHARMM>    ! names. For current modification water segments start with name WT followed by
+ CHARMM>    ! a number starting from 2. Due to intermediate deletion and generation of atoms
+ CHARMM>    ! and segments the final structure may not contain water segment starting from
+ CHARMM>    ! strictly WT2 and may contain gap in segment naming. Modification could be mostly
+ CHARMM>    ! found if search for "Auto_naming" comment line.
+ CHARMM>     
+  
+ CHARMM>    !USAGE EXAMPLE:
+ CHARMM>     
+  
+ CHARMM>    SET XSIZ 43
+ Parameter: XSIZ <- "43"
+  
+ CHARMM>    SET YSIZ 43
+ Parameter: YSIZ <- "43"
+  
+ CHARMM>    SET ZSIZ 43
+ Parameter: ZSIZ <- "43"
+  
+ CHARMM>     
+  
+ CHARMM>    define SOLUTE sele all end
+ SELRPN>     48 atoms have been selected out of     48
+  
+ CHARMM>     
+  
+ CHARMM>    ! stream $CHM_STREAM/solvent-box.str
+ CHARMM>     
+  
+ CHARMM>    !! here you may want to add some boundary potential
+ CHARMM>    !cons harm force 50.0 sele SOLUTE end
+ CHARMM>    !mini sd nstep 50
+ CHARMM>    !mini abnr nstep 50
+ CHARMM>    !. . .
+ CHARMM>    !LOCAL VARIABLES:
+ CHARMM>    ! XTR,YTR,ZTR,XNUM,YNUM,ZNUM,BOX,XB2,YB2,ZB2
+ CHARMM>    ! NW0,NROD,NSLAB,OVERLAP,OVERAP2,I
+ CHARMM>    !Defines selection SOLUTE1
+ CHARMM>    ! distance to use when deleting waters that overlap with the solute
+ CHARMM>    ! possibly different for second overlay of slightly shifted/rotated slab
+ CHARMM>    set OVERLAP   2.2
+ Parameter: OVERLAP <- "2.2"
+  
+ CHARMM>    set OVERLAP2  2.2
+ Parameter: OVERLAP2 <- "2.2"
+  
+ CHARMM>    ! solvation will be done by sliding a slab of TIP3 along the x-axis
+ CHARMM>    ! the water box we start with is a cube with 18.856A side containing 216 TIP3
+ CHARMM>    set BOX 18.856
+ Parameter: BOX <- "18.856"
+  
+ CHARMM>    set NW0 216
+ Parameter: NW0 <- "216"
+  
+ CHARMM>     
+  
+ CHARMM>    ! Auto_naming
+ CHARMM>    set NLIMIT  9999    ! Maximum number of residues per segment
+ Parameter: NLIMIT <- "9999"
+  
+ CHARMM>    set swi     2       ! Starting Water Index constant
+ Parameter: SWI <- "2"
+  
+ CHARMM>    set wiCur   @swi    ! Variable which keeps the current index of water segment
+ Parameter: SWI -> "2"
+ Parameter: WICUR <- "2"
+  
+ CHARMM>                    ! along this script.
+  
+ CHARMM>     
+  
+ CHARMM>    ! for the water-deletions we will use only the heavy atoms of the solute
+ CHARMM>    define SOLUTE1 sele SOLUTE .and. .not. hydrogen end
+ SELRPN>     27 atoms have been selected out of     48
+  
+ CHARMM>    ! set bomblevel to -2 to avoid stopping on empty selections or empty segments
+ CHARMM>    bomb -2
+  
+ CHARMM>     
+  
+ CHARMM>    ! begin calculations
+ CHARMM>    ! place SOLUTE along xaxis centered at (XSIZ/2,YSIZ/2,ZSIZ/2) in first octant so
+ CHARMM>    ! we can easily move our box around to cover the solute
+ CHARMM>    calc XB2 = @XSIZ / 2.0
+ Parameter: XSIZ -> "43"
+Evaluating: 43/2.0
+ Parameter: XB2 <- "21.5"
+  
+ CHARMM>    calc YB2 = @YSIZ / 2.0
+ Parameter: YSIZ -> "43"
+Evaluating: 43/2.0
+ Parameter: YB2 <- "21.5"
+  
+ CHARMM>    calc ZB2 = @ZSIZ / 2.0
+ Parameter: ZSIZ -> "43"
+Evaluating: 43/2.0
+ Parameter: ZB2 <- "21.5"
+  
+ CHARMM>    coor orient sele SOLUTE end
+ SELRPN>     48 atoms have been selected out of     48
+
+ ORIENT THE COORDINATES TO ALIGN WITH AXIS
+
+ MOMENTS
+     99.82208587      0.00000000      0.00000000
+                    285.38796828      0.00000000
+                                    701.66070217
+
+ Transpose of the rotation matrix
+     1.000000    0.000000    0.000000
+    -0.000000    1.000000    0.000000
+    -0.000000   -0.000000    1.000000
+ CENTER OF ATOMS BEFORE TRANSLATION    -0.00000    -0.00000    -0.00000
+ VERY LITTLE ROTATION: NO AXIS FOUND
+ ALL COORDINATES ORIENTED IN THE MAIN SET BASED ON SELECTED ATOMS.
+
+  
+ CHARMM>    coor trans xdir @XB2 ydir @YB2 zdir @ZB2
+ Parameter: XB2 -> "21.5"
+ Parameter: YB2 -> "21.5"
+ Parameter: ZB2 -> "21.5"
+ TRANSLATION VECTOR    21.500000   21.500000   21.500000
+ SELECTED COORDINATES TRANSLATED IN THE MAIN SET.
+
+  
+ CHARMM>     
+  
+ CHARMM>    calc XNUM = INT(@XSIZ / @BOX + 1)
+ Parameter: XSIZ -> "43"
+ Parameter: BOX -> "18.856"
+Evaluating: INT(43/18.856+1)
+ Parameter: XNUM <- "3"
+  
+ CHARMM>    calc YNUM = INT(@YSIZ / @BOX + 1)
+ Parameter: YSIZ -> "43"
+ Parameter: BOX -> "18.856"
+Evaluating: INT(43/18.856+1)
+ Parameter: YNUM <- "3"
+  
+ CHARMM>    calc ZNUM = INT(@ZSIZ / @BOX + 1)
+ Parameter: ZSIZ -> "43"
+ Parameter: BOX -> "18.856"
+Evaluating: INT(43/18.856+1)
+ Parameter: ZNUM <- "3"
+  
+ CHARMM>     
+  
+ CHARMM>    ! number of water molecules in a rod and in a slab
+ CHARMM>    calc NROD = @NW0 * @YNUM
+ Parameter: NW0 -> "216"
+ Parameter: YNUM -> "3"
+Evaluating: 216*3
+ Parameter: NROD <- "648"
+  
+ CHARMM>    calc NSLAB = @ZNUM * @NROD
+ Parameter: ZNUM -> "3"
+ Parameter: NROD -> "648"
+Evaluating: 3*648
+ Parameter: NSLAB <- "1944"
+  
+ CHARMM>     
+  
+ CHARMM>    !generate one rod of boxes along Y-axis
+ CHARMM>    read sequence tip3 216
+  
+ CHARMM>    gene wat0 noangle nodihe
+ NO PATCHING WILL BE DONE ON THE FIRST RESIDUE
+ NO PATCHING WILL BE DONE ON THE LAST  RESIDUE
+ GENPSF> Segment   2 has been generated. Its identifier is WAT0.
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        2   Number of residues   =      218
+         Number of atoms         =      696   Number of groups     =      228
+         Number of bonds         =      698   Number of angles     =      300
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =      217   Number of HB donors  =      435
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>    stream read-watbox.str
+ VOPEN> Attempting to open::read-watbox.str::
+ OPNLGU> Unit 99 opened for READONLY access to read-watbox.str
+
+                    INPUT STREAM SWITCHING TO UNIT    99
+ RDTITL> *FILENAME: READ-WATBOX.STR
+ RDTITL> *PURPOSE:  READ 216 WATER MOLECULE COORD; USED IN SOLVATION SCRIPTS
+ RDTITL> *AUTHOR:   LENNART NILSSON, KAROLINSKA INSTITUTET, OCTOBER 2003
+ RDTITL> READ COOR CARD RESID
+ Parameter: IN1 <- "" <empty>
+  
+ CHARMM>    read coor card resid
+          SPATIAL COORDINATES BEING READ FROM UNIT 99
+ RDTITL> * THIS IS A BOX OF 216 3-SITE WATER MOLECULES IN THE EXPERIMENTAL
+ RDTITL> * GEOMETRY.  IT WAS CONSTRUCTED FROM AN EQUILIBRATED
+ RDTITL> * CONFIGURATION OF TIP4P (4-SITE WATER MODEL OF JORGENSON)
+ RDTITL> * WATERS AT 1 ATM PRESSURE AND A DENSITY OF 0.0334 MOLECULES/A**-3.
+ RDTITL> * THE BOX EDGELENGTH IS 18.856 A.  THE MINIMUM IMAGE PERIODIC
+ RDTITL> * BOUNDARY ENERGY FOR THIS CONFIGURATION USING THE TIP4P
+ RDTITL> * POTENTIALS IS -2150.6833 KCAL/MOL.
+ RDTITL> *
+  
+ CHARMM>     
+  
+ CHARMM>     
+  
+ CHARMM>    return
+ VCLOSE: Closing unit   99 with status "KEEP"
+
+                    RETURNING TO INPUT STREAM     5
+  
+ CHARMM>    ! put it in the first octant
+ CHARMM>    coor stat sele segid wat0 .and. .not. hydrogen end
+ SELRPN>    216 atoms have been selected out of    696
+ STATISTICS FOR       216 SELECTED ATOMS:
+    XMIN =   -9.373790 XMAX =    9.334460 XAVE =    0.170611
+    YMIN =   -9.396060 YMAX =    9.426610 YAVE =   -0.069316
+    ZMIN =   -9.415770 ZMAX =    9.381960 ZAVE =    0.121805
+    WMIN =    0.000000 WMAX =    0.000000 WAVE =    0.000000
+  
+ CHARMM>    calc XTR = - ?XMIN
+ RDCMND substituted energy or value "?XMIN" to "-9.37379"
+Evaluating: --9.37379
+ Parameter: XTR <- "9.37379"
+  
+ CHARMM>    calc YTR = - ?YMIN
+ RDCMND substituted energy or value "?YMIN" to "-9.39606"
+Evaluating: --9.39606
+ Parameter: YTR <- "9.39606"
+  
+ CHARMM>    calc ZTR = - ?ZMIN
+ RDCMND substituted energy or value "?ZMIN" to "-9.41577"
+Evaluating: --9.41577
+ Parameter: ZTR <- "9.41577"
+  
+ CHARMM>    coor trans xdir @XTR ydir @YTR zdir @ZTR sele segid WAT0 end
+ Parameter: XTR -> "9.37379"
+ Parameter: YTR -> "9.39606"
+ Parameter: ZTR -> "9.41577"
+ SELRPN>    648 atoms have been selected out of    696
+ TRANSLATION VECTOR     9.373790    9.396060    9.415770
+ SELECTED COORDINATES TRANSLATED IN THE MAIN SET.
+
+  
+ CHARMM>     
+  
+ CHARMM>    ! Auto_naming
+ CHARMM>    read sequence tip3 216
+  
+ CHARMM>    !gene wat noangle nodihe
+ CHARMM>    gene wt@wiCur noangle nodihe
+ Parameter: WICUR -> "2"
+ NO PATCHING WILL BE DONE ON THE FIRST RESIDUE
+ NO PATCHING WILL BE DONE ON THE LAST  RESIDUE
+ GENPSF> Segment   3 has been generated. Its identifier is WT2.
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        3   Number of residues   =      434
+         Number of atoms         =     1344   Number of groups     =      444
+         Number of bonds         =     1346   Number of angles     =      516
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =      433   Number of HB donors  =      867
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>    !coor dupl sele segid wat0 end sele segid wat end
+ CHARMM>    coor dupl sele segid wat0 end sele segid wt@wiCur end
+ Parameter: WICUR -> "2"
+ SELRPN>    648 atoms have been selected out of   1344
+ SELRPN>    648 atoms have been selected out of   1344
+  
+ CHARMM>     
+  
+ CHARMM>    if YNUM .eq. 1 goto do_z
+ Comparing "3" and "1".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>    ! loop over the remaining 2 to NUM boxes in the rod
+ CHARMM>    set I 2
+ Parameter: I <- "2"
+  
+ CHARMM>     
+  
+ CHARMM>    ! Auto_naming
+ CHARMM>    set wiSum @NW0
+ Parameter: NW0 -> "216"
+ Parameter: WISUM <- "216"
+  
+ CHARMM>     
+  
+ CHARMM>    label yloop
+  
+ CHARMM>      read sequence tip3 216
+  
+ CHARMM>      gene wat1 noangle nodihe
+ NO PATCHING WILL BE DONE ON THE FIRST RESIDUE
+ NO PATCHING WILL BE DONE ON THE LAST  RESIDUE
+ GENPSF> Segment   4 has been generated. Its identifier is WAT1.
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        4   Number of residues   =      650
+         Number of atoms         =     1992   Number of groups     =      660
+         Number of bonds         =     1994   Number of angles     =      732
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =      649   Number of HB donors  =     1299
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>      coor dupl sele segid wat0 end sele segid wat1 end
+ SELRPN>    648 atoms have been selected out of   1992
+ SELRPN>    648 atoms have been selected out of   1992
+  
+ CHARMM>      coor transl ydir @BOX sele segid wat1 end
+ Parameter: BOX -> "18.856"
+ SELRPN>    648 atoms have been selected out of   1992
+ TRANSLATION VECTOR     0.000000   18.856000    0.000000
+ SELECTED COORDINATES TRANSLATED IN THE MAIN SET.
+
+  
+ CHARMM>      coor transl ydir @BOX sele segid wat0 end
+ Parameter: BOX -> "18.856"
+ SELRPN>    648 atoms have been selected out of   1992
+ TRANSLATION VECTOR     0.000000   18.856000    0.000000
+ SELECTED COORDINATES TRANSLATED IN THE MAIN SET.
+
+  
+ CHARMM>      !join wat wat1 renumber
+  
+ CHARMM>     
+  
+ CHARMM>    ! Auto_naming
+ CHARMM>      if @NROD .le. @NLIMIT THEN GOTO JUNC_PNT1
+ Parameter: NROD -> "648"
+ Parameter: NLIMIT -> "9999"
+ Comparing "648" and "9999".
+ IF test evaluated as true.  Performing command
+  
+ CHARMM>      join wt@wiCur wat1 renumber
+ Parameter: WICUR -> "2"
+ SEGMENTS "WT2     " AND "WAT1    " HAVE BEEN JOINED.
+ THE RESIDUE IDENTIFIERS HAVE BEEN RENUMBERED
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        3   Number of residues   =      650
+         Number of atoms         =     1992   Number of groups     =      660
+         Number of bonds         =     1994   Number of angles     =      732
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =      649   Number of HB donors  =     1299
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>     
+  
+ CHARMM>      incr I by 1
+ Parameter: I <- "3"
+  
+ CHARMM>      if I le @YNUM goto yloop
+ Parameter: YNUM -> "3"
+ Comparing "3" and "3".
+ IF test evaluated as true.  Performing command
+  
+ CHARMM>      read sequence tip3 216
+  
+ CHARMM>      gene wat1 noangle nodihe
+ NO PATCHING WILL BE DONE ON THE FIRST RESIDUE
+ NO PATCHING WILL BE DONE ON THE LAST  RESIDUE
+ GENPSF> Segment   4 has been generated. Its identifier is WAT1.
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        4   Number of residues   =      866
+         Number of atoms         =     2640   Number of groups     =      876
+         Number of bonds         =     2642   Number of angles     =      948
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =      865   Number of HB donors  =     1731
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>      coor dupl sele segid wat0 end sele segid wat1 end
+ SELRPN>    648 atoms have been selected out of   2640
+ SELRPN>    648 atoms have been selected out of   2640
+  
+ CHARMM>      coor transl ydir @BOX sele segid wat1 end
+ Parameter: BOX -> "18.856"
+ SELRPN>    648 atoms have been selected out of   2640
+ TRANSLATION VECTOR     0.000000   18.856000    0.000000
+ SELECTED COORDINATES TRANSLATED IN THE MAIN SET.
+
+  
+ CHARMM>      coor transl ydir @BOX sele segid wat0 end
+ Parameter: BOX -> "18.856"
+ SELRPN>    648 atoms have been selected out of   2640
+ TRANSLATION VECTOR     0.000000   18.856000    0.000000
+ SELECTED COORDINATES TRANSLATED IN THE MAIN SET.
+
+  
+ CHARMM>      !join wat wat1 renumber
+  
+ CHARMM>     
+  
+ CHARMM>    ! Auto_naming
+ CHARMM>      if @NROD .le. @NLIMIT THEN GOTO JUNC_PNT1
+ Parameter: NROD -> "648"
+ Parameter: NLIMIT -> "9999"
+ Comparing "648" and "9999".
+ IF test evaluated as true.  Performing command
+  
+ CHARMM>      join wt@wiCur wat1 renumber
+ Parameter: WICUR -> "2"
+ SEGMENTS "WT2     " AND "WAT1    " HAVE BEEN JOINED.
+ THE RESIDUE IDENTIFIERS HAVE BEEN RENUMBERED
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        3   Number of residues   =      866
+         Number of atoms         =     2640   Number of groups     =      876
+         Number of bonds         =     2642   Number of angles     =      948
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =      865   Number of HB donors  =     1731
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>     
+  
+ CHARMM>      incr I by 1
+ Parameter: I <- "4"
+  
+ CHARMM>      if I le @YNUM goto yloop
+ Parameter: YNUM -> "3"
+ Comparing "4" and "3".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>     
+  
+ CHARMM>    ! done with the rod, make a slab perpendicular to X-axis
+ CHARMM>    label DO_Z
+  
+ CHARMM>    ! wat0 is no longer needed
+ CHARMM>    delete atom sele segid wat0 end
+ SELRPN>    648 atoms have been selected out of   2640
+
+ Message from MAPIC: Atom numbers are changed.
+
+ Message from MAPIC:        216 residues deleted.
+
+ Message from MAPIC:          1 segments deleted.
+ DELTIC:       648 bonds deleted
+ DELTIC:       216 angles deleted
+ DELTIC:       432 donors deleted
+ DELTIC:       216 acceptors deleted
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        2   Number of residues   =      650
+         Number of atoms         =     1992   Number of groups     =      660
+         Number of bonds         =     1994   Number of angles     =      732
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =      649   Number of HB donors  =     1299
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>    if ZNUM .eq. 1 goto do_x
+ Comparing "3" and "1".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>     
+  
+ CHARMM>    !rename segid wat0 sele segid wat end
+ CHARMM>     
+  
+ CHARMM>    !read sequence tip3 @NROD
+ CHARMM>    !gene wat noangle nodihe
+ CHARMM>    !coor dupl sele segid wat0 end sele segid wat end
+ CHARMM>     
+  
+ CHARMM>    ! Auto_naming
+ CHARMM>    set wiLast @wiCur
+ Parameter: WICUR -> "2"
+ Parameter: WILAST <- "2"
+  
+ CHARMM>    set wiSum @NROD
+ Parameter: NROD -> "648"
+ Parameter: WISUM <- "648"
+  
+ CHARMM>    set wiTmp @swi
+ Parameter: SWI -> "2"
+ Parameter: WITMP <- "2"
+  
+ CHARMM>    calc NumTimes = INT(@NLIMIT / @NW0)
+ Parameter: NLIMIT -> "9999"
+ Parameter: NW0 -> "216"
+Evaluating: INT(9999/216)
+ Parameter: NUMTIMES <- "46"
+  
+ CHARMM>    calc AtmBlock = @NumTimes * @NW0
+ Parameter: NUMTIMES -> "46"
+ Parameter: NW0 -> "216"
+Evaluating: 46*216
+ Parameter: ATMBLOCK <- "9936"
+  
+ CHARMM>     
+  
+ CHARMM>    label GEN_PNT1
+  
+ CHARMM>      if wiSum .le. 0 then goto PRE_ZLOOP
+ Comparing "648" and "0".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>      if wiSum .le. @AtmBlock then goto GEN_PNT2
+ Parameter: ATMBLOCK -> "9936"
+ Comparing "648" and "9936".
+ IF test evaluated as true.  Performing command
+  
+ CHARMM>      set AtmNum @wiSum
+ Parameter: WISUM -> "648"
+ Parameter: ATMNUM <- "648"
+  
+ CHARMM>    label GEN_PNT3
+  
+ CHARMM>      increment wiCur by 1
+ Parameter: WICUR <- "3"
+  
+ CHARMM>      read sequence tip3 @AtmNum
+ Parameter: ATMNUM -> "648"
+  
+ CHARMM>      gene wt@wiCur noangle nodihe
+ Parameter: WICUR -> "3"
+ NO PATCHING WILL BE DONE ON THE FIRST RESIDUE
+ NO PATCHING WILL BE DONE ON THE LAST  RESIDUE
+ GENPSF> Segment   3 has been generated. Its identifier is WT3.
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        3   Number of residues   =     1298
+         Number of atoms         =     3936   Number of groups     =     1308
+         Number of bonds         =     3938   Number of angles     =     1380
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     1297   Number of HB donors  =     2595
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>      coor dupl sele segid wt@wiTmp end sele segid wt@wiCur end
+ Parameter: WITMP -> "2"
+ Parameter: WICUR -> "3"
+ SELRPN>   1944 atoms have been selected out of   3936
+ SELRPN>   1944 atoms have been selected out of   3936
+  
+ CHARMM>      decrement wiSum by @AtmNum
+ Parameter: ATMNUM -> "648"
+ Parameter: WISUM <- "0"
+  
+ CHARMM>      increment wiTmp by 1
+ Parameter: WITMP <- "3"
+  
+ CHARMM>      goto GEN_PNT1
+  
+ CHARMM>      if wiSum .le. 0 then goto PRE_ZLOOP
+ Comparing "0" and "0".
+ IF test evaluated as true.  Performing command
+  
+ CHARMM>     
+  
+ CHARMM>    set I 2
+ Parameter: I <- "2"
+  
+ CHARMM>    label ZLOOP
+  
+ CHARMM>      !read sequence tip3 @NROD
+  
+ CHARMM>      !gene wat1 noangle nodihe
+  
+ CHARMM>      !coor dupl sele segid wat0 end sele segid wat1 end
+  
+ CHARMM>      !coor transl zdir @BOX sele segid wat1 end
+  
+ CHARMM>      !coor transl zdir @BOX sele segid wat0 end
+  
+ CHARMM>      !join wat wat1 renumber
+  
+ CHARMM>     
+  
+ CHARMM>    ! Auto_naming
+ CHARMM>      set wiSum @NROD
+ Parameter: NROD -> "648"
+ Parameter: WISUM <- "648"
+  
+ CHARMM>      set wiTmp @swi
+ Parameter: SWI -> "2"
+ Parameter: WITMP <- "2"
+  
+ CHARMM>    label GEN_PNT10
+  
+ CHARMM>      if wiSum .le. 0 then goto JUNC_PNT2
+ Comparing "648" and "0".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>      if wiSum .le. @AtmBlock then goto GEN_PNT20
+ Parameter: ATMBLOCK -> "9936"
+ Comparing "648" and "9936".
+ IF test evaluated as true.  Performing command
+  
+ CHARMM>      set AtmNum @wiSum
+ Parameter: WISUM -> "648"
+ Parameter: ATMNUM <- "648"
+  
+ CHARMM>    label GEN_PNT30
+  
+ CHARMM>      increment wiCur by 1
+ Parameter: WICUR <- "4"
+  
+ CHARMM>      read sequence tip3 @AtmNum
+ Parameter: ATMNUM -> "648"
+  
+ CHARMM>      gene wt@wiCur noangle nodihe
+ Parameter: WICUR -> "4"
+ NO PATCHING WILL BE DONE ON THE FIRST RESIDUE
+ NO PATCHING WILL BE DONE ON THE LAST  RESIDUE
+ GENPSF> Segment   4 has been generated. Its identifier is WT4.
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        4   Number of residues   =     1946
+         Number of atoms         =     5880   Number of groups     =     1956
+         Number of bonds         =     5882   Number of angles     =     2028
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     1945   Number of HB donors  =     3891
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>      coor dupl sele segid wt@wiTmp end sele segid wt@wiCur end
+ Parameter: WITMP -> "2"
+ Parameter: WICUR -> "4"
+ SELRPN>   1944 atoms have been selected out of   5880
+ SELRPN>   1944 atoms have been selected out of   5880
+  
+ CHARMM>      coor transl zdir @BOX sele segid wt@wiCur end
+ Parameter: BOX -> "18.856"
+ Parameter: WICUR -> "4"
+ SELRPN>   1944 atoms have been selected out of   5880
+ TRANSLATION VECTOR     0.000000    0.000000   18.856000
+ SELECTED COORDINATES TRANSLATED IN THE MAIN SET.
+
+  
+ CHARMM>      coor transl zdir @BOX sele segid wt@wiTmp end
+ Parameter: BOX -> "18.856"
+ Parameter: WITMP -> "2"
+ SELRPN>   1944 atoms have been selected out of   5880
+ TRANSLATION VECTOR     0.000000    0.000000   18.856000
+ SELECTED COORDINATES TRANSLATED IN THE MAIN SET.
+
+  
+ CHARMM>      decrement wiSum by @AtmNum
+ Parameter: ATMNUM -> "648"
+ Parameter: WISUM <- "0"
+  
+ CHARMM>      increment wiTmp by 1
+ Parameter: WITMP <- "3"
+  
+ CHARMM>      goto GEN_PNT10
+  
+ CHARMM>      if wiSum .le. 0 then goto JUNC_PNT2
+ Comparing "0" and "0".
+ IF test evaluated as true.  Performing command
+  
+ CHARMM>      incr I by 1
+ Parameter: I <- "3"
+  
+ CHARMM>      if I le @ZNUM goto zloop
+ Parameter: ZNUM -> "3"
+ Comparing "3" and "3".
+ IF test evaluated as true.  Performing command
+  
+ CHARMM>      !read sequence tip3 @NROD
+  
+ CHARMM>      !gene wat1 noangle nodihe
+  
+ CHARMM>      !coor dupl sele segid wat0 end sele segid wat1 end
+  
+ CHARMM>      !coor transl zdir @BOX sele segid wat1 end
+  
+ CHARMM>      !coor transl zdir @BOX sele segid wat0 end
+  
+ CHARMM>      !join wat wat1 renumber
+  
+ CHARMM>     
+  
+ CHARMM>    ! Auto_naming
+ CHARMM>      set wiSum @NROD
+ Parameter: NROD -> "648"
+ Parameter: WISUM <- "648"
+  
+ CHARMM>      set wiTmp @swi
+ Parameter: SWI -> "2"
+ Parameter: WITMP <- "2"
+  
+ CHARMM>    label GEN_PNT10
+  
+ CHARMM>      if wiSum .le. 0 then goto JUNC_PNT2
+ Comparing "648" and "0".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>      if wiSum .le. @AtmBlock then goto GEN_PNT20
+ Parameter: ATMBLOCK -> "9936"
+ Comparing "648" and "9936".
+ IF test evaluated as true.  Performing command
+  
+ CHARMM>      set AtmNum @wiSum
+ Parameter: WISUM -> "648"
+ Parameter: ATMNUM <- "648"
+  
+ CHARMM>    label GEN_PNT30
+  
+ CHARMM>      increment wiCur by 1
+ Parameter: WICUR <- "5"
+  
+ CHARMM>      read sequence tip3 @AtmNum
+ Parameter: ATMNUM -> "648"
+  
+ CHARMM>      gene wt@wiCur noangle nodihe
+ Parameter: WICUR -> "5"
+ NO PATCHING WILL BE DONE ON THE FIRST RESIDUE
+ NO PATCHING WILL BE DONE ON THE LAST  RESIDUE
+ GENPSF> Segment   5 has been generated. Its identifier is WT5.
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        5   Number of residues   =     2594
+         Number of atoms         =     7824   Number of groups     =     2604
+         Number of bonds         =     7826   Number of angles     =     2676
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     2593   Number of HB donors  =     5187
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>      coor dupl sele segid wt@wiTmp end sele segid wt@wiCur end
+ Parameter: WITMP -> "2"
+ Parameter: WICUR -> "5"
+ SELRPN>   1944 atoms have been selected out of   7824
+ SELRPN>   1944 atoms have been selected out of   7824
+  
+ CHARMM>      coor transl zdir @BOX sele segid wt@wiCur end
+ Parameter: BOX -> "18.856"
+ Parameter: WICUR -> "5"
+ SELRPN>   1944 atoms have been selected out of   7824
+ TRANSLATION VECTOR     0.000000    0.000000   18.856000
+ SELECTED COORDINATES TRANSLATED IN THE MAIN SET.
+
+  
+ CHARMM>      coor transl zdir @BOX sele segid wt@wiTmp end
+ Parameter: BOX -> "18.856"
+ Parameter: WITMP -> "2"
+ SELRPN>   1944 atoms have been selected out of   7824
+ TRANSLATION VECTOR     0.000000    0.000000   18.856000
+ SELECTED COORDINATES TRANSLATED IN THE MAIN SET.
+
+  
+ CHARMM>      decrement wiSum by @AtmNum
+ Parameter: ATMNUM -> "648"
+ Parameter: WISUM <- "0"
+  
+ CHARMM>      increment wiTmp by 1
+ Parameter: WITMP <- "3"
+  
+ CHARMM>      goto GEN_PNT10
+  
+ CHARMM>      if wiSum .le. 0 then goto JUNC_PNT2
+ Comparing "0" and "0".
+ IF test evaluated as true.  Performing command
+  
+ CHARMM>      incr I by 1
+ Parameter: I <- "4"
+  
+ CHARMM>      if I le @ZNUM goto zloop
+ Parameter: ZNUM -> "3"
+ Comparing "4" and "3".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>     
+  
+ CHARMM>    ! done with the slab, now let it slide along the x-axis, after centering everything at orig
+ CHARMM>    label DO_X
+  
+ CHARMM>    !delete atom sele segid wat0 end
+ CHARMM>     
+  
+ CHARMM>    ! Auto_naming
+ CHARMM>      set wiTmp @swi
+ Parameter: SWI -> "2"
+ Parameter: WITMP <- "2"
+  
+ CHARMM>    label DEL_PNT1
+  
+ CHARMM>      delete atom sele segid wt@wiTmp end
+ Parameter: WITMP -> "2"
+ SELRPN>   1944 atoms have been selected out of   7824
+
+ Message from MAPIC: Atom numbers are changed.
+
+ Message from MAPIC:        648 residues deleted.
+
+ Message from MAPIC:          1 segments deleted.
+ DELTIC:      1944 bonds deleted
+ DELTIC:       648 angles deleted
+ DELTIC:      1296 donors deleted
+ DELTIC:       648 acceptors deleted
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        4   Number of residues   =     1946
+         Number of atoms         =     5880   Number of groups     =     1956
+         Number of bonds         =     5882   Number of angles     =     2028
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     1945   Number of HB donors  =     3891
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>      increment wiTmp by 1
+ Parameter: WITMP <- "3"
+  
+ CHARMM>      if wiTmp .le. @wiLast then goto DEL_PNT1
+ Parameter: WILAST -> "2"
+ Comparing "3" and "2".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>      calc wiFirst = @wiLast + 1
+ Parameter: WILAST -> "2"
+Evaluating: 2+1
+ Parameter: WIFIRST <- "3"
+  
+ CHARMM>     
+  
+ CHARMM>    !rename segid wat0 sele segid wat end
+ CHARMM>     
+  
+ CHARMM>    coor transl xdir -@XB2  ydir -@YB2 zdir -@ZB2
+ Parameter: XB2 -> "21.5"
+ Parameter: YB2 -> "21.5"
+ Parameter: ZB2 -> "21.5"
+ TRANSLATION VECTOR   -21.500000  -21.500000  -21.500000
+ SELECTED COORDINATES TRANSLATED IN THE MAIN SET.
+
+  
+ CHARMM>     
+  
+ CHARMM>    ! Auto_naming
+ CHARMM>    ! This auto naming snippet performs packing of those water segments
+ CHARMM>    ! which might fit several of others. Also renames the names of the
+ CHARMM>    ! final compact segment to start from the starting index (defined
+ CHARMM>    ! by "swi" variable
+ CHARMM>      calc NumTimes = INT(@NLIMIT / @NROD)
+ Parameter: NLIMIT -> "9999"
+ Parameter: NROD -> "648"
+Evaluating: INT(9999/648)
+ Parameter: NUMTIMES <- "15"
+  
+ CHARMM>      set wiTmp @swi
+ Parameter: SWI -> "2"
+ Parameter: WITMP <- "2"
+  
+ CHARMM>    label SHIFT_PNT1
+  
+ CHARMM>      set wFit 2
+ Parameter: WFIT <- "2"
+  
+ CHARMM>      calc wiNext = @wiFirst + 1
+ Parameter: WIFIRST -> "3"
+Evaluating: 3+1
+ Parameter: WINEXT <- "4"
+  
+ CHARMM>      if wiFirst .ge. @wiCur then goto SHIFT_PNT4
+ Parameter: WICUR -> "5"
+ Comparing "3" and "5".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>    label SHIFT_PNT2
+  
+ CHARMM>      if wFit .gt. @NumTimes then goto SHIFT_PNT3
+ Parameter: NUMTIMES -> "15"
+ Comparing "2" and "15".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>      join wt@wiFirst wt@wiNext
+ Parameter: WIFIRST -> "3"
+ Parameter: WINEXT -> "4"
+ SEGMENTS "WT3     " AND "WT4     " HAVE BEEN JOINED.
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        3   Number of residues   =     1946
+         Number of atoms         =     5880   Number of groups     =     1956
+         Number of bonds         =     5882   Number of angles     =     2028
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     1945   Number of HB donors  =     3891
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>      increment wiNext by 1
+ Parameter: WINEXT <- "5"
+  
+ CHARMM>      increment wFit by 1
+ Parameter: WFIT <- "3"
+  
+ CHARMM>      goto SHIFT_PNT2
+  
+ CHARMM>      if wFit .gt. @NumTimes then goto SHIFT_PNT3
+ Parameter: NUMTIMES -> "15"
+ Comparing "3" and "15".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>      join wt@wiFirst wt@wiNext
+ Parameter: WIFIRST -> "3"
+ Parameter: WINEXT -> "5"
+ SEGMENTS "WT3     " AND "WT5     " HAVE BEEN JOINED.
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        2   Number of residues   =     1946
+         Number of atoms         =     5880   Number of groups     =     1956
+         Number of bonds         =     5882   Number of angles     =     2028
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     1945   Number of HB donors  =     3891
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>      increment wiNext by 1
+ Parameter: WINEXT <- "6"
+  
+ CHARMM>      increment wFit by 1
+ Parameter: WFIT <- "4"
+  
+ CHARMM>      goto SHIFT_PNT2
+  
+ CHARMM>      if wFit .gt. @NumTimes then goto SHIFT_PNT3
+ Parameter: NUMTIMES -> "15"
+ Comparing "4" and "15".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>      join wt@wiFirst wt@wiNext
+ Parameter: WIFIRST -> "3"
+ Parameter: WINEXT -> "6"
+
+      ***** LEVEL -1 WARNING FROM <JOINSG> *****
+      ***** SECOND SEGMENT DOESNT FOLLOW FIRST
+      ******************************************
+      BOMLEV ( -2) IS NOT REACHED. WRNLEV IS  5
+
+  
+ CHARMM>      increment wiNext by 1
+ Parameter: WINEXT <- "7"
+  
+ CHARMM>      increment wFit by 1
+ Parameter: WFIT <- "5"
+  
+ CHARMM>      goto SHIFT_PNT2
+  
+ CHARMM>      if wFit .gt. @NumTimes then goto SHIFT_PNT3
+ Parameter: NUMTIMES -> "15"
+ Comparing "5" and "15".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>      join wt@wiFirst wt@wiNext
+ Parameter: WIFIRST -> "3"
+ Parameter: WINEXT -> "7"
+
+      ***** LEVEL -1 WARNING FROM <JOINSG> *****
+      ***** SECOND SEGMENT DOESNT FOLLOW FIRST
+      ******************************************
+      BOMLEV ( -2) IS NOT REACHED. WRNLEV IS  5
+
+  
+ CHARMM>      increment wiNext by 1
+ Parameter: WINEXT <- "8"
+  
+ CHARMM>      increment wFit by 1
+ Parameter: WFIT <- "6"
+  
+ CHARMM>      goto SHIFT_PNT2
+  
+ CHARMM>      if wFit .gt. @NumTimes then goto SHIFT_PNT3
+ Parameter: NUMTIMES -> "15"
+ Comparing "6" and "15".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>      join wt@wiFirst wt@wiNext
+ Parameter: WIFIRST -> "3"
+ Parameter: WINEXT -> "8"
+
+      ***** LEVEL -1 WARNING FROM <JOINSG> *****
+      ***** SECOND SEGMENT DOESNT FOLLOW FIRST
+      ******************************************
+      BOMLEV ( -2) IS NOT REACHED. WRNLEV IS  5
+
+  
+ CHARMM>      increment wiNext by 1
+ Parameter: WINEXT <- "9"
+  
+ CHARMM>      increment wFit by 1
+ Parameter: WFIT <- "7"
+  
+ CHARMM>      goto SHIFT_PNT2
+  
+ CHARMM>      if wFit .gt. @NumTimes then goto SHIFT_PNT3
+ Parameter: NUMTIMES -> "15"
+ Comparing "7" and "15".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>      join wt@wiFirst wt@wiNext
+ Parameter: WIFIRST -> "3"
+ Parameter: WINEXT -> "9"
+
+      ***** LEVEL -1 WARNING FROM <JOINSG> *****
+      ***** SECOND SEGMENT DOESNT FOLLOW FIRST
+      ******************************************
+      BOMLEV ( -2) IS NOT REACHED. WRNLEV IS  5
+
+  
+ CHARMM>      increment wiNext by 1
+ Parameter: WINEXT <- "10"
+  
+ CHARMM>      increment wFit by 1
+ Parameter: WFIT <- "8"
+  
+ CHARMM>      goto SHIFT_PNT2
+  
+ CHARMM>      if wFit .gt. @NumTimes then goto SHIFT_PNT3
+ Parameter: NUMTIMES -> "15"
+ Comparing "8" and "15".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>      join wt@wiFirst wt@wiNext
+ Parameter: WIFIRST -> "3"
+ Parameter: WINEXT -> "10"
+
+      ***** LEVEL -1 WARNING FROM <JOINSG> *****
+      ***** SECOND SEGMENT DOESNT FOLLOW FIRST
+      ******************************************
+      BOMLEV ( -2) IS NOT REACHED. WRNLEV IS  5
+
+  
+ CHARMM>      increment wiNext by 1
+ Parameter: WINEXT <- "11"
+  
+ CHARMM>      increment wFit by 1
+ Parameter: WFIT <- "9"
+  
+ CHARMM>      goto SHIFT_PNT2
+  
+ CHARMM>      if wFit .gt. @NumTimes then goto SHIFT_PNT3
+ Parameter: NUMTIMES -> "15"
+ Comparing "9" and "15".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>      join wt@wiFirst wt@wiNext
+ Parameter: WIFIRST -> "3"
+ Parameter: WINEXT -> "11"
+
+      ***** LEVEL -1 WARNING FROM <JOINSG> *****
+      ***** SECOND SEGMENT DOESNT FOLLOW FIRST
+      ******************************************
+      BOMLEV ( -2) IS NOT REACHED. WRNLEV IS  5
+
+  
+ CHARMM>      increment wiNext by 1
+ Parameter: WINEXT <- "12"
+  
+ CHARMM>      increment wFit by 1
+ Parameter: WFIT <- "10"
+  
+ CHARMM>      goto SHIFT_PNT2
+  
+ CHARMM>      if wFit .gt. @NumTimes then goto SHIFT_PNT3
+ Parameter: NUMTIMES -> "15"
+ Comparing "10" and "15".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>      join wt@wiFirst wt@wiNext
+ Parameter: WIFIRST -> "3"
+ Parameter: WINEXT -> "12"
+
+      ***** LEVEL -1 WARNING FROM <JOINSG> *****
+      ***** SECOND SEGMENT DOESNT FOLLOW FIRST
+      ******************************************
+      BOMLEV ( -2) IS NOT REACHED. WRNLEV IS  5
+
+  
+ CHARMM>      increment wiNext by 1
+ Parameter: WINEXT <- "13"
+  
+ CHARMM>      increment wFit by 1
+ Parameter: WFIT <- "11"
+  
+ CHARMM>      goto SHIFT_PNT2
+  
+ CHARMM>      if wFit .gt. @NumTimes then goto SHIFT_PNT3
+ Parameter: NUMTIMES -> "15"
+ Comparing "11" and "15".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>      join wt@wiFirst wt@wiNext
+ Parameter: WIFIRST -> "3"
+ Parameter: WINEXT -> "13"
+
+      ***** LEVEL -1 WARNING FROM <JOINSG> *****
+      ***** SECOND SEGMENT DOESNT FOLLOW FIRST
+      ******************************************
+      BOMLEV ( -2) IS NOT REACHED. WRNLEV IS  5
+
+  
+ CHARMM>      increment wiNext by 1
+ Parameter: WINEXT <- "14"
+  
+ CHARMM>      increment wFit by 1
+ Parameter: WFIT <- "12"
+  
+ CHARMM>      goto SHIFT_PNT2
+  
+ CHARMM>      if wFit .gt. @NumTimes then goto SHIFT_PNT3
+ Parameter: NUMTIMES -> "15"
+ Comparing "12" and "15".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>      join wt@wiFirst wt@wiNext
+ Parameter: WIFIRST -> "3"
+ Parameter: WINEXT -> "14"
+
+      ***** LEVEL -1 WARNING FROM <JOINSG> *****
+      ***** SECOND SEGMENT DOESNT FOLLOW FIRST
+      ******************************************
+      BOMLEV ( -2) IS NOT REACHED. WRNLEV IS  5
+
+  
+ CHARMM>      increment wiNext by 1
+ Parameter: WINEXT <- "15"
+  
+ CHARMM>      increment wFit by 1
+ Parameter: WFIT <- "13"
+  
+ CHARMM>      goto SHIFT_PNT2
+  
+ CHARMM>      if wFit .gt. @NumTimes then goto SHIFT_PNT3
+ Parameter: NUMTIMES -> "15"
+ Comparing "13" and "15".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>      join wt@wiFirst wt@wiNext
+ Parameter: WIFIRST -> "3"
+ Parameter: WINEXT -> "15"
+
+      ***** LEVEL -1 WARNING FROM <JOINSG> *****
+      ***** SECOND SEGMENT DOESNT FOLLOW FIRST
+      ******************************************
+      BOMLEV ( -2) IS NOT REACHED. WRNLEV IS  5
+
+  
+ CHARMM>      increment wiNext by 1
+ Parameter: WINEXT <- "16"
+  
+ CHARMM>      increment wFit by 1
+ Parameter: WFIT <- "14"
+  
+ CHARMM>      goto SHIFT_PNT2
+  
+ CHARMM>      if wFit .gt. @NumTimes then goto SHIFT_PNT3
+ Parameter: NUMTIMES -> "15"
+ Comparing "14" and "15".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>      join wt@wiFirst wt@wiNext
+ Parameter: WIFIRST -> "3"
+ Parameter: WINEXT -> "16"
+
+      ***** LEVEL -1 WARNING FROM <JOINSG> *****
+      ***** SECOND SEGMENT DOESNT FOLLOW FIRST
+      ******************************************
+      BOMLEV ( -2) IS NOT REACHED. WRNLEV IS  5
+
+  
+ CHARMM>      increment wiNext by 1
+ Parameter: WINEXT <- "17"
+  
+ CHARMM>      increment wFit by 1
+ Parameter: WFIT <- "15"
+  
+ CHARMM>      goto SHIFT_PNT2
+  
+ CHARMM>      if wFit .gt. @NumTimes then goto SHIFT_PNT3
+ Parameter: NUMTIMES -> "15"
+ Comparing "15" and "15".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>      join wt@wiFirst wt@wiNext
+ Parameter: WIFIRST -> "3"
+ Parameter: WINEXT -> "17"
+
+      ***** LEVEL -1 WARNING FROM <JOINSG> *****
+      ***** SECOND SEGMENT DOESNT FOLLOW FIRST
+      ******************************************
+      BOMLEV ( -2) IS NOT REACHED. WRNLEV IS  5
+
+  
+ CHARMM>      increment wiNext by 1
+ Parameter: WINEXT <- "18"
+  
+ CHARMM>      increment wFit by 1
+ Parameter: WFIT <- "16"
+  
+ CHARMM>      goto SHIFT_PNT2
+  
+ CHARMM>      if wFit .gt. @NumTimes then goto SHIFT_PNT3
+ Parameter: NUMTIMES -> "15"
+ Comparing "16" and "15".
+ IF test evaluated as true.  Performing command
+  
+ CHARMM>      rename segid wt@wiTmp sele segid wt@wiFirst end
+ Parameter: WITMP -> "2"
+ Parameter: WIFIRST -> "3"
+ SELRPN>   5832 atoms have been selected out of   5880
+ SEGMENT 'WT3     ' IS RENAMED TO 'WT2     '
+  
+ CHARMM>      increment wiTmp by 1
+ Parameter: WITMP <- "3"
+  
+ CHARMM>      set wiFirst @wiNext
+ Parameter: WINEXT -> "18"
+ Parameter: WIFIRST <- "18"
+  
+ CHARMM>      goto SHIFT_PNT1
+  
+ CHARMM>      set wFit 2
+ Parameter: WFIT <- "2"
+  
+ CHARMM>      calc wiNext = @wiFirst + 1
+ Parameter: WIFIRST -> "18"
+Evaluating: 18+1
+ Parameter: WINEXT <- "19"
+  
+ CHARMM>      if wiFirst .ge. @wiCur then goto SHIFT_PNT4
+ Parameter: WICUR -> "5"
+ Comparing "18" and "5".
+ IF test evaluated as true.  Performing command
+  
+ CHARMM>      rename segid wt@wiTmp sele segid wt@wiFirst end
+ Parameter: WITMP -> "3"
+ Parameter: WIFIRST -> "18"
+ SELRPN>      0 atoms have been selected out of   5880
+  
+ CHARMM>      set wiCur @wiTmp
+ Parameter: WITMP -> "3"
+ Parameter: WICUR <- "3"
+  
+ CHARMM>      set wiLast @wiCur
+ Parameter: WICUR -> "3"
+ Parameter: WILAST <- "3"
+  
+ CHARMM>     
+  
+ CHARMM>    !read sequence tip3 @NSLAB
+ CHARMM>    !gene wat2 noangle nodihe
+ CHARMM>    !coor dupl sele segid wat0 end sele segid wat2 end
+ CHARMM>    ! delete water molecules further away than XB2, YB2, ZB2  A from origin
+ CHARMM>    !delete atom sele .byres. ( segid wat2 .and. type OH2 .and.  -
+ CHARMM>    !  ( property abs x .gt. @XB2 .or. property abs y .gt. @YB2 -
+ CHARMM>    !   .or. property abs z .gt. @ZB2) ) end
+ CHARMM>    ! and also those overlapping with the SOLUTE
+ CHARMM>    !delete atom sele .byres. ( segid wat2 .and. type OH2 .and.  -
+ CHARMM>    !  ( SOLUTE1 .around. @OVERLAP ) ) end
+ CHARMM>     
+  
+ CHARMM>    ! Auto_naming
+ CHARMM>      set wiSum @NSLAB
+ Parameter: NSLAB -> "1944"
+ Parameter: WISUM <- "1944"
+  
+ CHARMM>      set wiTmp @swi
+ Parameter: SWI -> "2"
+ Parameter: WITMP <- "2"
+  
+ CHARMM>      calc AtmBlock = @NumTimes * @NROD
+ Parameter: NUMTIMES -> "15"
+ Parameter: NROD -> "648"
+Evaluating: 15*648
+ Parameter: ATMBLOCK <- "9720"
+  
+ CHARMM>    label GEN_PNT100
+  
+ CHARMM>      if wiSum .le. 0 then goto DEL_PNT2
+ Comparing "1944" and "0".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>      if wiSum .le. @AtmBlock then goto GEN_PNT200
+ Parameter: ATMBLOCK -> "9720"
+ Comparing "1944" and "9720".
+ IF test evaluated as true.  Performing command
+  
+ CHARMM>      set AtmNum @wiSum
+ Parameter: WISUM -> "1944"
+ Parameter: ATMNUM <- "1944"
+  
+ CHARMM>    label GEN_PNT300
+  
+ CHARMM>      increment wiCur by 1
+ Parameter: WICUR <- "4"
+  
+ CHARMM>      read sequence tip3 @AtmNum
+ Parameter: ATMNUM -> "1944"
+  
+ CHARMM>      gene wt@wiCur noangle nodihe
+ Parameter: WICUR -> "4"
+ NO PATCHING WILL BE DONE ON THE FIRST RESIDUE
+ NO PATCHING WILL BE DONE ON THE LAST  RESIDUE
+ GENPSF> Segment   3 has been generated. Its identifier is WT4.
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        3   Number of residues   =     3890
+         Number of atoms         =    11712   Number of groups     =     3900
+         Number of bonds         =    11714   Number of angles     =     3972
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     3889   Number of HB donors  =     7779
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>      coor dupl sele segid wt@wiTmp end sele segid wt@wiCur end
+ Parameter: WITMP -> "2"
+ Parameter: WICUR -> "4"
+ SELRPN>   5832 atoms have been selected out of  11712
+ SELRPN>   5832 atoms have been selected out of  11712
+  
+ CHARMM>    ! delete water molecules further away than XB2, YB2, ZB2  A from origin
+ CHARMM>      delete atom sele .byres. ( segid wt@wiCur .and. type OH2 .and.  -
+ CHARMM>      ( property abs x .gt. @XB2 .or. property abs y .gt. @YB2 -
+ CHARMM>       .or. property abs z .gt. @ZB2) ) end
+ Parameter: WICUR -> "4"
+ Parameter: XB2 -> "21.5"
+ Parameter: YB2 -> "21.5"
+ Parameter: ZB2 -> "21.5"
+ SELRPN>   2445 atoms have been selected out of  11712
+
+ Message from MAPIC: Atom numbers are changed.
+
+ Message from MAPIC:        815 residues deleted.
+ DELTIC:      2445 bonds deleted
+ DELTIC:       815 angles deleted
+ DELTIC:      1630 donors deleted
+ DELTIC:       815 acceptors deleted
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        3   Number of residues   =     3075
+         Number of atoms         =     9267   Number of groups     =     3085
+         Number of bonds         =     9269   Number of angles     =     3157
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     3074   Number of HB donors  =     6149
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>    ! and also those overlapping with the SOLUTE
+ CHARMM>      delete atom sele .byres. ( segid wt@wiCur .and. type OH2 .and.  -
+ CHARMM>      ( SOLUTE1 .around. @OVERLAP ) ) end
+ Parameter: WICUR -> "4"
+ Parameter: OVERLAP -> "2.2"
+ SELRPN>     12 atoms have been selected out of   9267
+
+ Message from MAPIC: Atom numbers are changed.
+
+ Message from MAPIC:          4 residues deleted.
+ DELTIC:        12 bonds deleted
+ DELTIC:         4 angles deleted
+ DELTIC:         8 donors deleted
+ DELTIC:         4 acceptors deleted
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        3   Number of residues   =     3071
+         Number of atoms         =     9255   Number of groups     =     3081
+         Number of bonds         =     9257   Number of angles     =     3153
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     3070   Number of HB donors  =     6141
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>      decrement wiSum by @AtmNum
+ Parameter: ATMNUM -> "1944"
+ Parameter: WISUM <- "0"
+  
+ CHARMM>      increment wiTmp by 1
+ Parameter: WITMP <- "3"
+  
+ CHARMM>      goto GEN_PNT100
+  
+ CHARMM>      if wiSum .le. 0 then goto DEL_PNT2
+ Comparing "0" and "0".
+ IF test evaluated as true.  Performing command
+  
+ CHARMM>    ! do the same slab again, but translated -1A and rotated 30 degrees around the x-axis
+ CHARMM>    !read sequence tip3 @NSLAB
+ CHARMM>    !gene wat3 noangle nodihe
+ CHARMM>    !coor dupl sele segid wat0 end sele segid wat3 end
+ CHARMM>    !coor rota xdir 1.0 phi 30.0 sele segid wat3 end
+ CHARMM>    !coor transl xdir -1.0  sele segid wat3 end
+ CHARMM>    ! delete water molecules further away than XB2, YB2, ZB2  A from origin
+ CHARMM>    !delete atom sele .byres. ( segid wat3 .and. type OH2 .and.  -
+ CHARMM>    !  ( property abs x .gt. @XB2 .or. property abs y .gt. @YB2 -
+ CHARMM>    !   .or. property abs z .gt. @ZB2) ) end
+ CHARMM>    ! and also those overlapping with the SOLUTE or existing WAT2 segment
+ CHARMM>    !delete atom sele .byres. ( segid wat3 .and. type OH2 .and.  -
+ CHARMM>    !( (SOLUTE1 .or. (segid wat2 .and. type OH2)) .around. @OVERLAP2 ) ) end
+ CHARMM>    !join wat2 wat3 renumber
+ CHARMM>     
+  
+ CHARMM>    ! Auto_naming
+ CHARMM>      set wiSum @NSLAB
+ Parameter: NSLAB -> "1944"
+ Parameter: WISUM <- "1944"
+  
+ CHARMM>      set wiTmp @swi
+ Parameter: SWI -> "2"
+ Parameter: WITMP <- "2"
+  
+ CHARMM>    label GEN_PNT400
+  
+ CHARMM>      if wiSum .le. 0 then goto PRE_XLOOP
+ Comparing "1944" and "0".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>      if wiSum .le. @AtmBlock then goto GEN_PNT500
+ Parameter: ATMBLOCK -> "9720"
+ Comparing "1944" and "9720".
+ IF test evaluated as true.  Performing command
+  
+ CHARMM>      set AtmNum @wiSum
+ Parameter: WISUM -> "1944"
+ Parameter: ATMNUM <- "1944"
+  
+ CHARMM>    label GEN_PNT600
+  
+ CHARMM>      increment wiCur by 1
+ Parameter: WICUR <- "5"
+  
+ CHARMM>      read sequence tip3 @AtmNum
+ Parameter: ATMNUM -> "1944"
+  
+ CHARMM>      gene wt@wiCur noangle nodihe
+ Parameter: WICUR -> "5"
+ NO PATCHING WILL BE DONE ON THE FIRST RESIDUE
+ NO PATCHING WILL BE DONE ON THE LAST  RESIDUE
+ GENPSF> Segment   4 has been generated. Its identifier is WT5.
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        4   Number of residues   =     5015
+         Number of atoms         =    15087   Number of groups     =     5025
+         Number of bonds         =    15089   Number of angles     =     5097
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     5014   Number of HB donors  =    10029
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>      coor dupl sele segid wt@wiTmp end sele segid wt@wiCur end
+ Parameter: WITMP -> "2"
+ Parameter: WICUR -> "5"
+ SELRPN>   5832 atoms have been selected out of  15087
+ SELRPN>   5832 atoms have been selected out of  15087
+  
+ CHARMM>      coor rota xdir 1.0 phi 30.0 sele segid wt@wiCur end
+ Parameter: WICUR -> "5"
+ SELRPN>   5832 atoms have been selected out of  15087
+ ROTATION MATRIX
+    1.000000    0.000000    0.000000
+    0.000000    0.866025    0.500000
+    0.000000   -0.500000    0.866025
+
+ AXIS OF ROTATION IS  1.000000  0.000000  0.000000  ANGLE IS   30.00
+
+ SELECTED COORDINATES ROTATED IN THE MAIN SET.
+
+  
+ CHARMM>      coor transl xdir -1.0  sele segid wt@wiCur end
+ Parameter: WICUR -> "5"
+ SELRPN>   5832 atoms have been selected out of  15087
+ TRANSLATION VECTOR    -1.000000    0.000000    0.000000
+ SELECTED COORDINATES TRANSLATED IN THE MAIN SET.
+
+  
+ CHARMM>    ! delete water molecules further away than XB2, YB2, ZB2  A from origin
+ CHARMM>      delete atom sele .byres. ( segid wt@wiCur .and. type OH2 .and.  -
+ CHARMM>      ( property abs x .gt. @XB2 .or. property abs y .gt. @YB2 -
+ CHARMM>       .or. property abs z .gt. @ZB2) ) end
+ Parameter: WICUR -> "5"
+ Parameter: XB2 -> "21.5"
+ Parameter: YB2 -> "21.5"
+ Parameter: ZB2 -> "21.5"
+ SELRPN>   2922 atoms have been selected out of  15087
+
+ Message from MAPIC: Atom numbers are changed.
+
+ Message from MAPIC:        974 residues deleted.
+ DELTIC:      2922 bonds deleted
+ DELTIC:       974 angles deleted
+ DELTIC:      1948 donors deleted
+ DELTIC:       974 acceptors deleted
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        4   Number of residues   =     4041
+         Number of atoms         =    12165   Number of groups     =     4051
+         Number of bonds         =    12167   Number of angles     =     4123
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     4040   Number of HB donors  =     8081
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>    ! and also those overlapping with the SOLUTE or existing WAT2 segment
+ CHARMM>      calc wiFirst = @wiLast + 1
+ Parameter: WILAST -> "3"
+Evaluating: 3+1
+ Parameter: WIFIRST <- "4"
+  
+ CHARMM>    label DEL_PNT4
+  
+ CHARMM>      delete atom sele .byres. ( segid wt@wiCur .and. type OH2 .and.  -
+ CHARMM>      ( (SOLUTE1 .or. (segid wt@wiFirst .and. type OH2)) .around. @OVERLAP2 ) ) end
+ Parameter: WICUR -> "5"
+ Parameter: WIFIRST -> "4"
+ Parameter: OVERLAP2 -> "2.2"
+ SELRPN>   2610 atoms have been selected out of  12165
+
+ Message from MAPIC: Atom numbers are changed.
+
+ Message from MAPIC:        870 residues deleted.
+ DELTIC:      2610 bonds deleted
+ DELTIC:       870 angles deleted
+ DELTIC:      1740 donors deleted
+ DELTIC:       870 acceptors deleted
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        4   Number of residues   =     3171
+         Number of atoms         =     9555   Number of groups     =     3181
+         Number of bonds         =     9557   Number of angles     =     3253
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     3170   Number of HB donors  =     6341
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>      increment wiFirst by 1
+ Parameter: WIFIRST <- "5"
+  
+ CHARMM>      if wiFirst .lt. @wiCur then goto DEL_PNT4
+ Parameter: WICUR -> "5"
+ Comparing "5" and "5".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>     
+  
+ CHARMM>      decrement wiSum by @AtmNum
+ Parameter: ATMNUM -> "1944"
+ Parameter: WISUM <- "0"
+  
+ CHARMM>      increment wiTmp by 1
+ Parameter: WITMP <- "3"
+  
+ CHARMM>      goto GEN_PNT400
+  
+ CHARMM>      if wiSum .le. 0 then goto PRE_XLOOP
+ Comparing "0" and "0".
+ IF test evaluated as true.  Performing command
+  
+ CHARMM>     
+  
+ CHARMM>    if XNUM .eq. 1 goto done
+ Comparing "3" and "1".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>     
+  
+ CHARMM>    set I 2
+ Parameter: I <- "2"
+  
+ CHARMM>    label XLOOP
+  
+ CHARMM>    !  read sequence tip3 @NSLAB
+ CHARMM>    !  gene wat3 noangle nodihe
+ CHARMM>    !  coor dupl sele segid wat0 end sele segid wat3 end
+ CHARMM>    !  coor transl xdir @BOX sele segid wat3 end
+ CHARMM>    !  coor transl xdir @BOX sele segid wat0 end
+ CHARMM>    ! delete water molecules further away than XB2, YB2, ZB2  A from origin
+ CHARMM>    !  delete atom sele .byres. ( segid wat3 .and. type OH2 .and.  -
+ CHARMM>    !  ( property abs x .gt. @XB2 .or. property abs y .gt. @YB2 -
+ CHARMM>    !   .or. property abs z .gt. @ZB2) ) end
+ CHARMM>      ! and also those overlapping with the SOLUTE
+  
+ CHARMM>    !  delete atom sele .byres. ( segid wat3 .and. type OH2 .and.  -
+ CHARMM>    !   ( SOLUTE1 .around. @OVERLAP ) ) end
+ CHARMM>    !  join wat2 wat3 renumber
+ CHARMM>     
+  
+ CHARMM>    ! Auto_naming
+ CHARMM>      set wiSum @NSLAB
+ Parameter: NSLAB -> "1944"
+ Parameter: WISUM <- "1944"
+  
+ CHARMM>      set wiTmp @swi
+ Parameter: SWI -> "2"
+ Parameter: WITMP <- "2"
+  
+ CHARMM>    label GEN_PNT700
+  
+ CHARMM>      if wiSum .le. 0 then goto GEN_PNT1000
+ Comparing "1944" and "0".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>      if wiSum .le. @AtmBlock then goto GEN_PNT800
+ Parameter: ATMBLOCK -> "9720"
+ Comparing "1944" and "9720".
+ IF test evaluated as true.  Performing command
+  
+ CHARMM>      set AtmNum @wiSum
+ Parameter: WISUM -> "1944"
+ Parameter: ATMNUM <- "1944"
+  
+ CHARMM>    label GEN_PNT900
+  
+ CHARMM>      increment wiCur by 1
+ Parameter: WICUR <- "6"
+  
+ CHARMM>      read sequence tip3 @AtmNum
+ Parameter: ATMNUM -> "1944"
+  
+ CHARMM>      gene wt@wiCur noangle nodihe
+ Parameter: WICUR -> "6"
+ NO PATCHING WILL BE DONE ON THE FIRST RESIDUE
+ NO PATCHING WILL BE DONE ON THE LAST  RESIDUE
+ GENPSF> Segment   5 has been generated. Its identifier is WT6.
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        5   Number of residues   =     5115
+         Number of atoms         =    15387   Number of groups     =     5125
+         Number of bonds         =    15389   Number of angles     =     5197
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     5114   Number of HB donors  =    10229
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>      coor dupl sele segid wt@wiTmp end sele segid wt@wiCur end
+ Parameter: WITMP -> "2"
+ Parameter: WICUR -> "6"
+ SELRPN>   5832 atoms have been selected out of  15387
+ SELRPN>   5832 atoms have been selected out of  15387
+  
+ CHARMM>      coor transl xdir @BOX sele segid wt@wiCur end
+ Parameter: BOX -> "18.856"
+ Parameter: WICUR -> "6"
+ SELRPN>   5832 atoms have been selected out of  15387
+ TRANSLATION VECTOR    18.856000    0.000000    0.000000
+ SELECTED COORDINATES TRANSLATED IN THE MAIN SET.
+
+  
+ CHARMM>      coor transl xdir @BOX sele segid wt@wiTmp end
+ Parameter: BOX -> "18.856"
+ Parameter: WITMP -> "2"
+ SELRPN>   5832 atoms have been selected out of  15387
+ TRANSLATION VECTOR    18.856000    0.000000    0.000000
+ SELECTED COORDINATES TRANSLATED IN THE MAIN SET.
+
+  
+ CHARMM>    ! delete water molecules further away than XB2, YB2, ZB2  A from origin
+ CHARMM>      delete atom sele .byres. ( segid wt@wiCur .and. type OH2 .and.  -
+ CHARMM>      ( property abs x .gt. @XB2 .or. property abs y .gt. @YB2 -
+ CHARMM>       .or. property abs z .gt. @ZB2) ) end
+ Parameter: WICUR -> "6"
+ Parameter: XB2 -> "21.5"
+ Parameter: YB2 -> "21.5"
+ Parameter: ZB2 -> "21.5"
+ SELRPN>   2445 atoms have been selected out of  15387
+
+ Message from MAPIC: Atom numbers are changed.
+
+ Message from MAPIC:        815 residues deleted.
+ DELTIC:      2445 bonds deleted
+ DELTIC:       815 angles deleted
+ DELTIC:      1630 donors deleted
+ DELTIC:       815 acceptors deleted
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        5   Number of residues   =     4300
+         Number of atoms         =    12942   Number of groups     =     4310
+         Number of bonds         =    12944   Number of angles     =     4382
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     4299   Number of HB donors  =     8599
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>      ! and also those overlapping with the SOLUTE
+  
+ CHARMM>      delete atom sele .byres. ( segid wt@wiCur .and. type OH2 .and.  -
+ CHARMM>       ( SOLUTE1 .around. @OVERLAP ) ) end
+ Parameter: WICUR -> "6"
+ Parameter: OVERLAP -> "2.2"
+ SELRPN>     36 atoms have been selected out of  12942
+
+ Message from MAPIC: Atom numbers are changed.
+
+ Message from MAPIC:         12 residues deleted.
+ DELTIC:        36 bonds deleted
+ DELTIC:        12 angles deleted
+ DELTIC:        24 donors deleted
+ DELTIC:        12 acceptors deleted
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        5   Number of residues   =     4288
+         Number of atoms         =    12906   Number of groups     =     4298
+         Number of bonds         =    12908   Number of angles     =     4370
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     4287   Number of HB donors  =     8575
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>      ! and also those overlapping with the SOLUTE
+  
+ CHARMM>      delete atom sele .byres. ( segid wt@wiCur .and. type OH2 .and.  -
+ CHARMM>       ( SOLUTE1 .around. @OVERLAP ) ) end
+ Parameter: WICUR -> "6"
+ Parameter: OVERLAP -> "2.2"
+ SELRPN>      0 atoms have been selected out of  12906
+
+      ***** LEVEL  0 WARNING FROM <DELTIC> *****
+      ***** No atoms selected for deletion. Nothing done.
+      ******************************************
+      BOMLEV ( -2) IS NOT REACHED. WRNLEV IS  5
+
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        5   Number of residues   =     4288
+         Number of atoms         =    12906   Number of groups     =     4298
+         Number of bonds         =    12908   Number of angles     =     4370
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     4287   Number of HB donors  =     8575
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>      decrement wiSum by @AtmNum
+ Parameter: ATMNUM -> "1944"
+ Parameter: WISUM <- "0"
+  
+ CHARMM>      increment wiTmp by 1
+ Parameter: WITMP <- "3"
+  
+ CHARMM>      goto GEN_PNT700
+  
+ CHARMM>      if wiSum .le. 0 then goto GEN_PNT1000
+ Comparing "0" and "0".
+ IF test evaluated as true.  Performing command
+  
+ CHARMM>      ! do the same slab again, but translated -1A and rotated 30 degrees around the x-axis
+  
+ CHARMM>    !  read sequence tip3 @NSLAB
+ CHARMM>    !  gene wat3 noangle nodihe
+ CHARMM>    !  coor dupl sele segid wat0 end sele segid wat3 end
+ CHARMM>    !  coor rota xdir 1.0 phi 30.0 sele segid wat3 end
+ CHARMM>    !  coor transl xdir -1.0  sele segid wat3 end
+ CHARMM>    ! delete water molecules further away than XB2, YB2, ZB2  A from origin
+ CHARMM>    !  delete atom sele .byres. ( segid wat3 .and. type OH2 .and.  -
+ CHARMM>    !  ( property abs x .gt. @XB2 .or. property abs y .gt. @YB2 -
+ CHARMM>    !   .or. property abs z .gt. @ZB2) ) end
+ CHARMM>      ! and also those overlapping with the SOLUTE or existing WAT2 segment
+  
+ CHARMM>    !  delete atom sele .byres. ( segid wat3 .and. type OH2 .and.  -
+ CHARMM>    !   ( (SOLUTE1 .or. (segid wat2 .and. type OH2) ).around. @OVERLAP2 ) ) end
+ CHARMM>    !  join wat2 wat3 renumber
+ CHARMM>     
+  
+ CHARMM>    ! Auto_naming
+ CHARMM>      set wiSum @NSLAB
+ Parameter: NSLAB -> "1944"
+ Parameter: WISUM <- "1944"
+  
+ CHARMM>      set wiTmp @swi
+ Parameter: SWI -> "2"
+ Parameter: WITMP <- "2"
+  
+ CHARMM>    label GEN_PNT1100
+  
+ CHARMM>      if wiSum .le. 0 then goto JUNC_PNT3
+ Comparing "1944" and "0".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>      if wiSum .le. @AtmBlock then goto GEN_PNT1200
+ Parameter: ATMBLOCK -> "9720"
+ Comparing "1944" and "9720".
+ IF test evaluated as true.  Performing command
+  
+ CHARMM>      set AtmNum @wiSum
+ Parameter: WISUM -> "1944"
+ Parameter: ATMNUM <- "1944"
+  
+ CHARMM>    label GEN_PNT1300
+  
+ CHARMM>      increment wiCur by 1
+ Parameter: WICUR <- "7"
+  
+ CHARMM>      read sequence tip3 @AtmNum
+ Parameter: ATMNUM -> "1944"
+  
+ CHARMM>      gene wt@wiCur noangle nodihe
+ Parameter: WICUR -> "7"
+ NO PATCHING WILL BE DONE ON THE FIRST RESIDUE
+ NO PATCHING WILL BE DONE ON THE LAST  RESIDUE
+ GENPSF> Segment   6 has been generated. Its identifier is WT7.
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        6   Number of residues   =     6232
+         Number of atoms         =    18738   Number of groups     =     6242
+         Number of bonds         =    18740   Number of angles     =     6314
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     6231   Number of HB donors  =    12463
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>      coor dupl sele segid wt@wiTmp end sele segid wt@wiCur end
+ Parameter: WITMP -> "2"
+ Parameter: WICUR -> "7"
+ SELRPN>   5832 atoms have been selected out of  18738
+ SELRPN>   5832 atoms have been selected out of  18738
+  
+ CHARMM>      coor rota xdir 1.0 phi 30.0 sele segid wt@wiCur end
+ Parameter: WICUR -> "7"
+ SELRPN>   5832 atoms have been selected out of  18738
+ ROTATION MATRIX
+    1.000000    0.000000    0.000000
+    0.000000    0.866025    0.500000
+    0.000000   -0.500000    0.866025
+
+ AXIS OF ROTATION IS  1.000000  0.000000  0.000000  ANGLE IS   30.00
+
+ SELECTED COORDINATES ROTATED IN THE MAIN SET.
+
+  
+ CHARMM>      coor transl xdir -1.0  sele segid wt@wiCur end
+ Parameter: WICUR -> "7"
+ SELRPN>   5832 atoms have been selected out of  18738
+ TRANSLATION VECTOR    -1.000000    0.000000    0.000000
+ SELECTED COORDINATES TRANSLATED IN THE MAIN SET.
+
+  
+ CHARMM>    ! delete water molecules further away than XB2, YB2, ZB2  A from origin
+ CHARMM>      delete atom sele .byres. ( segid wt@wiCur .and. type OH2 .and.  -
+ CHARMM>      ( property abs x .gt. @XB2 .or. property abs y .gt. @YB2 -
+ CHARMM>       .or. property abs z .gt. @ZB2) ) end
+ Parameter: WICUR -> "7"
+ Parameter: XB2 -> "21.5"
+ Parameter: YB2 -> "21.5"
+ Parameter: ZB2 -> "21.5"
+ SELRPN>   2748 atoms have been selected out of  18738
+
+ Message from MAPIC: Atom numbers are changed.
+
+ Message from MAPIC:        916 residues deleted.
+ DELTIC:      2748 bonds deleted
+ DELTIC:       916 angles deleted
+ DELTIC:      1832 donors deleted
+ DELTIC:       916 acceptors deleted
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        6   Number of residues   =     5316
+         Number of atoms         =    15990   Number of groups     =     5326
+         Number of bonds         =    15992   Number of angles     =     5398
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     5315   Number of HB donors  =    10631
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>    ! and also those overlapping with the SOLUTE or existing WAT2 segment
+ CHARMM>      calc wiFirst = @wiLast + 1
+ Parameter: WILAST -> "3"
+Evaluating: 3+1
+ Parameter: WIFIRST <- "4"
+  
+ CHARMM>    label DEL_PNT5
+  
+ CHARMM>      delete atom sele .byres. ( segid wt@wiCur .and. type OH2 .and.  -
+ CHARMM>       ( (SOLUTE1 .or. (segid wt@wiFirst .and. type OH2) ).around. @OVERLAP2 ) ) end
+ Parameter: WICUR -> "7"
+ Parameter: WIFIRST -> "4"
+ Parameter: OVERLAP2 -> "2.2"
+ SELRPN>    273 atoms have been selected out of  15990
+
+ Message from MAPIC: Atom numbers are changed.
+
+ Message from MAPIC:         91 residues deleted.
+ DELTIC:       273 bonds deleted
+ DELTIC:        91 angles deleted
+ DELTIC:       182 donors deleted
+ DELTIC:        91 acceptors deleted
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        6   Number of residues   =     5225
+         Number of atoms         =    15717   Number of groups     =     5235
+         Number of bonds         =    15719   Number of angles     =     5307
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     5224   Number of HB donors  =    10449
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>      increment wiFirst by 1
+ Parameter: WIFIRST <- "5"
+  
+ CHARMM>      if wiFirst .lt. @wiCur then goto DEL_PNT5
+ Parameter: WICUR -> "7"
+ Comparing "5" and "7".
+ IF test evaluated as true.  Performing command
+  
+ CHARMM>      delete atom sele .byres. ( segid wt@wiCur .and. type OH2 .and.  -
+ CHARMM>       ( (SOLUTE1 .or. (segid wt@wiFirst .and. type OH2) ).around. @OVERLAP2 ) ) end
+ Parameter: WICUR -> "7"
+ Parameter: WIFIRST -> "5"
+ Parameter: OVERLAP2 -> "2.2"
+ SELRPN>      0 atoms have been selected out of  15717
+
+      ***** LEVEL  0 WARNING FROM <DELTIC> *****
+      ***** No atoms selected for deletion. Nothing done.
+      ******************************************
+      BOMLEV ( -2) IS NOT REACHED. WRNLEV IS  5
+
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        6   Number of residues   =     5225
+         Number of atoms         =    15717   Number of groups     =     5235
+         Number of bonds         =    15719   Number of angles     =     5307
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     5224   Number of HB donors  =    10449
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>      increment wiFirst by 1
+ Parameter: WIFIRST <- "6"
+  
+ CHARMM>      if wiFirst .lt. @wiCur then goto DEL_PNT5
+ Parameter: WICUR -> "7"
+ Comparing "6" and "7".
+ IF test evaluated as true.  Performing command
+  
+ CHARMM>      delete atom sele .byres. ( segid wt@wiCur .and. type OH2 .and.  -
+ CHARMM>       ( (SOLUTE1 .or. (segid wt@wiFirst .and. type OH2) ).around. @OVERLAP2 ) ) end
+ Parameter: WICUR -> "7"
+ Parameter: WIFIRST -> "6"
+ Parameter: OVERLAP2 -> "2.2"
+ SELRPN>   2526 atoms have been selected out of  15717
+
+ Message from MAPIC: Atom numbers are changed.
+
+ Message from MAPIC:        842 residues deleted.
+ DELTIC:      2526 bonds deleted
+ DELTIC:       842 angles deleted
+ DELTIC:      1684 donors deleted
+ DELTIC:       842 acceptors deleted
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        6   Number of residues   =     4383
+         Number of atoms         =    13191   Number of groups     =     4393
+         Number of bonds         =    13193   Number of angles     =     4465
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     4382   Number of HB donors  =     8765
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>      increment wiFirst by 1
+ Parameter: WIFIRST <- "7"
+  
+ CHARMM>      if wiFirst .lt. @wiCur then goto DEL_PNT5
+ Parameter: WICUR -> "7"
+ Comparing "7" and "7".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>     
+  
+ CHARMM>      decrement wiSum by @AtmNum
+ Parameter: ATMNUM -> "1944"
+ Parameter: WISUM <- "0"
+  
+ CHARMM>      increment wiTmp by 1
+ Parameter: WITMP <- "3"
+  
+ CHARMM>      goto GEN_PNT1100
+  
+ CHARMM>      if wiSum .le. 0 then goto JUNC_PNT3
+ Comparing "0" and "0".
+ IF test evaluated as true.  Performing command
+  
+ CHARMM>      incr I by 1
+ Parameter: I <- "3"
+  
+ CHARMM>      if I le @XNUM goto xloop
+ Parameter: XNUM -> "3"
+ Comparing "3" and "3".
+ IF test evaluated as true.  Performing command
+  
+ CHARMM>    !  read sequence tip3 @NSLAB
+ CHARMM>    !  gene wat3 noangle nodihe
+ CHARMM>    !  coor dupl sele segid wat0 end sele segid wat3 end
+ CHARMM>    !  coor transl xdir @BOX sele segid wat3 end
+ CHARMM>    !  coor transl xdir @BOX sele segid wat0 end
+ CHARMM>    ! delete water molecules further away than XB2, YB2, ZB2  A from origin
+ CHARMM>    !  delete atom sele .byres. ( segid wat3 .and. type OH2 .and.  -
+ CHARMM>    !  ( property abs x .gt. @XB2 .or. property abs y .gt. @YB2 -
+ CHARMM>    !   .or. property abs z .gt. @ZB2) ) end
+ CHARMM>      ! and also those overlapping with the SOLUTE
+  
+ CHARMM>    !  delete atom sele .byres. ( segid wat3 .and. type OH2 .and.  -
+ CHARMM>    !   ( SOLUTE1 .around. @OVERLAP ) ) end
+ CHARMM>    !  join wat2 wat3 renumber
+ CHARMM>     
+  
+ CHARMM>    ! Auto_naming
+ CHARMM>      set wiSum @NSLAB
+ Parameter: NSLAB -> "1944"
+ Parameter: WISUM <- "1944"
+  
+ CHARMM>      set wiTmp @swi
+ Parameter: SWI -> "2"
+ Parameter: WITMP <- "2"
+  
+ CHARMM>    label GEN_PNT700
+  
+ CHARMM>      if wiSum .le. 0 then goto GEN_PNT1000
+ Comparing "1944" and "0".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>      if wiSum .le. @AtmBlock then goto GEN_PNT800
+ Parameter: ATMBLOCK -> "9720"
+ Comparing "1944" and "9720".
+ IF test evaluated as true.  Performing command
+  
+ CHARMM>      set AtmNum @wiSum
+ Parameter: WISUM -> "1944"
+ Parameter: ATMNUM <- "1944"
+  
+ CHARMM>    label GEN_PNT900
+  
+ CHARMM>      increment wiCur by 1
+ Parameter: WICUR <- "8"
+  
+ CHARMM>      read sequence tip3 @AtmNum
+ Parameter: ATMNUM -> "1944"
+  
+ CHARMM>      gene wt@wiCur noangle nodihe
+ Parameter: WICUR -> "8"
+ NO PATCHING WILL BE DONE ON THE FIRST RESIDUE
+ NO PATCHING WILL BE DONE ON THE LAST  RESIDUE
+ GENPSF> Segment   7 has been generated. Its identifier is WT8.
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        7   Number of residues   =     6327
+         Number of atoms         =    19023   Number of groups     =     6337
+         Number of bonds         =    19025   Number of angles     =     6409
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     6326   Number of HB donors  =    12653
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>      coor dupl sele segid wt@wiTmp end sele segid wt@wiCur end
+ Parameter: WITMP -> "2"
+ Parameter: WICUR -> "8"
+ SELRPN>   5832 atoms have been selected out of  19023
+ SELRPN>   5832 atoms have been selected out of  19023
+  
+ CHARMM>      coor transl xdir @BOX sele segid wt@wiCur end
+ Parameter: BOX -> "18.856"
+ Parameter: WICUR -> "8"
+ SELRPN>   5832 atoms have been selected out of  19023
+ TRANSLATION VECTOR    18.856000    0.000000    0.000000
+ SELECTED COORDINATES TRANSLATED IN THE MAIN SET.
+
+  
+ CHARMM>      coor transl xdir @BOX sele segid wt@wiTmp end
+ Parameter: BOX -> "18.856"
+ Parameter: WITMP -> "2"
+ SELRPN>   5832 atoms have been selected out of  19023
+ TRANSLATION VECTOR    18.856000    0.000000    0.000000
+ SELECTED COORDINATES TRANSLATED IN THE MAIN SET.
+
+  
+ CHARMM>    ! delete water molecules further away than XB2, YB2, ZB2  A from origin
+ CHARMM>      delete atom sele .byres. ( segid wt@wiCur .and. type OH2 .and.  -
+ CHARMM>      ( property abs x .gt. @XB2 .or. property abs y .gt. @YB2 -
+ CHARMM>       .or. property abs z .gt. @ZB2) ) end
+ Parameter: WICUR -> "8"
+ Parameter: XB2 -> "21.5"
+ Parameter: YB2 -> "21.5"
+ Parameter: ZB2 -> "21.5"
+ SELRPN>   4968 atoms have been selected out of  19023
+
+ Message from MAPIC: Atom numbers are changed.
+
+ Message from MAPIC:       1656 residues deleted.
+ DELTIC:      4968 bonds deleted
+ DELTIC:      1656 angles deleted
+ DELTIC:      3312 donors deleted
+ DELTIC:      1656 acceptors deleted
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        7   Number of residues   =     4671
+         Number of atoms         =    14055   Number of groups     =     4681
+         Number of bonds         =    14057   Number of angles     =     4753
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     4670   Number of HB donors  =     9341
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>      ! and also those overlapping with the SOLUTE
+  
+ CHARMM>      delete atom sele .byres. ( segid wt@wiCur .and. type OH2 .and.  -
+ CHARMM>       ( SOLUTE1 .around. @OVERLAP ) ) end
+ Parameter: WICUR -> "8"
+ Parameter: OVERLAP -> "2.2"
+ SELRPN>      0 atoms have been selected out of  14055
+
+      ***** LEVEL  0 WARNING FROM <DELTIC> *****
+      ***** No atoms selected for deletion. Nothing done.
+      ******************************************
+      BOMLEV ( -2) IS NOT REACHED. WRNLEV IS  5
+
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        7   Number of residues   =     4671
+         Number of atoms         =    14055   Number of groups     =     4681
+         Number of bonds         =    14057   Number of angles     =     4753
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     4670   Number of HB donors  =     9341
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>      ! and also those overlapping with the SOLUTE
+  
+ CHARMM>      delete atom sele .byres. ( segid wt@wiCur .and. type OH2 .and.  -
+ CHARMM>       ( SOLUTE1 .around. @OVERLAP ) ) end
+ Parameter: WICUR -> "8"
+ Parameter: OVERLAP -> "2.2"
+ SELRPN>      0 atoms have been selected out of  14055
+
+      ***** LEVEL  0 WARNING FROM <DELTIC> *****
+      ***** No atoms selected for deletion. Nothing done.
+      ******************************************
+      BOMLEV ( -2) IS NOT REACHED. WRNLEV IS  5
+
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        7   Number of residues   =     4671
+         Number of atoms         =    14055   Number of groups     =     4681
+         Number of bonds         =    14057   Number of angles     =     4753
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     4670   Number of HB donors  =     9341
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>      decrement wiSum by @AtmNum
+ Parameter: ATMNUM -> "1944"
+ Parameter: WISUM <- "0"
+  
+ CHARMM>      increment wiTmp by 1
+ Parameter: WITMP <- "3"
+  
+ CHARMM>      goto GEN_PNT700
+  
+ CHARMM>      if wiSum .le. 0 then goto GEN_PNT1000
+ Comparing "0" and "0".
+ IF test evaluated as true.  Performing command
+  
+ CHARMM>      ! do the same slab again, but translated -1A and rotated 30 degrees around the x-axis
+  
+ CHARMM>    !  read sequence tip3 @NSLAB
+ CHARMM>    !  gene wat3 noangle nodihe
+ CHARMM>    !  coor dupl sele segid wat0 end sele segid wat3 end
+ CHARMM>    !  coor rota xdir 1.0 phi 30.0 sele segid wat3 end
+ CHARMM>    !  coor transl xdir -1.0  sele segid wat3 end
+ CHARMM>    ! delete water molecules further away than XB2, YB2, ZB2  A from origin
+ CHARMM>    !  delete atom sele .byres. ( segid wat3 .and. type OH2 .and.  -
+ CHARMM>    !  ( property abs x .gt. @XB2 .or. property abs y .gt. @YB2 -
+ CHARMM>    !   .or. property abs z .gt. @ZB2) ) end
+ CHARMM>      ! and also those overlapping with the SOLUTE or existing WAT2 segment
+  
+ CHARMM>    !  delete atom sele .byres. ( segid wat3 .and. type OH2 .and.  -
+ CHARMM>    !   ( (SOLUTE1 .or. (segid wat2 .and. type OH2) ).around. @OVERLAP2 ) ) end
+ CHARMM>    !  join wat2 wat3 renumber
+ CHARMM>     
+  
+ CHARMM>    ! Auto_naming
+ CHARMM>      set wiSum @NSLAB
+ Parameter: NSLAB -> "1944"
+ Parameter: WISUM <- "1944"
+  
+ CHARMM>      set wiTmp @swi
+ Parameter: SWI -> "2"
+ Parameter: WITMP <- "2"
+  
+ CHARMM>    label GEN_PNT1100
+  
+ CHARMM>      if wiSum .le. 0 then goto JUNC_PNT3
+ Comparing "1944" and "0".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>      if wiSum .le. @AtmBlock then goto GEN_PNT1200
+ Parameter: ATMBLOCK -> "9720"
+ Comparing "1944" and "9720".
+ IF test evaluated as true.  Performing command
+  
+ CHARMM>      set AtmNum @wiSum
+ Parameter: WISUM -> "1944"
+ Parameter: ATMNUM <- "1944"
+  
+ CHARMM>    label GEN_PNT1300
+  
+ CHARMM>      increment wiCur by 1
+ Parameter: WICUR <- "9"
+  
+ CHARMM>      read sequence tip3 @AtmNum
+ Parameter: ATMNUM -> "1944"
+  
+ CHARMM>      gene wt@wiCur noangle nodihe
+ Parameter: WICUR -> "9"
+ NO PATCHING WILL BE DONE ON THE FIRST RESIDUE
+ NO PATCHING WILL BE DONE ON THE LAST  RESIDUE
+ GENPSF> Segment   8 has been generated. Its identifier is WT9.
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        8   Number of residues   =     6615
+         Number of atoms         =    19887   Number of groups     =     6625
+         Number of bonds         =    19889   Number of angles     =     6697
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     6614   Number of HB donors  =    13229
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>      coor dupl sele segid wt@wiTmp end sele segid wt@wiCur end
+ Parameter: WITMP -> "2"
+ Parameter: WICUR -> "9"
+ SELRPN>   5832 atoms have been selected out of  19887
+ SELRPN>   5832 atoms have been selected out of  19887
+  
+ CHARMM>      coor rota xdir 1.0 phi 30.0 sele segid wt@wiCur end
+ Parameter: WICUR -> "9"
+ SELRPN>   5832 atoms have been selected out of  19887
+ ROTATION MATRIX
+    1.000000    0.000000    0.000000
+    0.000000    0.866025    0.500000
+    0.000000   -0.500000    0.866025
+
+ AXIS OF ROTATION IS  1.000000  0.000000  0.000000  ANGLE IS   30.00
+
+ SELECTED COORDINATES ROTATED IN THE MAIN SET.
+
+  
+ CHARMM>      coor transl xdir -1.0  sele segid wt@wiCur end
+ Parameter: WICUR -> "9"
+ SELRPN>   5832 atoms have been selected out of  19887
+ TRANSLATION VECTOR    -1.000000    0.000000    0.000000
+ SELECTED COORDINATES TRANSLATED IN THE MAIN SET.
+
+  
+ CHARMM>    ! delete water molecules further away than XB2, YB2, ZB2  A from origin
+ CHARMM>      delete atom sele .byres. ( segid wt@wiCur .and. type OH2 .and.  -
+ CHARMM>      ( property abs x .gt. @XB2 .or. property abs y .gt. @YB2 -
+ CHARMM>       .or. property abs z .gt. @ZB2) ) end
+ Parameter: WICUR -> "9"
+ Parameter: XB2 -> "21.5"
+ Parameter: YB2 -> "21.5"
+ Parameter: ZB2 -> "21.5"
+ SELRPN>   4836 atoms have been selected out of  19887
+
+ Message from MAPIC: Atom numbers are changed.
+
+ Message from MAPIC:       1612 residues deleted.
+ DELTIC:      4836 bonds deleted
+ DELTIC:      1612 angles deleted
+ DELTIC:      3224 donors deleted
+ DELTIC:      1612 acceptors deleted
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        8   Number of residues   =     5003
+         Number of atoms         =    15051   Number of groups     =     5013
+         Number of bonds         =    15053   Number of angles     =     5085
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     5002   Number of HB donors  =    10005
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>    ! and also those overlapping with the SOLUTE or existing WAT2 segment
+ CHARMM>      calc wiFirst = @wiLast + 1
+ Parameter: WILAST -> "3"
+Evaluating: 3+1
+ Parameter: WIFIRST <- "4"
+  
+ CHARMM>    label DEL_PNT5
+  
+ CHARMM>      delete atom sele .byres. ( segid wt@wiCur .and. type OH2 .and.  -
+ CHARMM>       ( (SOLUTE1 .or. (segid wt@wiFirst .and. type OH2) ).around. @OVERLAP2 ) ) end
+ Parameter: WICUR -> "9"
+ Parameter: WIFIRST -> "4"
+ Parameter: OVERLAP2 -> "2.2"
+ SELRPN>      0 atoms have been selected out of  15051
+
+      ***** LEVEL  0 WARNING FROM <DELTIC> *****
+      ***** No atoms selected for deletion. Nothing done.
+      ******************************************
+      BOMLEV ( -2) IS NOT REACHED. WRNLEV IS  5
+
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        8   Number of residues   =     5003
+         Number of atoms         =    15051   Number of groups     =     5013
+         Number of bonds         =    15053   Number of angles     =     5085
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     5002   Number of HB donors  =    10005
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>      increment wiFirst by 1
+ Parameter: WIFIRST <- "5"
+  
+ CHARMM>      if wiFirst .lt. @wiCur then goto DEL_PNT5
+ Parameter: WICUR -> "9"
+ Comparing "5" and "9".
+ IF test evaluated as true.  Performing command
+  
+ CHARMM>      delete atom sele .byres. ( segid wt@wiCur .and. type OH2 .and.  -
+ CHARMM>       ( (SOLUTE1 .or. (segid wt@wiFirst .and. type OH2) ).around. @OVERLAP2 ) ) end
+ Parameter: WICUR -> "9"
+ Parameter: WIFIRST -> "5"
+ Parameter: OVERLAP2 -> "2.2"
+ SELRPN>      0 atoms have been selected out of  15051
+
+      ***** LEVEL  0 WARNING FROM <DELTIC> *****
+      ***** No atoms selected for deletion. Nothing done.
+      ******************************************
+      BOMLEV ( -2) IS NOT REACHED. WRNLEV IS  5
+
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        8   Number of residues   =     5003
+         Number of atoms         =    15051   Number of groups     =     5013
+         Number of bonds         =    15053   Number of angles     =     5085
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     5002   Number of HB donors  =    10005
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>      increment wiFirst by 1
+ Parameter: WIFIRST <- "6"
+  
+ CHARMM>      if wiFirst .lt. @wiCur then goto DEL_PNT5
+ Parameter: WICUR -> "9"
+ Comparing "6" and "9".
+ IF test evaluated as true.  Performing command
+  
+ CHARMM>      delete atom sele .byres. ( segid wt@wiCur .and. type OH2 .and.  -
+ CHARMM>       ( (SOLUTE1 .or. (segid wt@wiFirst .and. type OH2) ).around. @OVERLAP2 ) ) end
+ Parameter: WICUR -> "9"
+ Parameter: WIFIRST -> "6"
+ Parameter: OVERLAP2 -> "2.2"
+ SELRPN>    240 atoms have been selected out of  15051
+
+ Message from MAPIC: Atom numbers are changed.
+
+ Message from MAPIC:         80 residues deleted.
+ DELTIC:       240 bonds deleted
+ DELTIC:        80 angles deleted
+ DELTIC:       160 donors deleted
+ DELTIC:        80 acceptors deleted
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        8   Number of residues   =     4923
+         Number of atoms         =    14811   Number of groups     =     4933
+         Number of bonds         =    14813   Number of angles     =     5005
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     4922   Number of HB donors  =     9845
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>      increment wiFirst by 1
+ Parameter: WIFIRST <- "7"
+  
+ CHARMM>      if wiFirst .lt. @wiCur then goto DEL_PNT5
+ Parameter: WICUR -> "9"
+ Comparing "7" and "9".
+ IF test evaluated as true.  Performing command
+  
+ CHARMM>      delete atom sele .byres. ( segid wt@wiCur .and. type OH2 .and.  -
+ CHARMM>       ( (SOLUTE1 .or. (segid wt@wiFirst .and. type OH2) ).around. @OVERLAP2 ) ) end
+ Parameter: WICUR -> "9"
+ Parameter: WIFIRST -> "7"
+ Parameter: OVERLAP2 -> "2.2"
+ SELRPN>      0 atoms have been selected out of  14811
+
+      ***** LEVEL  0 WARNING FROM <DELTIC> *****
+      ***** No atoms selected for deletion. Nothing done.
+      ******************************************
+      BOMLEV ( -2) IS NOT REACHED. WRNLEV IS  5
+
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        8   Number of residues   =     4923
+         Number of atoms         =    14811   Number of groups     =     4933
+         Number of bonds         =    14813   Number of angles     =     5005
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     4922   Number of HB donors  =     9845
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>      increment wiFirst by 1
+ Parameter: WIFIRST <- "8"
+  
+ CHARMM>      if wiFirst .lt. @wiCur then goto DEL_PNT5
+ Parameter: WICUR -> "9"
+ Comparing "8" and "9".
+ IF test evaluated as true.  Performing command
+  
+ CHARMM>      delete atom sele .byres. ( segid wt@wiCur .and. type OH2 .and.  -
+ CHARMM>       ( (SOLUTE1 .or. (segid wt@wiFirst .and. type OH2) ).around. @OVERLAP2 ) ) end
+ Parameter: WICUR -> "9"
+ Parameter: WIFIRST -> "8"
+ Parameter: OVERLAP2 -> "2.2"
+ SELRPN>    642 atoms have been selected out of  14811
+
+ Message from MAPIC: Atom numbers are changed.
+
+ Message from MAPIC:        214 residues deleted.
+ DELTIC:       642 bonds deleted
+ DELTIC:       214 angles deleted
+ DELTIC:       428 donors deleted
+ DELTIC:       214 acceptors deleted
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        8   Number of residues   =     4709
+         Number of atoms         =    14169   Number of groups     =     4719
+         Number of bonds         =    14171   Number of angles     =     4791
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     4708   Number of HB donors  =     9417
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>      increment wiFirst by 1
+ Parameter: WIFIRST <- "9"
+  
+ CHARMM>      if wiFirst .lt. @wiCur then goto DEL_PNT5
+ Parameter: WICUR -> "9"
+ Comparing "9" and "9".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>     
+  
+ CHARMM>      decrement wiSum by @AtmNum
+ Parameter: ATMNUM -> "1944"
+ Parameter: WISUM <- "0"
+  
+ CHARMM>      increment wiTmp by 1
+ Parameter: WITMP <- "3"
+  
+ CHARMM>      goto GEN_PNT1100
+  
+ CHARMM>      if wiSum .le. 0 then goto JUNC_PNT3
+ Comparing "0" and "0".
+ IF test evaluated as true.  Performing command
+  
+ CHARMM>      incr I by 1
+ Parameter: I <- "4"
+  
+ CHARMM>      if I le @XNUM goto xloop
+ Parameter: XNUM -> "3"
+ Comparing "4" and "3".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>     
+  
+ CHARMM>    label DONE
+  
+ CHARMM>    !delete atom sele segid wat0 end
+ CHARMM>    ! Auto_naming
+ CHARMM>      set wiTmp @swi
+ Parameter: SWI -> "2"
+ Parameter: WITMP <- "2"
+  
+ CHARMM>    label DEL_PNT6
+  
+ CHARMM>      delete atom sele segid wt@wiTmp end
+ Parameter: WITMP -> "2"
+ SELRPN>   5832 atoms have been selected out of  14169
+
+ Message from MAPIC: Atom numbers are changed.
+
+ Message from MAPIC:       1944 residues deleted.
+
+ Message from MAPIC:          1 segments deleted.
+ DELTIC:      5832 bonds deleted
+ DELTIC:      1944 angles deleted
+ DELTIC:      3888 donors deleted
+ DELTIC:      1944 acceptors deleted
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        7   Number of residues   =     2765
+         Number of atoms         =     8337   Number of groups     =     2775
+         Number of bonds         =     8339   Number of angles     =     2847
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     2764   Number of HB donors  =     5529
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>      increment wiTmp by 1
+ Parameter: WITMP <- "3"
+  
+ CHARMM>      if wiTmp .le. @wiLast then goto DEL_PNT6
+ Parameter: WILAST -> "3"
+ Comparing "3" and "3".
+ IF test evaluated as true.  Performing command
+  
+ CHARMM>      delete atom sele segid wt@wiTmp end
+ Parameter: WITMP -> "3"
+ SELRPN>      0 atoms have been selected out of   8337
+
+      ***** LEVEL  0 WARNING FROM <DELTIC> *****
+      ***** No atoms selected for deletion. Nothing done.
+      ******************************************
+      BOMLEV ( -2) IS NOT REACHED. WRNLEV IS  5
+
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =        7   Number of residues   =     2765
+         Number of atoms         =     8337   Number of groups     =     2775
+         Number of bonds         =     8339   Number of angles     =     2847
+         Number of dihedrals     =      117   Number of impropers  =        1
+         Number of cross-terms   =        0
+         Number of HB acceptors  =     2764   Number of HB donors  =     5529
+         Number of NB exclusions =        0   Total charge =    0.00000
+  
+ CHARMM>      increment wiTmp by 1
+ Parameter: WITMP <- "4"
+  
+ CHARMM>      if wiTmp .le. @wiLast then goto DEL_PNT6
+ Parameter: WILAST -> "3"
+ Comparing "4" and "3".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>      !calc wiFirst = @wiLast + 1
+  
+ CHARMM>     
+  
+ CHARMM>    !rename segid wat sele segid wat2 end
+ CHARMM>    return
+  
+ CHARMM>     
+  
+ CHARMM>    write psf card name ../common/@molname_wb.psf
+ Parameter: MOLNAME -> "1-AS"
+ VOPEN> Attempting to open::../common/1-as_wb.psf::
+ RDTITL> * SOLVATED 1-AS SYSTEM IN 43 X 43 X 43 BOX
+ RDTITL> *
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>     
+  
+ CHARMM>    write coord pdb name ../common/@molname_wb.pdb
+ Parameter: MOLNAME -> "1-AS"
+ VOPEN> Attempting to open::../common/1-as_wb.pdb::
+ RDTITL> * SOLVATED 1-AS SYSTEM IN 43 X 43 X 43 BOX
+ RDTITL> *
+  Write CHARMM-pdb format
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>     
+  
+ CHARMM>    write coord card name ../common/@molname_wb.cor
+ Parameter: MOLNAME -> "1-AS"
+ VOPEN> Attempting to open::../common/1-as_wb.cor::
+ RDTITL> * SOLVATED 1-AS SYSTEM IN 43 X 43 X 43 BOX
+ RDTITL> *
+ VCLOSE: Closing unit   90 with status "KEEP"
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>     
+  
+ CHARMM>    stop
+$$$$$$  New timer profile $$$$$
+ Total time                      4.18 Other:            0.00
+
+                    NORMAL TERMINATION BY NORMAL STOP
+                    MOST SEVERE WARNING WAS AT LEVEL -1
+
+                    $$$$$ JOB ACCOUNTING INFORMATION $$$$$
+                     ELAPSED TIME:     4.18  SECONDS 
+                         CPU TIME:     3.85  SECONDS 
